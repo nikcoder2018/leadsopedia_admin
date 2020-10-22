@@ -7,14 +7,7 @@
       <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
         <span class="mdi mdi-menu"></span>
       </button>
-      <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
-        <li class="nav-item">
-          <a href="#" class="nav-link">Schedule <span class="badge badge-primary ml-1">New</span></a>
-        </li>
-        <li class="nav-item active">
-          <a href="#" class="nav-link"><i class="mdi mdi-elevation-rise"></i>Reports</a>
-        </li>
-      </ul>
+
       <ul class="navbar-nav navbar-nav-right">
         <li class="nav-item dropdown">
           <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">

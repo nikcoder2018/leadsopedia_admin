@@ -163,13 +163,19 @@ $(document).ready(function(){
     var t = $('#categories-table').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{route('api.categories')}}",
+        "ajax": {
+            url: "{{route('api.categories')}}",
+            type: "GET",
+            data: {
+                api_token:"{{auth()->user()->api_token}}"
+            }
+        },
         "aoColumns": [
             {
                 "mData": "id",
                 "mTargets": 0,
                 "mRender": function (data, type, row, meta) {
-                    return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" class="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },
             {"mData": "name"},
@@ -295,9 +301,28 @@ $(document).ready(function(){
         var rows = t.rows({ 'search': 'applied' }).nodes();
         // Check/uncheck checkboxes for all rows in the table
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
-        $('#categories-table_filter').prepend('<button class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete all</button>');
+        handCheckboxes();
     });
 
+    $('#categories-table').on('click', '.checkbox',function(){
+        handCheckboxes();
+    });
+
+    function handCheckboxes(){
+        var count = 0;
+        $('.checkbox').each(function () {
+            if(this.checked){
+                count++;
+            }
+        });
+
+        if(count > 0){
+            $('#categories-table_filter').find('.btn-delete-all').remove();
+            $('#categories-table_filter').prepend('<button class="btn btn-xs btn-danger btn-delete-all"><i class="fa fa-trash"></i> Delete all</button>');
+        }else{
+            $('#categories-table_filter').find('.btn-delete-all').remove();
+        }
+    }
     $('#categories-table').on('click','.edit-data', async function(){
         let edit_modal = $('#editCategoryModal');
            let form = edit_modal.find('form');

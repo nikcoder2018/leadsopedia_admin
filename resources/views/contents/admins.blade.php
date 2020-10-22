@@ -52,7 +52,13 @@
         var t = $('#admins-table').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{route('admin.lists')}}",
+        "ajax": {
+            url: "{{route('api.admin.lists')}}",
+            type: "GET",
+            data: {
+                api_token: "{{auth()->user()->api_token}}"
+            }
+        },
         "aoColumns": [
             {
                 "mData": "id",

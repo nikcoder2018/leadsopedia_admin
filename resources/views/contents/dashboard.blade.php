@@ -30,7 +30,7 @@
               <div class="wrapper">
                 <p class="card-text mb-0">Searches</p>
                 <div class="fluid-container">
-                  <h3 class="card-title mb-0">0</h3>
+                  <h3 class="card-title mb-0">{{$totalSearches}}</h3>
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
               <div class="wrapper">
                 <p class="card-text mb-0">Users</p>
                 <div class="fluid-container">
-                  <h3 class="card-title mb-0">0</h3>
+                  <h3 class="card-title mb-0">{{$totalUsers}}</h3>
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@
               <div class="wrapper">
                 <p class="card-text mb-0">Sales</p>
                 <div class="fluid-container">
-                  <h3 class="card-title mb-0">0</h3>
+                  <h3 class="card-title mb-0">{{$totalSales}}</h3>
                 </div>
               </div>
             </div>
@@ -110,65 +110,24 @@
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between mb-4">
               <h5 class="card-title mb-0">New Accounts</h5>
-              <small class="text-gray d-none d-sm-block">Last activity was 2 days ago</small>
+              <small class="text-gray d-none d-sm-block">New registered was {{Carbon\Carbon::parse($lastAccountRegisteredDate)->diffForHumans()}}</small>
             </div>
             <div class="new-accounts">
               <ul class="chats">
-                <li class="chat-persons">
-                  <a href="#">
-                    <span class="pro-pic"><img src="https://placehold.it/100x100" alt="profile image"></span>
-                    <div class="user">
-                      <p class="u-name">David</p>
-                      <p class="u-designation">Python Developer</p>
-                    </div>
-                    <p class="joined-date">30 Mins ago</p>
-                  </a>
-                </li>
-                <!-- list person -->
-                <li class="chat-persons">
-                  <a href="#">
-                    <span class="pro-pic"><img src="https://placehold.it/100x100" alt="profile image"></span>
-                    <div class="user">
-                      <p class="u-name">Stella Johnson</p>
-                      <p class="u-designation">SEO Expert</p>
-                    </div>
-                    <p class="joined-date">2 Days ago</p>
-                  </a>
-                </li>
-                <!-- list person -->
-                <li class="chat-persons">
-                  <a href="#">
-                    <span class="pro-pic"><img src="https://placehold.it/100x100" alt="profile image"></span>
-                    <div class="user">
-                      <p class="u-name">Marina Michel</p>
-                      <p class="u-designation">Business Development</p>
-                    </div>
-                    <p class="joined-date">4 Days ago</p>
-                  </a>
-                </li>
-                <!-- list person -->
-                <li class="chat-persons">
-                  <a href="#">
-                    <span class="pro-pic"><img src="https://placehold.it/100x100" alt="profile image"></span>
-                    <div class="user">
-                      <p class="u-name">Edward Fletcher</p>
-                      <p class="u-designation">UI/UX Designer</p>
-                    </div>
-                    <p class="joined-date">5 Days ago</p>
-                  </a>
-                </li>
-                <!-- list person -->
-                <li class="chat-persons">
-                  <a href="#">
-                    <span class="pro-pic"><img src="https://placehold.it/100x100" alt="profile image"></span>
-                    <div class="user">
-                      <p class="u-name">Allen Donald</p>
-                      <p class="u-designation">UI/UX Designer</p>
-                    </div>
-                    <p class="joined-date">5 Days ago</p>
-                  </a>
-                </li>
-                <!-- list person -->
+                @if(count($newAccounts) > 0)
+                  @foreach($newAccounts as $account)
+                  <li class="chat-persons">
+                    <a href="#">
+                      <span class="pro-pic"><img src="https://placehold.it/100x100" alt="profile image"></span>
+                      <div class="user">
+                        <p class="u-name">{{$account->name}}</p>
+                        <p class="u-designation">{{$account->email}}</p>
+                      </div>
+                      <p class="joined-date">{{Carbon\Carbon::parse($account->created_at)->diffForHumans()}}</p>
+                    </a>
+                  </li>
+                  @endforeach
+                @endif
               </ul>
             </div>
           </div>
@@ -185,65 +144,33 @@
               <table class="table center-aligned-table">
                 <thead>
                   <tr>
-                    <th class="border-bottom-0">ID</th>
-                    <th class="border-bottom-0">Assignee</th>
-                    <th class="border-bottom-0">Task Details</th>
+                    <th class="border-bottom-0">Invoice #</th>
+                    <th class="border-bottom-0">Customer</th>
+                    <th class="border-bottom-0">Subscription</th>
                     <th class="border-bottom-0">Payment Method</th>
                     <th class="border-bottom-0">Payment Status</th>
                     <th class="border-bottom-0">Amount</th>
-                    <th class="border-bottom-0">Tracking Number</th>
+                    <th class="border-bottom-0">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>#320</td>
-                    <td>Mark C.Diaz</td>
-                    <td>Support of thteme</td>
-                    <td>Credit card</td>
-                    <td><label class="badge badge-success">Approved</label></td>
-                    <td>$12,245</td>
-                    <td>JPBBN435893458</td>
-                  </tr>
-                  <tr>
-                    <td>#321</td>
-                    <td>Jose D</td>
-                    <td>Verify your email address !</td>
-                    <td>Internet banking</td>
-                    <td><label class="badge badge-warning">Pending</label></td>
-                    <td>$12,245</td>
-                    <td>BDYBN435893325</td>
-                  </tr>
-                  <tr>
-                    <td>#322</td>
-                    <td>Philips T</td>
-                    <td>Item support message send</td>
-                    <td>Credit card</td>
-                    <td><label class="badge badge-success">Approved</label></td>
-                    <td>$12,245</td>
-                    <td>JSNTN435884258</td>
-                  </tr>
-                  <tr>
-                    <td>#323</td>
-                    <td>Luke Pixel</td>
-                    <td>New submission on website</td>
-                    <td>Cash on delivery</td>
-                    <td><label class="badge badge-danger">Rejected</label></td>
-                    <td>$12,245</td>
-                    <td>JPABT435893678</td>
-                  </tr>
+                  @if(count($latestTransactions) > 0)
+                    @foreach($latestTransactions as $transaction)
+                    <tr>
+                      <td>{{$transaction->invoice_number}}</td>
+                      <td>{{$transaction->customer->name}}</td>
+                      <td>{{$transaction->subscription->title}}</td>
+                      <td>{{ucfirst($transaction->method->name)}}</td>
+                      <td>
+                        <label class="badge {{App\PaymentMethod::GetStatusBadge($transaction->status)}}">{{ucfirst($transaction->status)}}</label>
+                      </td>
+                      <td>{{$transaction->currency}}{{$transaction->amount}}</td>
+                      <td>{{Carbon\Carbon::parse($transaction->created_at)->diffForHumans()}}</td>
+                    </tr>
+                    @endforeach
+                  @endif
                 </tbody>
               </table>
-            </div>
-            <div class="d-flex align-items-center mt-4">
-              <p class="mb-0 d-none d-md-block text-dark">Showing 1 to 20 of 20 entries</p>
-              <ul class="pagination mb-0 ml-auto">
-                <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-chevron-left"></i></a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="mdi mdi-chevron-right"></i></a></li>
-              </ul>
             </div>
           </div>
         </div>

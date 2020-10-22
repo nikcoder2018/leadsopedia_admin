@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 
 use DataTables;
+
 class AdminsController extends Controller
 {
     /**
@@ -20,13 +21,9 @@ class AdminsController extends Controller
         return view('contents.admins');
     }
 
-    public function list(){
-        if(Auth::check()){
-            $admins = User::all();
-            return DataTables::of($admins)->toJson();
-        }else{
-            return false;
-        }
+    public function getAllAdmin(){
+        $admins = User::all();
+        return DataTables::of($admins)->toJson();
     }
     
     /**
@@ -36,7 +33,7 @@ class AdminsController extends Controller
      */
     public function create()
     {
-        //
+        //Str::random(80)
     }
 
     /**

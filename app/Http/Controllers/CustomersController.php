@@ -20,14 +20,9 @@ class CustomersController extends Controller
         return view('contents.customers');
     }
 
-    public function list(){
-        if(Auth::check()){
-            $customers = Customer::all();
-            return DataTables::of($customers)->toJson();
-        }else{
-            return false;
-        }
-        
+    public function getAllCustomers(){
+        $customers = Customer::all();
+        return DataTables::of($customers)->toJson();
     }
     /**
      * Show the form for creating a new resource.

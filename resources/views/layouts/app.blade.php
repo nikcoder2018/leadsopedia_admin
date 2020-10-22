@@ -23,7 +23,11 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
   <!-- endinject -->
-
+  <style>
+    .swal2-popup {
+      font-size: 1rem !important;
+    }
+  </style>
   @yield('stylesheets')
 
   <link rel="shortcut icon" href="{{asset('images/favicon.png')}}" />
@@ -53,6 +57,7 @@
   <!-- endinject -->
   <!-- Plugin js for this page-->
   @yield('plugins_js')
+  <script src="{{asset('vendors/moment/moment.min.js')}}"></script>
   <script src="{{asset('vendors/sweetalert2/dist/sweetalert2.min.js')}}"></script>
   <!-- End plugin js for this page-->
   <!-- inject:js -->

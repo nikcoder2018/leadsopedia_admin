@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Subscription as Plan;
+use App\SubscriptionPriviledge as Priviledge;
+use App\Setting;
 
+use App\Http\Requests\SubscriptionStoreRequest as StoreRequest;
+use App\Http\Requests\SubscriptionUpdateRequest as UpdateRequest;
 class SubscriptionsController extends Controller
 {
     /**
@@ -13,7 +18,8 @@ class SubscriptionsController extends Controller
      */
     public function index()
     {
-        return view('contents.subscriptions');
+        $data['plans'] = Plan::with('priviledges')->get();
+        return view('contents.subscriptions',$data);
     }
 
     /**
@@ -32,9 +38,29 @@ class SubscriptionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $newsubplan = Plan::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'months' => $request->months,
+            'price' => $request->price,
+            'css_class' => $request->css_class,
+            'css_btn_class' => $request->css_btn_class
+        ]);
+
+        
+        if(count($request->priviledges) > 0){
+            foreach($request->priviledges as $priviledge){
+                Priviledge::create([
+                    'subplan_id' => $newsubplan->id,
+                    'description' => $priviledge['description'],
+                    'enabled' => isset($priviledge['enabled']) ? 1 : 0
+                ]);
+            }
+        }
+
+        return response()->json(array('success' => true, 'msg' => 'Subscription Plan Created.', 'details' => $newsubplan, 'currency' => Setting::GetValue('currency_symbol')));
     }
 
     /**
@@ -54,9 +80,10 @@ class SubscriptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $subscription = Plan::with('priviledges')->where('id',$request->id)->first();
+        return response()->json($subscription);
     }
 
     /**
@@ -66,9 +93,31 @@ class SubscriptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request)
     {
-        //
+        $subscription = Plan::find($request->id);
+        $subscription->title = $request->title;
+        $subscription->description = $request->description;
+        $subscription->months = $request->months;
+        $subscription->price = $request->price;
+        $subscription->css_class = $request->css_class;
+        $subscription->css_btn_class = $request->css_btn_class;
+        $subscription->save();
+
+
+        if(count($request->priviledges) > 0){
+            //delete all existing priviledges
+            Priviledge::where('subplan_id', $subscription->id)->delete();
+            foreach($request->priviledges as $priviledge){
+                Priviledge::create([
+                    'subplan_id' => $subscription->id,
+                    'description' => $priviledge['description'],
+                    'enabled' => isset($priviledge['enabled']) ? 1 : 0
+                ]);
+            }
+        }
+
+        return response()->json(array('success' => true, 'msg' => 'Subscription Plan Updated.'));
     }
 
     /**
@@ -77,8 +126,15 @@ class SubscriptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $subplan = Plan::find($request->id);
+        $subplan->delete();
+
+        if($subplan){
+            return response()->json(array('success' => true, 'msg' => 'Subscription Plan has been deleted!', 'id' => $subplan->id));
+        }else{
+            return response()->json(array('success' => false, 'msg' => 'We cant delete this Subscription Plan, please try again!'));
+        }
     }
 }

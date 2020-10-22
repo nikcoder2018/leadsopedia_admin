@@ -23,28 +23,24 @@
             <h4 class="card-title">All Leads Data</h4>
             <div class="row">
                 <div class="col-12">
-                    <div class="table-responsive">
-                        <table id="leads-table" class="table" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Firstname</th>
-                                    <th>Lastname</th>
-                                    <th>Title</th>
-                                    <th>Company</th>
-                                    <th>Category</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Website</th>
-                                    <th>Address</th>
-                                    <th>Option</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-    
-                            </tbody>
-                        </table>
-                    </div>
+                    <table id="leads-table" class="table table-responsive" width="100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Title</th>
+                                <th>Company</th>
+                                <th>Category</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Website</th>
+                                <th>Address</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -99,7 +95,13 @@ $(document).ready(function(){
     var t = $('#leads-table').DataTable({
       "processing": true,
       "serverSide": true,
-      "ajax": "{{route('api.leads')}}",
+      "ajax": {
+            url: "{{route('api.leads')}}",
+            type: "GET",
+            data: {
+                api_token: "{{auth()->user()->api_token}}"
+            }
+        },
       "aoColumns": [
         {
             "mData": "id",

@@ -23,6 +23,8 @@
           </ul>
         </div>
       </li>
+      <li class="nav-item"> <a class="nav-link {{ Request::segment(1) === 'subscriptions' ? 'active' : null }}" href="{{route('subscriptions.index')}}"> <i class="mdi mdi-tag menu-icon icon-md text-white"></i> <span class="menu-title">Subscription Plans</span></a> </li>
+      <li class="nav-item"> <a class="nav-link {{ Request::segment(1) === 'transactions' ? 'active' : null }}" href="{{route('transactions.index')}}"> <i class="mdi mdi-tag menu-icon icon-md text-white"></i> <span class="menu-title">Transactions</span></a> </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#reports-menu" aria-expanded="false" aria-controls="reports-menu"><i class="mdi mdi-file-chart menu-icon icon-md text-white"></i> <span class="menu-title">Reports</span><i class="menu-arrow"></i></a>
         <div class="collapse" id="reports-menu">

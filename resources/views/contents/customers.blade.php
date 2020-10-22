@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="card-body">
-            <h4 class="card-title">Admin Accounts</h4>
+            <h4 class="card-title">All Customers</h4>
             <div class="row">
             <div class="col-12 table-responsive">
                 <table id="customers-table" class="table " width="100%">
@@ -25,7 +25,8 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Date Created</th>
+                            <th>Company</th>
+                            <th>Date Registered</th>
                             <th>Option</th>
                         </tr>
                     </thead>
@@ -53,10 +54,10 @@
         "processing": true,
         "serverSide": true,
         "ajax": {
-            url: "{{route('customer.lists')}}",
+            url: "{{route('api.customers.lists')}}",
             type: "GET",
             data: {
-                api_token: 2432424252
+                api_token: "{{auth()->user()->api_token}}"
             }
         },
         "aoColumns": [
@@ -68,14 +69,19 @@
             },
             {"mData": "name"},
             {"mData": "email"},
-            {"mData": "created_at"},
+            {"mData": "company"},
+            {
+                "mData": "",
+                "mRender": function(data,type,row){
+                    return moment(row.created_at).format("MMM DD,YYYY");
+                }
+            },
             {
                 "mData": null,
                 "sWidth": "10%",
                 "mRender": function(data,type,full){
                     return `
                         <a href="#" class="text-primary edit-admin" data-id="${full.id}" data-toggle="tooltip" data-placement="left" title="Edit Data"><i class="mdi mdi-pencil icon-md"></i></a>
-                        <a href="#" class="text-info changepassword-admin" data-id="${full.id}" data-toggle="tooltip" data-placement="left" title="Change Password"><i class="mdi mdi-lock icon-md"></i></a>
                         <a href="#" class="text-danger delete-admin" data-id="${full.id}" data-toggle="tooltip" data-placement="left" title="Delete Data"><i class="mdi mdi-delete icon-md"></i></a>
                     `
                 }
