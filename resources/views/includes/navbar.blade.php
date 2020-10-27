@@ -67,18 +67,28 @@
 
         <li class="nav-item dropdown d-none d-xl-inline-block">
           <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-            <span class="mr-3">Hello, {{auth()->user()->name}} !</span><img class="img-xs rounded-circle" src="https://placehold.it/100x100" alt="Profile image">
+            <span class="mr-3">Hello, {{auth()->user()->name}} !</span>
+
+            @if(auth()->user()->avatar != '')
+              <img class="img-xs rounded-circle" src="{{asset(auth()->user()->avatar)}}" alt="Profile image">
+            @else 
+              <img class="img-xs rounded-circle" src="https://placehold.it/100x100" alt="Profile image">
+            @endif
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-            <a class="dropdown-item mt-2">
+            <a class="dropdown-item mt-2" href="{{route('profile')}}">
               Profile Settings
             </a>
-            <a class="dropdown-item">
+            <a class="dropdown-item btn-change-password" href="javascript:void()">
               Change Password
             </a>
-            <a class="dropdown-item">
-              Sign Out
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();">
+                Sign Out
             </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+            </form>
           </div>
         </li>
       </ul>

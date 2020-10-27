@@ -10,11 +10,11 @@
 @section('content')
 <div class="content-wrapper">
     <div class="card">
-        <div class="card-header">
+        {{-- <div class="card-header">
             <div class="float-right">
                     <button type="button" class="btn btn-outline-info btn-fw" data-toggle="modal" data-target="#addNewAdminModal"><i class="mdi mdi-account-plus"></i>Add new</button>
             </div>
-        </div>
+        </div> --}}
         <div class="card-body">
             <h4 class="card-title">All Customers</h4>
             <div class="row">
@@ -27,7 +27,7 @@
                             <th>Email</th>
                             <th>Company</th>
                             <th>Date Registered</th>
-                            <th>Option</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -76,16 +76,16 @@
                     return moment(row.created_at).format("MMM DD,YYYY");
                 }
             },
-            {
-                "mData": null,
-                "sWidth": "10%",
-                "mRender": function(data,type,full){
-                    return `
-                        <a href="#" class="text-primary edit-admin" data-id="${full.id}" data-toggle="tooltip" data-placement="left" title="Edit Data"><i class="mdi mdi-pencil icon-md"></i></a>
-                        <a href="#" class="text-danger delete-admin" data-id="${full.id}" data-toggle="tooltip" data-placement="left" title="Delete Data"><i class="mdi mdi-delete icon-md"></i></a>
-                    `
-                }
-            }
+            // {
+            //     "mData": null,
+            //     "sWidth": "10%",
+            //     "mRender": function(data,type,full){
+            //         return `
+            //             <a href="#" class="text-primary edit-admin" data-id="${full.id}" data-toggle="tooltip" data-placement="left" title="Edit Data"><i class="mdi mdi-pencil icon-md"></i></a>
+            //             <a href="#" class="text-danger delete-admin" data-id="${full.id}" data-toggle="tooltip" data-placement="left" title="Delete Data"><i class="mdi mdi-delete icon-md"></i></a>
+            //         `
+            //     }
+            // }
         ],
             "preDrawCallback": function() {
                 $('#customers-table tbody td').addClass("blurry");

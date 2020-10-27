@@ -8,12 +8,13 @@ class Setting extends Model
 {
     protected $connection = "mysql";
     protected $table = "settings";
-
+    
     function scopeGetValue($query, $name){
         if($query->where('name',$name)->exists())
-            return $query->where('name',$name)->first()->value;
+            return $query->where('name',$name)->first()->value != null ? $query->where('name',$name)->first()->value : '';
         else 
             return '';
     }
 
+    public $timestamps = false;
 }

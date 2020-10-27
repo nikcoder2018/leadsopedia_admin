@@ -188,7 +188,20 @@ class CategoriesController extends Controller
             return response()->json(array('success' => true, 'msg' => 'Category Deleted.'));
         }
     }
+    public function destroyMany(Request $request)
+    {
+        $categoryIds = array();
 
+        foreach($request->category_ids as $id){
+            array_push($categoryIds,$id);
+        }
+
+        $delete = Category::whereIn('id',$categoryIds)->delete();
+
+        if($delete){
+            return response()->json(array('success' => true, 'msg' => 'Categories Deleted.'));
+        }
+    }
     public function getCategoryAPI(){
         $categories = Category::all();
         return DataTables::of($categories)->toJson();

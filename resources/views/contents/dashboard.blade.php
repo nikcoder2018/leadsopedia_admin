@@ -45,9 +45,9 @@
                 <i class="mdi mdi-account-multiple text-danger icon-lg"></i>
               </div>
               <div class="wrapper">
-                <p class="card-text mb-0">Users</p>
+                <p class="card-text mb-0">Customers</p>
                 <div class="fluid-container">
-                  <h3 class="card-title mb-0">{{$totalUsers}}</h3>
+                  <h3 class="card-title mb-0">{{$totalCustomers}}</h3>
                 </div>
               </div>
             </div>

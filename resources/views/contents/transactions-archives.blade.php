@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="card-body">
-            <h4 class="card-title">All Transactions</h4>
+            <h4 class="card-title">Archive Transactions</h4>
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
@@ -62,7 +62,7 @@ $(document).ready(function(){
       "processing": true,
       "serverSide": true,
       "ajax": {
-            url: "{{route('api.transactions.lists')}}",
+            url: "{{route('api.transactions.archivelist')}}",
             type: "GET",
             data: {
                 api_token: "{{auth()->user()->api_token}}"
@@ -118,18 +118,18 @@ $(document).ready(function(){
             "mRender": function(data,type,row){
                 return `
                     <a href="#" class="text-info view-transaction" data-id="${row.id}" data-toggle="tooltip" data-placement="left" title="Details"><i class="mdi mdi-format-list-bulleted icon-md"></i></a>
-                    <a href="#" class="text-danger archive-transaction" data-id="${row.id}" data-toggle="tooltip" data-placement="left" title="Archive"><i class="mdi mdi-delete-sweep icon-md"></i></a>
+                    <a href="#" class="text-success restore-transaction" data-id="${row.id}" data-toggle="tooltip" data-placement="left" title="Restore"><i class="mdi mdi-delete-restore icon-md"></i></a>
                 `
             }
         }
       ],
         "preDrawCallback": function() {
-            $('#leads-table tbody td').addClass("blurry");
+            $('#transactions-table tbody td').addClass("blurry");
         },
         "drawCallback": function() {
-            $('#leads-table tbody td').addClass("blurry");
+            $('#transactions-table tbody td').addClass("blurry");
             setTimeout(function(){
-                $('#leads-table tbody td').removeClass("blurry");
+                $('#transactions-table tbody td').removeClass("blurry");
             },600);
         },
       responsive: true,
@@ -149,11 +149,11 @@ $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
 
-    $('#transactions-table').on('click', '.archive-transaction', function(){
+    $('#transactions-table').on('click', '.restore-transaction', function(){
         let trans_id = $(this).data('id');
         Swal.fire({
             title: "Are you sure?",
-            text: "Do you want to archive this data?",
+            text: "Do you want to restore this data?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -162,7 +162,7 @@ $(document).ready(function(){
         }).then(async (result) => {
             if (result.isConfirmed) {
                 let goDelete = await $.ajax({
-                    url: "{{route('transactions.archive')}}",
+                    url: "{{route('transactions.restore')}}",
                     type: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),

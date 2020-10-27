@@ -104,10 +104,10 @@ class SubscriptionsController extends Controller
         $subscription->css_btn_class = $request->css_btn_class;
         $subscription->save();
 
-
-        if(count($request->priviledges) > 0){
+        Priviledge::where('subplan_id', $subscription->id)->delete();
+        
+        if(isset($request->priviledges)){
             //delete all existing priviledges
-            Priviledge::where('subplan_id', $subscription->id)->delete();
             foreach($request->priviledges as $priviledge){
                 Priviledge::create([
                     'subplan_id' => $subscription->id,

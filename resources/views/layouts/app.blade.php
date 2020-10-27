@@ -51,6 +51,40 @@
   </div>
   <!-- container-scroller -->
 
+  <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel-2">Change Password</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="form-change-password" action="{{route('profile.change.password')}}" method="POST">
+            @csrf
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Enter password">
+              </div>
+              <div class="form-group">
+                <label>New Password</label>
+                <input type="password" class="form-control" name="new_password" id="new_password" placeholder="Enter password">
+              </div>
+              <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" class="form-control" name="new_confirm_password" id="new_confirm_password" placeholder="Enter password">
+              </div> 
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   @yield('modals')
   <!-- plugins:js -->
   <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
@@ -70,7 +104,54 @@
   <!-- Custom js for this page-->
   <script src="{{asset('js/dashboard.js')}}"></script>
   <!-- End custom js for this page-->
+  <script>
+    $('.btn-change-password').on('click', function(){
+      let changePasswordModal = $('#changePasswordModal');
+      changePasswordModal.modal('toggle');
+    });
 
+    $('#form-change-password').on('submit', function(e){
+      e.preventDefault();
+      $.ajax({
+          url: $(this).attr('action'),
+          type: 'POST',
+          data:  $(this).serialize(),
+          success: function(resp){
+            if(resp.success){
+              $('#changePasswordModal').modal('hide');
+              Swal.fire(
+                  'Success!',
+                  resp.msg,
+                  'success'
+              ).then(result=>{
+                  if(result){
+                     location.reload();
+                  }
+              });
+            }
+          },
+          error: function(resp){
+            let form = $('#form-change-password')
+            $.each(resp.responseJSON.errors, function(name, error){
+                form.find('#'+name).siblings('.invalid-feedback').remove();
+                form.find('#'+name).siblings('.valid-feedback').remove();
+                form.find('#'+name).siblings('.invalid-feedback.valid-feedback').remove();
+                form.find('#'+name).addClass('is-invalid');
+                form.find('#'+name).after(`
+                    <div class="invalid-feedback">
+                    ${error}
+                    </div>
+                `);
+            });
+        }
+      });
+    });
+    $('#form-change-password').on('change keypress', 'input', function(){
+        $(this).removeClass("is-invalid is-valid");
+        $(this).siblings('.invalid-feedback').remove();
+        $(this).siblings('.valid-feedback').remove();
+    });
+  </script>
   @yield('scripts')
 </body>
 

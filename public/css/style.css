@@ -21170,7 +21170,7 @@ input:focus {
     -webkit-transition: width 0.25s ease, background 0.25s ease;
     -moz-transition: width 0.25s ease, background 0.25s ease;
     -ms-transition: width 0.25s ease, background 0.25s ease;
-    background: #161616;
+    /*background: #161616;*/
     width: 255px;
     height: 70px;
 }
@@ -21209,11 +21209,11 @@ input:focus {
     max-width: 100%;
     height: 30px;
     margin: auto;
-    background: url("../images/logo-mini.svg") no-repeat center;
+    background: url("../images/logo-mini.png") no-repeat center;
 }
 
 .sidebar-light .navbar.default-layout .navbar-brand-wrapper .brand-logo-mini {
-    background: url("../images/logo-mini.svg") no-repeat center;
+    background: url("../images/logo-mini.png") no-repeat center;
 }
 
 .navbar.default-layout .navbar-menu-wrapper {
@@ -28444,7 +28444,7 @@ ul li {
     float: left;
     overflow: hidden;
     width: 100%;
-    background: #ffbc34;
+    /* background: #ffbc34; */
     text-align: center;
     cursor: pointer;
 }
@@ -33804,7 +33804,6 @@ div.tagsinput span.tag a {
 
 .profile-page .profile-header {
     width: 100%;
-    background: url("https://placehold.it/1055x215") no-repeat center center;
     background-size: cover;
     padding: 60px 0;
     border-radius: 5px;

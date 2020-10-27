@@ -26,4 +26,8 @@ Route::group(['middleware' => 'check.admin.api_token'], function(){
     Route::get('admins/all', 'AdminsController@getAllAdmin')->name('api.admin.lists');
     Route::get('customers/all', 'CustomersController@getAllCustomers')->name('api.customers.lists');
     Route::get('transactions/all', 'TransactionsController@getAllTransactions')->name('api.transactions.lists');
+    Route::get('transactions/archivelist', 'TransactionsController@getAllTransactionsArchive')->name('api.transactions.archivelist');
+    Route::get('countries', 'APIController@countries')->name('api.countries');
+    Route::get('languages', 'APIController@languages')->name('api.languages');
+    Route::get('currencies', 'APIController@currencies')->name('api.currencies');
 });

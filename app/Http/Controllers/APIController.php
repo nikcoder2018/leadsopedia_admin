@@ -7,6 +7,9 @@ ini_set('MAX_EXECUTION_TIME', '-1');
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
+use App\Http\Resources\Country as ResourceCountry;
+use App\Http\Resources\Currency as ResourceCurrency;
+use App\Http\Resources\Languages as ResourceLanguages;
 
 use App\Lead;
 use DataTables;
@@ -98,5 +101,21 @@ class APIController extends Controller
         }else{
             return response()->json(array('success' => true, 'msg' => 'Invalid File Extension.'));
         }
+    }
+
+    public function countries(){
+        $contents = file_get_contents('countries.json');
+        $contents = json_decode($contents);
+        return new ResourceCountry($contents);
+    }
+    public function currencies(){
+        $contents = file_get_contents('currency-symbols.json');
+        $contents = json_decode($contents);
+        return new ResourceCurrency($contents);
+    }
+    public function languages(){
+        $contents = file_get_contents('languages.json');
+        $contents = json_decode($contents);
+        return new ResourceLanguages([$contents]);
     }
 }

@@ -323,6 +323,47 @@ $(document).ready(function(){
             $('#categories-table_filter').find('.btn-delete-all').remove();
         }
     }
+
+    $('#categories-table_filter').on('click','.btn-delete-all', function(){
+        let category_ids = new Array();
+        $("input:checkbox[name='id[]']:checked").each(function(){
+            category_ids.push($(this).val());
+        });
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const deleteData = await $.ajax({
+                    url: "{{route('categories.destroy-many')}}",
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        category_ids
+                    }
+                });
+                
+                if(deleteData.success){
+                    Swal.fire(
+                        'Deleted!',
+                        deleteData.msg,
+                        'success'
+                    ).then(result=>{
+                        if(result){
+                            $('#select-all').prop('checked',false);
+                            t.ajax.reload();
+                        }
+                    });
+                }
+            }
+        });
+    });
     $('#categories-table').on('click','.edit-data', async function(){
         let edit_modal = $('#editCategoryModal');
            let form = edit_modal.find('form');
