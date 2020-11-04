@@ -57,7 +57,12 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('transactions', 'TransactionsController@index')->name('transactions.index');
     Route::post('transactions/archive', 'TransactionsController@archive')->name('transactions.archive');
     Route::post('transactions/restore', 'TransactionsController@restore')->name('transactions.restore');
-    
+
+    Route::resource('payment-methods', 'PaymentMethodsController', ['except' => ['edit','update', 'destroy']]);
+    Route::post('payment-methods/edit', 'PaymentMethodsController@edit')->name('payment-methods.edit');
+    Route::post('payment-methods/update', 'PaymentMethodsController@update')->name('payment-methods.update');
+    Route::post('payment-methods/destroy', 'PaymentMethodsController@destroy')->name('payment-methods.destroy');
+
     Route::get('archives/transactions', 'TransactionsController@archiveslist')->name('archives.transactions');
 
     Route::get('settings', 'SettingsController@index')->name('settings.index');

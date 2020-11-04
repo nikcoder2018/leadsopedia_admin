@@ -9,6 +9,8 @@ class PaymentMethod extends Model
     protected $connection = "mysql";
     protected $table = "payment_methods";
 
+    protected $fillable = ['name','description'];
+    
     public $timestamps = false;
 
     function details(){

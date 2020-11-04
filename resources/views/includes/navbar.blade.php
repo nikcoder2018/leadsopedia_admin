@@ -9,7 +9,7 @@
       </button>
 
       <ul class="navbar-nav navbar-nav-right">
-        <li class="nav-item dropdown">
+        {{-- <li class="nav-item dropdown">
           <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
             <i class="mdi mdi-bell-outline"></i>
             <span class="count bg-success">4</span>
@@ -63,7 +63,7 @@
               </div>
             </a>
           </div>
-        </li>
+        </li> --}}
 
         <li class="nav-item dropdown d-none d-xl-inline-block">
           <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
