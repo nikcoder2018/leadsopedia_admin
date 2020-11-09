@@ -27,7 +27,10 @@ class SubscriptionUpdateRequest extends FormRequest
             'title' => 'required|max:255',
             'description' => 'required',
             'months' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'search_limits' => 'required',
+            'search_leads_limits' => 'required',
+            'credits' => 'required'
         ];
     }
 }

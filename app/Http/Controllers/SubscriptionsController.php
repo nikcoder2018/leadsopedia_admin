@@ -45,6 +45,9 @@ class SubscriptionsController extends Controller
             'description' => $request->description,
             'months' => $request->months,
             'price' => $request->price,
+            'search_limits' => $request->search_limits,
+            'search_leads_limits' => $request->search_leads_limits,
+            'credits' => $request->credits,
             'css_class' => $request->css_class,
             'css_btn_class' => $request->css_btn_class
         ]);
@@ -100,6 +103,9 @@ class SubscriptionsController extends Controller
         $subscription->description = $request->description;
         $subscription->months = $request->months;
         $subscription->price = $request->price;
+        $subscription->search_limits = $request->search_limits;
+        $subscription->search_leads_limits = $request->search_leads_limits;
+        $subscription->credits = $request->credits;
         $subscription->css_class = $request->css_class;
         $subscription->css_btn_class = $request->css_btn_class;
         $subscription->save();

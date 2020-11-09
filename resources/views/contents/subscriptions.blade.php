@@ -83,6 +83,32 @@
                 </div>
                 <div class="form-group row">
                     <div class="col">
+                        <label for="months">Search Limits <sup>*</sup></label>
+                        <input type="number" class="form-control" name="search_limits" placeholder="Search Limits">
+                    </div>
+                    <div class="col">
+                        <label for="search_limits">Search Leads Limits <sup>*</sup></label>
+                        <input type="number" class="form-control" name="search_leads_limits" placeholder="Search Leads Limits">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="credits">Credits <sup>*</sup></label>
+                        <input type="number" class="form-control" name="credits" placeholder="Credits">
+                    </div>
+                    <div class="col">
+                        <label for="months">Months <sup>*</sup></label>
+                        <input type="number" class="form-control" name="months" placeholder="Months">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="credits">Price <sup>*</sup></label>
+                        <input type="number" class="form-control" name="price" step="0.01" placeholder="Price">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
                         <label for="css_class">Card Box CSS <sup>optional</sup></label>
                         <input type="text" class="form-control" name="css_class">
                     </div>
@@ -137,12 +163,28 @@
                 </div>
                 <div class="form-group row">
                     <div class="col">
-                        <label for="months">Months <sup>*</sup></label>
-                        <input type="number" class="form-control" name="months" placeholder="Subscription Duration">
+                        <label for="months">Search Limits <sup>*</sup></label>
+                        <input type="number" class="form-control" name="search_limits" placeholder="Search Limits">
                     </div>
                     <div class="col">
-                        <label for="price">Price <sup>*</sup></label>
-                        <input type="number" class="form-control" name="price" step="0.01" placeholder="Amount">
+                        <label for="search_limits">Search Leads Limits <sup>*</sup></label>
+                        <input type="number" class="form-control" name="search_leads_limits" placeholder="Search Leads Limits">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="credits">Credits <sup>*</sup></label>
+                        <input type="number" class="form-control" name="credits" placeholder="Credits">
+                    </div>
+                    <div class="col">
+                        <label for="months">Months <sup>*</sup></label>
+                        <input type="number" class="form-control" name="months" placeholder="Months">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="credits">Price <sup>*</sup></label>
+                        <input type="number" class="form-control" name="price" step="0.01" placeholder="Price">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -262,6 +304,9 @@
             form.find('textarea[name=description]').val(subscription.description);
             form.find('input[name=months]').val(subscription.months);
             form.find('input[name=price]').val(subscription.price);
+            form.find('input[name=search_limits]').val(subscription.search_limits);
+            form.find('input[name=search_leads_limits]').val(subscription.search_leads_limits);
+            form.find('input[name=credits]').val(subscription.credits);
             form.find('input[name=css_class]').val(subscription.css_class);
             form.find('input[name=css_btn_class]').val(subscription.css_btn_class);
             
@@ -370,7 +415,7 @@
                         }
                         
                     }
-                });
+            });
         });
     </script>
 @endsection
