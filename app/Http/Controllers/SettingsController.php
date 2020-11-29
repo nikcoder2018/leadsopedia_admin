@@ -9,6 +9,10 @@ use App\Language;
 use App\TimeZone;
 use App\Setting;
 use App\PaymentMethod;
+use App\Integration;
+use App\IntegrationData;
+use App\IntegrationDataDefault;
+use App\IntegrationGroup;
 
 class SettingsController extends Controller
 {
@@ -19,6 +23,8 @@ class SettingsController extends Controller
         $data['timezones'] = TimeZone::all();
 
         $data['payment_methods'] = PaymentMethod::all();
+        $data['integrations'] = Integration::with(['group', 'attributes_default'])->get();
+        $data['integration_groups'] = IntegrationGroup::all();
         #return response()->json($data); exit;
         return view('contents.settings', $data);
     }

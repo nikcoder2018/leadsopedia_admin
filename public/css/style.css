@@ -17425,9 +17425,12 @@ button.bg-teal:focus {
     flex-shrink: 1 !important;
 }
 
-.justify-content-start,
-.list-wrapper ul li {
+.justify-content-start {
     justify-content: flex-start !important;
+}
+
+.list-wrapper ul li {
+    justify-content: flex-start;
 }
 
 .justify-content-end,
@@ -29308,6 +29311,40 @@ ul li {
 }
 
 .rtl .list-wrapper .remove {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.list-wrapper .edit {
+    margin-left: auto;
+    cursor: pointer;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #857bff;
+    width: 1.25rem;
+    height: 1.25rem;
+    line-height: 20px;
+    text-align: center;
+}
+
+.rtl .list-wrapper .edit {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.list-wrapper .save {
+    margin-left: auto;
+    cursor: pointer;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #00ff37;
+    width: 1.25rem;
+    height: 1.25rem;
+    line-height: 20px;
+    text-align: center;
+}
+
+.rtl .list-wrapper .save {
     margin-right: auto;
     margin-left: 0;
 }

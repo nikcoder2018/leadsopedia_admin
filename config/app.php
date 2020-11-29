@@ -226,7 +226,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Curl' => App\Helpers\Curl::class,
+        'ZeroBounce' => App\Helpers\ZeroBounce::class,
+        'ReplyIO' => App\Helpers\ReplyIO::class,
+        'HubspotContactList' => App\Helpers\HubspotContactList::class,
+        'HubspotContact' => App\Helpers\HubspotContact::class,
+        'Copper' => App\Helpers\Copper::class
     ],
 
 ];

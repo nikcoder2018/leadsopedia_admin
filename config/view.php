@@ -14,7 +14,7 @@ return [
     */
 
     'paths' => [
-        resource_path('views'),
+        resource_path(env('APP_THEME','default').'/views'),
     ],
 
     /*
