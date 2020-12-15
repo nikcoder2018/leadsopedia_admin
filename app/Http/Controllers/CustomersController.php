@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Resources\Customer as ResourceCustomer;
 use App\Customer;
+use App\User;
 
 use DataTables;
+use Gate;
 class CustomersController extends Controller
 {
     /**
@@ -17,12 +20,17 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        return view('contents.customers');
+        abort_unless(Gate::any(['full_access','customers_show']), 404);
+
+        $data['title'] = 'Customers';
+        return view('contents.customers', $data);
     }
 
-    public function getAllCustomers(){
+    public function all(){
+        abort_unless(Gate::any(['full_access','customers_show']), 404);
         $customers = Customer::all();
-        return DataTables::of($customers)->toJson();
+
+        return DataTables::of(ResourceCustomer::collection($customers))->toJson();
     }
     /**
      * Show the form for creating a new resource.
@@ -85,8 +93,55 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        abort_unless(Gate::any(['full_access','customers_delete']), 404);
+
+        $user = User::find(auth()->user()->id);
+        if(!\Hash::check($request->password, $user->password)){
+            return response()->json(['success'=>false,'msg' => trans('passwords.invalid')]);
+        }
+
+        Customer::find($id)->delete();
+
+        return response()->json(['success'=>true,'msg' => trans('customers.deleted')]);
+    }
+
+    /**
+     * Deactivate customer.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deactivate(Request $request, $id)
+    {
+        abort_unless(Gate::any(['full_access','customers_changestatus']), 404);
+
+        $user = User::find(auth()->user()->id);
+        if(!\Hash::check($request->password, $user->password)){
+            return response()->json(['success'=>false,'msg' => trans('passwords.invalid')]);
+        }
+
+        $customer = Customer::find($id);
+        $customer->status = '0';
+        $customer->save();
+
+        return response()->json(['success'=>true,'msg' => trans('customers.deactivated')]);
+    }
+
+    public function activate(Request $request, $id)
+    {
+        abort_unless(Gate::any(['full_access','customers_changestatus']), 404);
+
+        $user = User::find(auth()->user()->id);
+        if(!\Hash::check($request->password, $user->password)){
+            return response()->json(['success'=>false,'msg' => trans('passwords.invalid')]);
+        }
+
+        $customer = Customer::find($id);
+        $customer->status = '1';
+        $customer->save();
+
+        return response()->json(['success'=>true,'msg' => trans('customers.activated')]);
     }
 }

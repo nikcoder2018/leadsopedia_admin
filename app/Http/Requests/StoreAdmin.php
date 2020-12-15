@@ -26,6 +26,8 @@ class StoreAdmin extends FormRequest
         return [
             'name' => 'required|max:64',
             'email' => 'required|email|unique:admin,email,'.$this->id,
+            'roles.*'  => 'integer',
+            'roles'    => 'required|array',
             'password' => 'required|min:8',
             'confirm_password' => 'required|min:8|same:password'
         ];

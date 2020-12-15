@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\PaymentMethod as ResourcePaymentMethod;
 use App\PaymentMethod;
 use App\PaymentMethodData;
+
+use DataTables;
 class PaymentMethodsController extends Controller
 {
     /**
@@ -17,6 +20,10 @@ class PaymentMethodsController extends Controller
         //
     }
 
+    public function all(){
+        $payments = PaymentMethod::all();
+        return DataTables::of(ResourcePaymentMethod::collection($payments))->toJson();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -76,9 +83,9 @@ class PaymentMethodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $paymentMethod = PaymentMethod::with('details')->where('id', $request->id)->first();
+        $paymentMethod = PaymentMethod::with('details')->where('id', $id)->first();
         return response()->json($paymentMethod);
     }
 
@@ -123,10 +130,10 @@ class PaymentMethodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $delete = PaymentMethod::find($request->id)->delete();
+        $delete = PaymentMethod::find($id)->delete();
         if($delete)
-            return response()->json(array('success' => true, 'msg' => 'Payment Method Deleted.', 'id' => $request->id));
+            return response()->json(array('success' => true, 'msg' => 'Payment Method Deleted.', 'id' => $id));
     }
 }

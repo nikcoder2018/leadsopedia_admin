@@ -9,6 +9,11 @@ use App\Setting;
 
 use App\Http\Requests\SubscriptionStoreRequest as StoreRequest;
 use App\Http\Requests\SubscriptionUpdateRequest as UpdateRequest;
+
+use App\Http\Resources\Subscription as ResourceSubscription;
+
+use DataTables;
+use Gate;
 class SubscriptionsController extends Controller
 {
     /**
@@ -18,10 +23,18 @@ class SubscriptionsController extends Controller
      */
     public function index()
     {
-        $data['plans'] = Plan::with('priviledges')->get();
+        abort_unless(Gate::any(['full_access','subsplan_show']), 404);
+
+        $data['title'] = 'Subscription Plans';
         return view('contents.subscriptions',$data);
     }
 
+    public function all(){
+        abort_unless(Gate::any(['full_access','subsplan_show']), 404);
+
+        $plans = Plan::all();
+        return DataTables::of(ResourceSubscription::collection($plans))->toJson();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -40,6 +53,8 @@ class SubscriptionsController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        abort_unless(Gate::any(['full_access','subsplan_create']), 404);
+
         $newsubplan = Plan::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -53,11 +68,11 @@ class SubscriptionsController extends Controller
         ]);
 
         
-        if(count($request->priviledges) > 0){
-            foreach($request->priviledges as $priviledge){
+        if($request->get('attributes')){
+            foreach($request->get('attributes') as $priviledge){
                 Priviledge::create([
                     'subplan_id' => $newsubplan->id,
-                    'description' => $priviledge['description'],
+                    'description' => $priviledge['text'],
                     'enabled' => isset($priviledge['enabled']) ? 1 : 0
                 ]);
             }
@@ -83,9 +98,11 @@ class SubscriptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $subscription = Plan::with('priviledges')->where('id',$request->id)->first();
+        abort_unless(Gate::any(['full_access','subsplan_edit']), 404);
+
+        $subscription = Plan::with('priviledges')->where('id',$id)->first();
         return response()->json($subscription);
     }
 
@@ -98,6 +115,8 @@ class SubscriptionsController extends Controller
      */
     public function update(UpdateRequest $request)
     {
+        abort_unless(Gate::any(['full_access','subsplan_edit']), 404);
+
         $subscription = Plan::find($request->id);
         $subscription->title = $request->title;
         $subscription->description = $request->description;
@@ -112,12 +131,11 @@ class SubscriptionsController extends Controller
 
         Priviledge::where('subplan_id', $subscription->id)->delete();
         
-        if(isset($request->priviledges)){
-            //delete all existing priviledges
-            foreach($request->priviledges as $priviledge){
+        if($request->get('attributes')){
+            foreach($request->get('attributes') as $priviledge){
                 Priviledge::create([
                     'subplan_id' => $subscription->id,
-                    'description' => $priviledge['description'],
+                    'description' => $priviledge['text'],
                     'enabled' => isset($priviledge['enabled']) ? 1 : 0
                 ]);
             }
@@ -132,9 +150,11 @@ class SubscriptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $subplan = Plan::find($request->id);
+        abort_unless(Gate::any(['full_access','subsplan_delete']), 404);
+
+        $subplan = Plan::find($id);
         $subplan->delete();
 
         if($subplan){

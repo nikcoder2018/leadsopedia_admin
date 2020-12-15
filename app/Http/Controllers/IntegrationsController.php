@@ -7,6 +7,9 @@ use App\Integration;
 use App\IntegrationData;
 use App\IntegrationDataDefault;
 use App\IntegrationGroup;
+use App\IntegrationKey;
+
+use DataTables;
 class IntegrationsController extends Controller
 {
     /**
@@ -15,6 +18,10 @@ class IntegrationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function all(){
+        $integrations = Integration::with('group')->get();
+        return DataTables::of($integrations)->toJson();
+    }
     public function store(Request $request)
     {
         $integration = new Integration();
@@ -44,10 +51,10 @@ class IntegrationsController extends Controller
 
         if($request->get('attributes')){
             foreach($request->get('attributes') as $attr){
-                IntegrationDataDefault::create([
+                IntegrationKey::create([
                     'integration_id' => $integration->id,
+                    'key' => $attr['key'],
                     'name' => $attr['name'],
-                    'value' => $attr['value'],
                     'required' => 1
                 ]);
             }
@@ -65,7 +72,7 @@ class IntegrationsController extends Controller
      */
     public function edit(Request $request)
     {
-        $integration = Integration::with('attributes_default')->where('id',$request->id)->first();
+        $integration = Integration::with(['keys','group'])->where('id',$request->id)->first();
         return response()->json($integration);
     }
 
@@ -103,13 +110,13 @@ class IntegrationsController extends Controller
         }
         $integration->save();
 
-        IntegrationDataDefault::where('integration_id', $integration->id)->delete();
+        IntegrationKey::where('integration_id', $integration->id)->delete();
         if($request->get('attributes')){
             foreach($request->get('attributes') as $attr){
-                IntegrationDataDefault::create([
+                IntegrationKey::create([
                     'integration_id' => $integration->id,
+                    'key' => $attr['key'],
                     'name' => $attr['name'],
-                    'value' => $attr['value'],
                     'required' => 1
                 ]);
             }
@@ -125,10 +132,10 @@ class IntegrationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $delete = Integration::find($request->id)->delete();
+        $delete = Integration::find($id)->delete();
         if($delete)
-            return response()->json(array('success' => true, 'Integration Deleted', 'id' => $request->id));
+            return response()->json(array('success' => true, 'Integration Deleted', 'id' => $id));
     }
 }

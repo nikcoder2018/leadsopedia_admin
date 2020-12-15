@@ -10,7 +10,10 @@ use Illuminate\Support\Str;
 use App\Http\Requests\StoreAdmin as StoreAdminRequest;
 use App\Http\Requests\UpdateAdmin as UpdateAdminRequest;
 
+use App\Http\Resources\Admin as ResourceAdmin;
 use App\User;
+use App\Role;
+use App\RoleUser;
 
 use DataTables;
 
@@ -23,12 +26,14 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        return view('contents.admins');
+        $data['title'] = 'Users';
+        $data['roles'] = Role::all();
+        return view('contents.users',$data);
     }
 
-    public function getAllAdmin(){
+    public function all(){ //API
         $admins = User::all();
-        return DataTables::of($admins)->toJson();
+        return DataTables::of(ResourceAdmin::collection($admins))->toJson();
     }
     
     /**
@@ -50,16 +55,18 @@ class AdminsController extends Controller
     public function store(StoreAdminRequest $request)
     {
         $validated = $request->validated();
-        $newUser = User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'status' => 'active',
+            'status' => 1,
             'api_token' => Str::uuid()
         ]);
 
-        if($newUser)
-            return response()->json(array('success' => true, 'msg' => 'User successfully created.'));
+        $user->roles()->sync($request->input('roles', []));
+        
+        if($user)
+            return response()->json(array('success' => true, 'msg' => 'New user created'));
     }
 
     public function changePassword(Request $request){
@@ -81,7 +88,9 @@ class AdminsController extends Controller
      */
     public function show($id)
     {
-        //
+        $data['title'] = 'User Details';
+        $data['user'] = User::find($id);
+        return view('contents.users_view', $data);
     }
 
     /**
@@ -122,12 +131,10 @@ class AdminsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $delete = User::find($request->id)->delete();
-        if($delete)
-            return response()->json(array('success' => true, 'msg' => 'User successfully deleted.', 'id' => $request->id));
+        $destroy = User::find($id)->delete();
+        if($destroy)
+        return response()->json(array('success' => true, 'msg' => 'User Deleted'));
     }
-
-
 }

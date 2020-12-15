@@ -9,16 +9,16 @@ class Lead extends Model
     protected $connection = "mongodb";
     protected $collection = "leads";
     protected $fillable = [
+        'name',
         'first_name',
         'last_name',
         'title',
         'company_name',
         'industry',
-        'category',
         'email',
         'phone',
         'website',
-        'address',
+        'street',
         'city',
         'state',
         'country', 
@@ -28,5 +28,13 @@ class Lead extends Model
         'instagram',
         'twitter',
     ];
+
+    public function getFillable(){
+        return $this->fillable;
+    }
+
+    public function isInFillable($value){
+        return in_array($value,$this->fillable);
+    }
 }
 

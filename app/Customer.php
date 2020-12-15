@@ -36,4 +36,11 @@ class Customer extends Model
         'email_verified_at' => 'datetime',
     ];
 
+    public function subscription(){
+        return $this->hasOne(Subscription::class, 'id', 'subscription_id');
+    }
+
+    public function getDateRegisteredAttribute(){
+        return $this->created_at->diffForHumans();
+    }
 }

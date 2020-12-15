@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Category as CategoryResource;
+use App\Http\Resources\Category as ResourceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
@@ -10,6 +10,7 @@ use Illuminate\Http\UploadedFile;
 use App\Category;
 
 use DataTables;
+use Gate;
 class CategoriesController extends Controller
 {
     /**
@@ -19,11 +20,18 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $data['categories'] = Category::all();
+        abort_unless(Gate::any(['full_access','category_show']), 404);
+
+        $data['title'] = 'Categories';
         return view('contents.category', $data);
     }
 
-    
+    public function all(){
+        abort_unless(Gate::any(['full_access','category_show']), 404);
+
+        $categories = Category::all();
+        return DataTables::of(ResourceCategory::collection($categories))->toJson();
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,6 +51,8 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
+        abort_unless(Gate::any(['full_access','category_create']), 404);
+
         $newcategory = Category::create([
             'name' => $request->name,
             'cat_id' => $request->cat_id
@@ -54,6 +64,8 @@ class CategoriesController extends Controller
 
     public function import(Request $request)
     {
+        abort_unless(Gate::any(['full_access','category_create']), 404);
+
         $file = $request->file('file');
       
         // File Details 
@@ -150,10 +162,12 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $categoryData = Category::find($request->id);
-        return response()->json($categoryData);
+        abort_unless(Gate::any(['full_access','category_edit']), 404);
+
+        $category = Category::find($id);
+        return response()->json($category);
     }
 
     /**
@@ -165,14 +179,12 @@ class CategoriesController extends Controller
      */
     public function update(Request $request)
     {
-        $category = Category::find($request->id);
-        $category->name = $category->name;
-        $category->cat_id = $category->cat_id;
-        $category->save();
+        abort_unless(Gate::any(['full_access','category_edit']), 404);
 
-        if($category){
-            return response()->json(array('success' => true,'msg' => 'Category Successfully Updated.'));
-        }
+        $category = Category::where('id', $request->id)->update(['name' => $request->name, 'cat_id' => $request->cat_id]);
+        
+        if($category)
+            return response()->json(array('success' => true, 'msg' => 'Category Updated'));
     }
 
     /**
@@ -183,6 +195,8 @@ class CategoriesController extends Controller
      */
     public function destroy(Request $request)
     {
+        abort_unless(Gate::any(['full_access','category_delete']), 404);
+
         $delete = Category::find($request->id)->delete();
         if($delete){
             return response()->json(array('success' => true, 'msg' => 'Category Deleted.'));
@@ -190,6 +204,8 @@ class CategoriesController extends Controller
     }
     public function destroyMany(Request $request)
     {
+        abort_unless(Gate::any(['full_access','category_delete']), 404);
+
         $categoryIds = array();
 
         foreach($request->category_ids as $id){

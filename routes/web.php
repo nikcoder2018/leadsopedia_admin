@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function(){
+    Route::get('account/permissions', 'UsersController@mypermissions');
+
     Route::get('/', 'DashboardController@index')->name('home');
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('profile', 'ProfilesController@index')->name('profile');
@@ -27,52 +29,67 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('profile/change-password','ProfilesController@changePassword')->name('profile.change.password');
 
     Route::resource('leads', 'LeadsController', ['except' => ['show','update', 'destroy']]);
-    Route::post('leads/delete', 'LeadsController@destroy')->name('leads.delete');
-    Route::get('leads/import', 'LeadsController@import')->name('leads.import');
+    Route::get('leads/{id}/delete', 'LeadsController@destroy')->name('leads.delete');
+    Route::get('leads/import/{id}', 'LeadsController@import')->name('leads.import');
+    Route::get('leads/import/{id}/body', 'LeadsController@importbody')->name('leads.importbody');
+    Route::post('leads/import/data', 'LeadsController@importData')->name('leads.importdata');
+    Route::post('leads/uploadcsv', 'LeadsController@uploadcsv')->name('leads.uploadcsv');
     Route::get('leads/exportcsv', 'LeadsController@exportcsv')->name('leads.exportcsv');
     Route::get('leads/exportpdf', 'LeadsController@exportpdf')->name('leads.exportpdf');
 
-    Route::resource('admins', 'AdminsController', ['except' => ['edit','update', 'destroy']]);
-    Route::post('admins/edit', 'AdminsController@edit')->name('admins.edit');
-    Route::post('admins/update', 'AdminsController@update')->name('admins.update');
-    Route::post('admins/destroy', 'AdminsController@destroy')->name('admins.destroy');
+    Route::resource('admins', 'AdminsController');
+    Route::post('admins/{id}', 'AdminsController@update')->name('admins.update');
+    Route::get('admins/{id}/delete', 'AdminsController@destroy')->name('admins.delete');
 
-    Route::resource('customers', 'CustomersController', ['except' => ['update', 'destroy']]);
+    Route::resource('customers', 'CustomersController');
+    Route::get('customers/{id}/deactivate', 'CustomersController@deactivate')->name('customers.deactivate');
+    Route::get('customers/{id}/activate', 'CustomersController@activate')->name('customers.activate');
+    Route::get('customers/{id}/delete', 'CustomersController@destroy')->name('customers.delete');
+
+    Route::resource('/roles', 'RolesController', ['except' => ['show','update','destroy']]);
+    Route::post('/roles/{id}', 'RolesController@update')->name('roles.update');
+    Route::get('/roles/{id}/delete', 'RolesController@destroy')->name('roles.delete');
+
+    Route::resource('/permissions', 'PermissionsController', ['except' => ['show', 'update','destroy']]);
+    Route::post('/permissions/update', 'PermissionsController@update')->name('permissions.update');
+    Route::get('/permissions/{id}/delete', 'PermissionsController@destroy')->name('permissions.delete');
     
     Route::resource('reports', 'ReportsController', ['except' => ['update', 'destroy']]);
 
-    Route::resource('categories', 'CategoriesController', ['except' => ['edit','update', 'destroy']]);
-    Route::post('categories/edit', 'CategoriesController@edit')->name('categories.edit');
+    Route::resource('categories', 'CategoriesController', ['except' => ['update', 'destroy']]);
     Route::post('categories/update', 'CategoriesController@update')->name('categories.update');
     Route::post('categories/import', 'CategoriesController@import')->name('categories.import');
-    Route::post('categories/destroy', 'CategoriesController@destroy')->name('categories.destroy');
+    Route::get('categories/{id}/delete', 'CategoriesController@destroy')->name('categories.delete');
     Route::post('categories/destroy-many', 'CategoriesController@destroyMany')->name('categories.destroy-many');
 
     
-    Route::resource('subscriptions', 'SubscriptionsController', ['except' => ['edit','update', 'destroy']]);
-    Route::post('subscriptions/edit', 'SubscriptionsController@edit')->name('subscriptions.edit');
+    Route::resource('subscriptions', 'SubscriptionsController', ['except' => ['update', 'destroy']]);
     Route::post('subscriptions/update', 'SubscriptionsController@update')->name('subscriptions.update');
-    Route::post('subscriptions/destroy', 'SubscriptionsController@destroy')->name('subscriptions.destroy');
+    Route::get('subscriptions/{id}/delete', 'SubscriptionsController@destroy')->name('subscriptions.delete');
 
     Route::get('transactions', 'TransactionsController@index')->name('transactions.index');
-    Route::post('transactions/archive', 'TransactionsController@archive')->name('transactions.archive');
-    Route::post('transactions/restore', 'TransactionsController@restore')->name('transactions.restore');
+    Route::get('transactions/{id}/details', 'TransactionsController@show')->name('transactions.details');
+    Route::get('transactions/{id}/archive', 'TransactionsController@archive')->name('transactions.archive');
+    Route::get('transactions/{id}/restore', 'TransactionsController@restore')->name('transactions.restore');
+    Route::get('transactions/{id}/delete', 'TransactionsController@destroy')->name('transactions.delete');
 
     Route::post('payment-methods/store', 'PaymentMethodsController@store')->name('payment-methods.store');
-    Route::post('payment-methods/edit', 'PaymentMethodsController@edit')->name('payment-methods.edit');
+    Route::get('payment-methods/{id}/edit', 'PaymentMethodsController@edit')->name('payment-methods.edit');
     Route::post('payment-methods/update', 'PaymentMethodsController@update')->name('payment-methods.update');
-    Route::post('payment-methods/destroy', 'PaymentMethodsController@destroy')->name('payment-methods.destroy');
+    Route::get('payment-methods/{id}/delete', 'PaymentMethodsController@destroy')->name('payment-methods.delete');
 
     Route::post('integrations/store', 'IntegrationsController@store')->name('integrations.store');
-    Route::post('integrations/edit', 'IntegrationsController@edit')->name('integrations.edit');
+    Route::get('integrations/{id}/edit', 'IntegrationsController@edit')->name('integrations.edit');
     Route::post('integrations/update', 'IntegrationsController@update')->name('integrations.update');
-    Route::post('integrations/destroy', 'IntegrationsController@destroy')->name('integrations.destroy');
+    Route::get('integrations/{id}/delete', 'IntegrationsController@destroy')->name('integrations.delete');
 
     Route::post('integrationgroups/store', 'IntegrationsGroupsController@store')->name('integrationgroups.store');
     Route::post('integrationgroups/edit', 'IntegrationsGroupsController@edit')->name('integrationgroups.edit');
     Route::post('integrationgroups/update', 'IntegrationsGroupsController@update')->name('integrationgroups.update');
     Route::post('integrationgroups/destroy', 'IntegrationsGroupsController@destroy')->name('integrationgroups.destroy');
 
+    Route::get('reports/sales/new', 'ReportsController@salesnew')->name('reports.sales.new');
+    Route::get('reports/sales/renew', 'ReportsController@salesrenew')->name('reports.sales.renew');
 
     Route::get('archives/transactions', 'TransactionsController@archiveslist')->name('archives.transactions');
 

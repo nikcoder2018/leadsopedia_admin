@@ -25,7 +25,8 @@ class UpdateAdmin extends FormRequest
     {
         return [
             'name' => 'required|max:64',
-            'email' => 'required|email|unique:admin,email,'.$this->id
+            'email' => 'required|email|unique:admin,email,'.$this->id,
+            'role' => 'required'
         ];
     }
 }

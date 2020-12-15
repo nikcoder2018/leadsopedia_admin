@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\IntegrationGroup;
+use DataTables;
 class IntegrationsGroupsController extends Controller
 {
     /**
@@ -12,6 +13,11 @@ class IntegrationsGroupsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function all(){
+        $groups = IntegrationGroup::all();
+        return DataTables::of($groups);
+    }
+
     public function store(Request $request)
     {
         $group = IntegrationGroup::create([

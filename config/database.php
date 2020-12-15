@@ -93,7 +93,7 @@ return [
         
         'mongodb' => [
             'driver' => 'mongodb',
-            'dsn' => 'mongodb+srv://rw_user:SGXLuvkCyGAivfMA@cluster0.zzxxq.mongodb.net/leadsopedia_db?retryWrites=true&w=majority',
+            'dsn' => 'mongodb+srv://leadsopedia_admin:sRtp3TtMrXEg@cluster0.qh12e.mongodb.net/leadsopedia_db?retryWrites=true&w=majority',
             'database' => 'leadsopedia_db',
             'options' => [
                 'database' =>  'admin' // sets the authentication database required by mongo 3
