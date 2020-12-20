@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\Lead as ResourceLead;
+use App\Http\Resources\LeadCompany as ResourceLeadCompany;
 use App\Lead;
 use App\File;
 use App\User;
@@ -26,9 +27,18 @@ class LeadsController extends Controller
     {
         abort_unless(Gate::any(['full_access','leads_show']), 404);
 
-        $data['title'] = 'Leads';
+        $data['title'] = 'Contacts Leads Data';
 
         return view('contents.leads', $data);
+    }
+
+    public function company(Request $request)
+    {
+        abort_unless(Gate::any(['full_access','leads_show']), 404);
+
+        $data['title'] = 'Company Leads Data';
+
+        return view('contents.leads-company', $data);
     }
 
     public function all(Request $request){
@@ -37,47 +47,96 @@ class LeadsController extends Controller
         $leadModel = new Lead;
         $columns = $request->columns;
         $lastId = $request->last_id;
-        $totalData = Lead::count();
-        $totalFiltered = $totalData; 
         $limit = intval($request->input('length'));
         $start = intval($request->input('start'));
         $order = $columns[intval($request->input('order.0.column'))];
         $dir = $request->input('order.0.dir');
-
-        if(empty($request->input('search.value')))
-        {            
-            if($lastId == ''){
-                $leads = Lead::offset($start)
-                         ->limit($limit)
-                         ->orderBy($order['data'],$dir)
-                         ->get();
-            }else{
-                $leads = Lead::whereRaw([
-                    '_id' => ['$gt' => new ObjectID($lastId)]
-                ])->limit($limit)->orderBy($order['data'],$dir)->get();
-            }
-        }else {
-            $search = $request->input('search.value'); 
-            
-            $leads = Lead::orderBy($order['data'],$dir);
-
-            foreach($columns as $index=>$column){
-                if($leadModel->isInFillable($column['data'])){
-                    if($index == 0){
-                        $leads = $leads->where($column['data'], 'LIKE', $search.'%');
+        switch($request->type){
+            case 'contacts':
+                $totalData = Lead::where('name','!=','')->count();
+                $totalFiltered = $totalData; 
+                if(empty($request->input('search.value')))
+                {            
+                    if($lastId == ''){
+                        $leads = Lead::offset($start)
+                                ->limit($limit)
+                                ->where('name','!=',' ')
+                                ->orderBy($order['data'],$dir)
+                                ->get();
                     }else{
-                        $leads = $leads->orWhere($column['data'], 'LIKE', $search.'%');
+                        $leads = Lead::whereRaw([
+                            '_id' => ['$gt' => new ObjectID($lastId)]
+                        ])->where('name','!=',' ')->limit($limit)->orderBy($order['data'],$dir)->get();
                     }
+                }else {
+                    $search = $request->input('search.value'); 
                     
+                    $leads = Lead::orderBy($order['data'],$dir);
+
+                    foreach($columns as $index=>$column){
+                        if($leadModel->isInFillable($column['data'])){
+                            if($index == 0){
+                                $leads = $leads->where($column['data'], 'LIKE', $search.'%');
+                            }else{
+                                $leads = $leads->orWhere($column['data'], 'LIKE', $search.'%');
+                            }
+                            
+                        }
+                    }
+
+                    $leads = $leads->where('name','!=','');
+
+                    $totalFiltered = $leads->get()->count();
+                    $leads = $leads->limit($limit)->offset($start)->get();
                 }
-            }
-            $totalFiltered = $leads->get()->count();
-            $leads = $leads->limit($limit)->offset($start)->get();
+
+
+                $data = ResourceLead::collection($leads);
+            break;
+            case 'company': 
+                $totalData = Lead::where('company', '!=', '')->count();
+                $totalFiltered = $totalData; 
+                if(empty($request->input('search.value')))
+                {            
+                    if($lastId == ''){
+                        $leads = Lead::offset($start)
+                                ->limit($limit)
+                                ->where('company', '!=', '')
+                                ->orderBy($order['data'],$dir)
+                                ->get();
+                    }else{
+                        $leads = Lead::whereRaw([
+                            '_id' => ['$gt' => new ObjectID($lastId)]
+                        ])->where('company', '!=', '')->limit($limit)->orderBy($order['data'],$dir)->get();
+                    }
+                }else {
+                    $search = $request->input('search.value'); 
+                    
+                    $leads = Lead::orderBy($order['data'],$dir);
+
+                    foreach($columns as $index=>$column){
+                        if($leadModel->isInFillable($column['data'])){
+                            if($index == 0){
+                                $leads = $leads->where($column['data'], 'LIKE', $search.'%');
+                            }else{
+                                $leads = $leads->orWhere($column['data'], 'LIKE', $search.'%');
+                            }
+                            
+                        }
+                    }
+
+                    $leads->where('company', '!=', '');
+
+                    $totalFiltered = $leads->get()->count();
+                    $leads = $leads->limit($limit)->offset($start)->get();
+                }
+
+                
+                $data = ResourceLeadCompany::collection($leads);
+            break;
         }
 
-        $data = ResourceLead::collection($leads);
         
-
         $json_data = array(
             "draw"            => intval($request->input('draw')),  
             "recordsTotal"    => intval($totalData),  
@@ -87,6 +146,7 @@ class LeadsController extends Controller
 
         return response()->json($json_data);
     }
+
 
     public function uploadcsv(Request $request){
         abort_unless(Gate::any(['full_access','leads_create']), 404);

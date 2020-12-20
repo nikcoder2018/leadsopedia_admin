@@ -1051,7 +1051,7 @@ footer.footer-border {
 }
 
 .main-menu .navbar-header .navbar-brand .brand-logo img {
-    max-width: 36px;
+    /* max-width: 36px; */
 }
 
 .menu-dark .navbar-header .navbar-brand .brand-text {

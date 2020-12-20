@@ -17,19 +17,18 @@ class Lead extends JsonResource
         return [
             'responsive_id' => 0,
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
+            'name' => $this->name,
             'title' => $this->title,
-            'company_name' => $this->company_name,
+            'company' => $this->company,
             'industry' => $this->industry,
             'email' => $this->email,
             'phone' => $this->phone,
             'website' => $this->website,
-            'address' => $this->address,
+            'street' => $this->street,
             'city' => $this->city,
             'state' => $this->state,
+            'region' => $this->region,
             'country' => $this->country,
-            'category' => $this->category
         ];
     }
 }

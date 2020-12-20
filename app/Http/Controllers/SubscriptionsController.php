@@ -136,7 +136,7 @@ class SubscriptionsController extends Controller
                 Priviledge::create([
                     'subplan_id' => $subscription->id,
                     'description' => $priviledge['text'],
-                    'enabled' => isset($priviledge['enabled']) ? 1 : 0
+                    'enabled' => 1
                 ]);
             }
         }

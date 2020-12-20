@@ -69,15 +69,17 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
+                        <th>Name</th>
                         <th>Title</th>
-                        <th>Company</th>
-                        <th>Category</th>
+                        <th>Industry</th>
                         <th>Email</th>
-                        <th>Phone</th>
+                        <th>Mobile</th>
                         <th>Website</th>
-                        <th>Address</th>
+                        <th>Street</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Region</th>
+                        <th>Country</th>
                         <th class="cell-fit">Actions</th>
                     </tr>
                 </thead>

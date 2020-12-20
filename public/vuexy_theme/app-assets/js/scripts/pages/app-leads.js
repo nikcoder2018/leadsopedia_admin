@@ -18,7 +18,7 @@ $(async function() {
 
     var dtLeadsTable = $('.leads-list-table'),
         isRtl = $('html').attr('data-textdirection') === 'rtl',
-        API_URL = '/api/leads/all',
+        API_URL = '/api/leads/all?type=contacts',
         URL = '/leads',
         API_TOKEN = $('[name=api-token]').attr('content');
 
@@ -39,15 +39,17 @@ $(async function() {
             columns: [
                 // columns according to JSON
                 { data: 'responsive_id' },
-                { data: 'first_name' },
-                { data: 'last_name' },
+                { data: 'name' },
                 { data: 'title' },
-                { data: 'company_name' },
-                { data: 'category' },
+                { data: 'industry' },
                 { data: 'email' },
                 { data: 'phone' },
                 { data: 'website' },
-                { data: 'address' },
+                { data: 'street' },
+                { data: 'city' },
+                { data: 'state' },
+                { data: 'region' },
+                { data: 'country' },
                 { data: '' }
             ],
             columnDefs: [{

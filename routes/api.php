@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['check.admin.api_token','gate.admin.api_token', 'auth:api']], function(){
     Route::get('dashboard/data', 'DashboardController@data');
     Route::get('leads/all', 'LeadsController@all')->name('api.leads');
+    Route::get('leads/company', 'LeadsController@company')->name('api.leads.company');
     Route::post('leads/import', 'APIController@importLeads')->name('api.leads-import');
     Route::get('categories/all', 'CategoriesController@all')->name('api.category.list');
     Route::get('categories/json', 'CategoriesController@getCategoryJsonAPI')->name('api.categories.json');

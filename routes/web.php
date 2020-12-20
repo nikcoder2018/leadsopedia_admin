@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('profile/change-password','ProfilesController@changePassword')->name('profile.change.password');
 
     Route::resource('leads', 'LeadsController', ['except' => ['show','update', 'destroy']]);
+    Route::get('leads/company', 'LeadsController@company')->name('leads.company');
     Route::get('leads/{id}/delete', 'LeadsController@destroy')->name('leads.delete');
     Route::get('leads/import/{id}', 'LeadsController@import')->name('leads.import');
     Route::get('leads/import/{id}/body', 'LeadsController@importbody')->name('leads.importbody');
