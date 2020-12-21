@@ -35,12 +35,12 @@
                   </a>
               </li>
               <!-- notification -->
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                   <a class="nav-link" id="pill-notifications" data-toggle="pill" href="#notifications" aria-expanded="false">
                       <i data-feather="bell" class="font-medium-3 mr-1"></i>
                       <span class="font-weight-bold">Notifications</span>
                   </a>
-              </li>
+              </li> --}}
           </ul>
       </div>
       <!--/ left menu section -->
