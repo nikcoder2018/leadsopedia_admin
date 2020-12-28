@@ -64,10 +64,47 @@
                             <i data-feather="circle"></i><span class="menu-item">Company</span>
                         </a>
                     </li>
-                    <li class="{{ Request::segment(1) === 'categories' ? 'active' : null }}">
-                        <a class="d-flex align-items-center" href="{{route('categories.index')}}">
-                            <i data-feather="circle"></i><span class="menu-item">Categories</span>
+                    <li class="has-sub">
+                        <a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item">Filters</span>
                         </a>
+                        <ul class="menu-content">
+                            <li class="{{ Request::segment(2) === 'title' ? 'active' : null }}">
+                                <a href="{{route('filter.title')}}" class="d-flex align-items-center">
+                                    <i data-feather="circle"></i><span class="menu-item">Title</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::segment(2) === 'industry' ? 'active' : null }}">
+                                <a href="{{route('filter.industry.index')}}" class="d-flex align-items-center">
+                                    <i data-feather="circle"></i><span class="menu-item">Industry</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::segment(2) === 'country' ? 'active' : null }}">
+                                <a href="{{route('filter.country.index')}}" class="d-flex align-items-center">
+                                    <i data-feather="circle"></i><span class="menu-item">Country</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::segment(2) === 'region' ? 'active' : null }}">
+                                <a href="{{route('filter.region.index')}}" class="d-flex align-items-center">
+                                    <i data-feather="circle"></i><span class="menu-item">Region</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::segment(2) === 'state' ? 'active' : null }}">
+                                <a href="{{route('filter.state.index')}}" class="d-flex align-items-center">
+                                    <i data-feather="circle"></i><span class="menu-item">State</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::segment(2) === 'city' ? 'active' : null }}">
+                                <a href="{{route('filter.city.index')}}" class="d-flex align-items-center">
+                                    <i data-feather="circle"></i><span class="menu-item">City</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::segment(2) === 'street' ? 'active' : null }}">
+                                <a href="{{route('filter.street.index')}}" class="d-flex align-items-center">
+                                    <i data-feather="circle"></i><span class="menu-item">street</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>

@@ -23,6 +23,16 @@ Route::group(['middleware' => ['check.admin.api_token','gate.admin.api_token', '
     Route::get('leads/all', 'LeadsController@all')->name('api.leads');
     Route::get('leads/company', 'LeadsController@company')->name('api.leads.company');
     Route::post('leads/import', 'APIController@importLeads')->name('api.leads-import');
+    Route::get('filters/titles/data', 'FiltersController@fltrTitleData')->name('api.filters.title');
+    Route::get('filters/titles/groups/data', 'FiltersController@fltrTitleGroupData')->name('api.filters.group.title');
+    Route::get('filters/industry/data', 'FilterIndustryController@data')->name('api.filters.industry');
+    Route::get('filters/industry/category/data', 'FilterIndustryCategoryController@data')->name('api.filters.industry.category');
+    Route::get('filters/country/data', 'FilterCountryController@data')->name('api.filters.country');
+    Route::get('filters/region/data', 'FilterRegionController@data')->name('api.filters.region');
+    Route::get('filters/state/data', 'FilterStateController@data')->name('api.filters.state');
+    Route::get('filters/city/data', 'FilterCityController@data')->name('api.filters.city');
+    Route::get('filters/street/data', 'FilterStreetController@data')->name('api.filters.street');
+    
     Route::get('categories/all', 'CategoriesController@all')->name('api.category.list');
     Route::get('categories/json', 'CategoriesController@getCategoryJsonAPI')->name('api.categories.json');
     Route::get('admins/all', 'AdminsController@all')->name('api.admin.lists');
