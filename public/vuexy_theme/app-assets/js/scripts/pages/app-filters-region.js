@@ -117,27 +117,34 @@ $(async function() {
                 { data: '' }
             ],
             columnDefs: [{
-                // Actions
-                targets: -1,
-                width: '80px',
-                orderable: false,
-                render: function(data, type, row, meta) {
-                    let elAction = '';
-                    if (can_edit_filters || has_full_access) {
-                        elAction += `<a class="mr-1 btn-edit text-info" href="javascript:void(0);" data-name="${row.region}" data-toggle="tooltip" data-placement="top" title="Edit">${feather.icons['edit'].toSvg({ class: 'font-medium-2' })}</a>`;
+                    targets: 0,
+                    render: (data, type, row) => {
+                        return `<span>${row.region}</span> <small class="text-muted">${row.country}</small>`;
                     }
-                    if (can_create_filters || has_full_access) {
-                        elAction += `<a class="mr-1 btn-addto text-primary" href="javascript:void(0);" data-name="${row.region}" data-toggle="tooltip" data-placement="top" title="Add to Filters">${feather.icons['plus'].toSvg({ class: 'font-medium-2' })}</a>`;
-                    }
-                    return (
-                        `<div class="d-flex align-items-center col-actions">
+                },
+                {
+                    // Actions
+                    targets: -1,
+                    width: '80px',
+                    orderable: false,
+                    render: function(data, type, row, meta) {
+                        let elAction = '';
+                        if (can_edit_filters || has_full_access) {
+                            elAction += `<a class="mr-1 btn-edit text-info" href="javascript:void(0);" data-name="${row.region}" data-toggle="tooltip" data-placement="top" title="Edit">${feather.icons['edit'].toSvg({ class: 'font-medium-2' })}</a>`;
+                        }
+                        if (can_create_filters || has_full_access) {
+                            elAction += `<a class="mr-1 btn-addto text-primary" href="javascript:void(0);" data-name="${row.region}" data-toggle="tooltip" data-placement="top" title="Add to Filters">${feather.icons['plus'].toSvg({ class: 'font-medium-2' })}</a>`;
+                        }
+                        return (
+                            `<div class="d-flex align-items-center col-actions">
                             ${elAction}
                         </div>
                         `
-                    );
+                        );
 
+                    }
                 }
-            }],
+            ],
             order: [
                 [1, 'desc']
             ],
@@ -176,7 +183,7 @@ $(async function() {
 
         edit_filter_modal.modal('show');
 
-        const filter = await $.get('/filter/region/' + id + '/edit', { type: 'current' });
+        const filter = await $.get('/filter/region/edit', { type: 'current', id });
         form.find('input[name=type]').val('current');
         form.find('input[name=id]').val(filter._id);
         form.find('input[name=name]').val(filter.name);
@@ -234,6 +241,16 @@ $(async function() {
             }
         })
     });
+    dtNewTable.on('click', '.btn-edit', async function() {
+        var form = edit_filter_modal.find('form');
+        var name = $(this).data('name');
+
+        edit_filter_modal.modal('show');
+
+        form.find('input[name=type]').val('new');
+        form.find('input[name=oldname]').val(name);
+        form.find('input[name=name]').val(name);
+    });
 
     edit_filter_modal.on('submit', 'form', function(e) {
         e.preventDefault();
@@ -242,8 +259,12 @@ $(async function() {
             url: $(this).attr('action'),
             type: 'POST',
             data: $(this).serialize(),
+            beforeSend: () => {
+                $(form).find('button[type=submit]').prop('disabled', true);
+            },
             success: function(resp) {
                 if (resp.success) {
+                    $(form).find('button[type=submit]').prop('disabled', false);
                     edit_filter_modal.modal('hide');
                     $(form)[0].reset();
 
@@ -254,6 +275,7 @@ $(async function() {
                     });
 
                     dtCurrent.ajax.reload();
+                    dtNew.ajax.reload();
                 }
             }
         });

@@ -23,7 +23,7 @@ class FilterStateController extends Controller
     public function data(Request $request){
         switch($request->type){
             case 'new': 
-                $totalData = Lead::select('state')->groupBy('state')->get()->count();
+                $totalData = Lead::select('state')->groupBy('state')->count();
                 $totalFiltered = $totalData; 
                 $current = FltrState::select('name')->get()->map(function($filter){ return $filter['name']; });
                 $columns = $request->columns;
@@ -36,6 +36,7 @@ class FilterStateController extends Controller
                 $new = Lead::select('state')
                                 ->offset($start)
                                 ->limit($limit)
+                                ->where('state', '!=', '')
                                 ->whereNotIn('state', $current);
 
                 if(!empty($request->input('search.value'))){ 
@@ -87,7 +88,7 @@ class FilterStateController extends Controller
      */
     public function store(Request $request)
     {
-        $filter = FltrState::create(['name' => $request->name]);
+        $filter = FltrState::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
         if($filter)
             return response()->json(array('success' => true, 'msg' => 'New Filter Added'));
@@ -110,15 +111,15 @@ class FilterStateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request)
     {
         switch($request->type){
             case 'new': 
-                $state = Lead::select('state')->where('state', $name)->first();
+                $state = Lead::select('state')->where('state', $request->name)->first();
                 return response()->json($state);
             break;
             case 'current': 
-                $filter = FltrState::find($id);
+                $filter = FltrState::find($request->id);
                 return response()->json($filter);
             break;
         }
@@ -135,11 +136,10 @@ class FilterStateController extends Controller
     {
         switch($request->type){
             case 'new': 
-                $leads = Lead::where('state', $request->name);
-                $leads->state = $request->name;
-                $leads->save();
+                $leads = Lead::where('state', $request->oldname)->update(['state' => $request->name]);
+                $filter = FltrState::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
-                if($leads)
+                if($leads && $filter)
                     return response()->json(array('success' => true, 'msg' => 'State Updated'));
             break;
             case 'current': 

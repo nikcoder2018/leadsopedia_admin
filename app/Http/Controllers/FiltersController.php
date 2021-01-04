@@ -28,7 +28,7 @@ class FiltersController extends Controller
     public function fltrTitleData(Request $request){
         switch($request->type){
             case 'new': 
-                $totalData = Lead::select('title')->groupBy('title')->get()->count();
+                $totalData = Lead::select('title')->groupBy('title')->count();
                 $totalFiltered = $totalData; 
                 $current = FltrTitle::select('name')->get()->map(function($filter){ return $filter['name']; });
                 $columns = $request->columns;
@@ -36,7 +36,7 @@ class FiltersController extends Controller
                 $start = intval($request->input('start'));
                 $order = $columns[intval($request->input('order.0.column'))];
                 $dir = $request->input('order.0.dir');
-
+                
                 $search = $request->input('search.value');
                 $new = Lead::select('title')
                                 ->offset($start)
@@ -76,19 +76,20 @@ class FiltersController extends Controller
     }
 
     public function fltrTitleAdd(Request $request){
-        $filter = FltrTitle::create(['name' => $request->name]);
+
+        $filter = FltrTitle::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
         if($filter)
             return response()->json(array('success' => true, 'msg' => 'New Filter Added'));
     }
-    public function fltrTitleEdit(Request $request, $id){
+    public function fltrTitleEdit(Request $request){
         switch($request->type){
             case 'new': 
-                $title = Lead::select('title')->where('title', $name)->first();
+                $title = Lead::select('title')->where('title', $request->name)->first();
                 return response()->json($title);
             break;
             case 'current': 
-                $filter = FltrTitle::find($id);
+                $filter = FltrTitle::find($request->id);
                 return response()->json($filter);
             break;
         }
@@ -96,11 +97,9 @@ class FiltersController extends Controller
     public function fltrTitleUpdate(Request $request){
         switch($request->type){
             case 'new': 
-                $leads = Lead::where('title', $request->name);
-                $leads->title = $request->name;
-                $leads->save();
-
-                if($leads)
+                $leads = Lead::where('title', $request->oldname)->update(['title'=>$request->name]);
+                $filter = FltrTitle::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
+                if($leads && $filter)
                     return response()->json(array('success' => true, 'msg' => 'Title Updated'));
             break;
             case 'current': 

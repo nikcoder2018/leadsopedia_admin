@@ -23,7 +23,7 @@ class FilterCityController extends Controller
     public function data(Request $request){
         switch($request->type){
             case 'new': 
-                $totalData = Lead::select('city')->groupBy('city')->get()->count();
+                $totalData = Lead::select('city')->groupBy('city')->count();
                 $totalFiltered = $totalData; 
                 $current = FltrCity::select('name')->get()->map(function($filter){ return $filter['name']; });
                 $columns = $request->columns;
@@ -36,6 +36,7 @@ class FilterCityController extends Controller
                 $new = Lead::select('city')
                                 ->offset($start)
                                 ->limit($limit)
+                                ->where('city', '!=', '')
                                 ->whereNotIn('city', $current);
 
                 if(!empty($request->input('search.value'))){ 
@@ -87,7 +88,7 @@ class FilterCityController extends Controller
      */
     public function store(Request $request)
     {
-        $filter = FltrCity::create(['name' => $request->name]);
+        $filter = FltrCity::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
         if($filter)
             return response()->json(array('success' => true, 'msg' => 'New Filter Added'));
@@ -110,15 +111,15 @@ class FilterCityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request)
     {
         switch($request->type){
             case 'new': 
-                $city = Lead::select('city')->where('city', $name)->first();
+                $city = Lead::select('city')->where('city', $request->name)->first();
                 return response()->json($city);
             break;
             case 'current': 
-                $filter = FltrCity::find($id);
+                $filter = FltrCity::find($request->id);
                 return response()->json($filter);
             break;
         }
@@ -135,11 +136,10 @@ class FilterCityController extends Controller
     {
         switch($request->type){
             case 'new': 
-                $leads = Lead::where('city', $request->city);
-                $leads->city = $request->name;
-                $leads->save();
+                $leads = Lead::where('city', $request->oldname)->update(['city' => $request->name]);
+                $filter = FltrCity::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
-                if($leads)
+                if($leads && $filter)
                     return response()->json(array('success' => true, 'msg' => 'City Updated'));
             break;
             case 'current': 

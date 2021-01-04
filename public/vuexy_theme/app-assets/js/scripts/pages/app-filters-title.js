@@ -176,10 +176,10 @@ $(async function() {
     dtCurrentTable.on('click', '.btn-edit', async function() {
         var form = edit_filter_modal.find('form');
         var id = $(this).data('id');
-
+        form[0].reset();
         edit_filter_modal.modal('show');
 
-        const filter = await $.get('/filter/title/' + id + '/edit', { type: 'current' });
+        const filter = await $.get('/filter/title/edit', { type: 'current', id });
         form.find('input[name=type]').val('current');
         form.find('input[name=id]').val(filter._id);
         form.find('input[name=name]').val(filter.name);
@@ -219,6 +219,7 @@ $(async function() {
         addto_group_modal.find('input[name=id]').val(id);
         addto_group_modal.modal('show');
     });
+
     edit_filter_modal.on('submit', 'form', function(e) {
         e.preventDefault();
         var form = this;
@@ -226,8 +227,12 @@ $(async function() {
             url: $(this).attr('action'),
             type: 'POST',
             data: $(this).serialize(),
+            beforeSend: () => {
+                $(form).find('button[type=submit]').prop('disabled', true);
+            },
             success: function(resp) {
                 if (resp.success) {
+                    $(form).find('button[type=submit]').prop('disabled', false);
                     edit_filter_modal.modal('hide');
                     $(form)[0].reset();
 
@@ -238,6 +243,7 @@ $(async function() {
                     });
 
                     dtCurrent.ajax.reload();
+                    dtNew.ajax.reload();
                 }
             }
         });
@@ -289,6 +295,16 @@ $(async function() {
         })
     });
 
+    dtNewTable.on('click', '.btn-edit', async function() {
+        var form = edit_filter_modal.find('form');
+        var name = $(this).data('name');
+
+        edit_filter_modal.modal('show');
+
+        form.find('input[name=type]').val('new');
+        form.find('input[name=oldname]').val(name);
+        form.find('input[name=name]').val(name);
+    });
 
     $('.select2').each(function() {
         var $this = $(this);

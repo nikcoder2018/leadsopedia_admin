@@ -74,6 +74,7 @@
                     @csrf
                     <input type="hidden" name="type" value="">
                     <input type="hidden" name="id" value="">
+                    <input type="hidden" name="oldname" value="">
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Name</label>
@@ -82,7 +83,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Save & Add to Filters</button>
                     </div>
                 </form>
             </div>

@@ -26,7 +26,7 @@ class FilterIndustryController extends Controller
     public function data(Request $request){
         switch($request->type){
             case 'new': 
-                $totalData = Lead::select('industry')->groupBy('industry')->get()->count();
+                $totalData = Lead::select('industry')->groupBy('industry')->count();
                 $totalFiltered = $totalData; 
                 $current = FltrIndustry::select('name')->get()->map(function($filter){ return $filter['name']; });
                 $columns = $request->columns;
@@ -39,6 +39,7 @@ class FilterIndustryController extends Controller
                 $new = Lead::select('industry')
                                 ->offset($start)
                                 ->limit($limit)
+                                ->where('industry', '!=', '')
                                 ->whereNotIn('industry', $current);
 
                 if(!empty($request->input('search.value'))){ 
@@ -92,7 +93,7 @@ class FilterIndustryController extends Controller
      */
     public function store(Request $request)
     {
-        $filter = FltrIndustry::create(['name' => $request->name]);
+        $filter = FltrIndustry::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
         if($filter)
             return response()->json(array('success' => true, 'msg' => 'New Filter Added'));
@@ -115,15 +116,15 @@ class FilterIndustryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request)
     {
         switch($request->type){
             case 'new': 
-                $title = Lead::select('title')->where('title', $name)->first();
-                return response()->json($title);
+                $industry = Lead::select('industry')->where('industry', $request->name)->first();
+                return response()->json($industry);
             break;
             case 'current': 
-                $filter = FltrIndustry::find($id);
+                $filter = FltrIndustry::find($request->id);
                 return response()->json($filter);
             break;
         }
@@ -140,11 +141,10 @@ class FilterIndustryController extends Controller
     {
         switch($request->type){
             case 'new': 
-                $leads = Lead::where('title', $request->name);
-                $leads->title = $request->name;
-                $leads->save();
+                $leads = Lead::where('industry', $request->oldname)->update(['industry' => $request->name]);
+                $filter = FltrIndustry::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
-                if($leads)
+                if($leads && $filter)
                     return response()->json(array('success' => true, 'msg' => 'Industry Updated'));
             break;
             case 'current': 

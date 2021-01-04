@@ -36,6 +36,7 @@ class FilterCountryController extends Controller
                 $new = Lead::select('country')
                                 ->offset($start)
                                 ->limit($limit)
+                                ->where('country', '!=', '')
                                 ->whereNotIn('country', $current);
 
                 if(!empty($request->input('search.value'))){ 
@@ -88,7 +89,7 @@ class FilterCountryController extends Controller
      */
     public function store(Request $request)
     {
-        $filter = FltrCountry::create(['name' => $request->name]);
+        $filter = FltrCountry::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
         if($filter)
             return response()->json(array('success' => true, 'msg' => 'New Filter Added'));
@@ -111,15 +112,15 @@ class FilterCountryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request)
     {
         switch($request->type){
             case 'new': 
-                $country = Lead::select('country')->where('country', $name)->first();
-                return response()->json($title);
+                $country = Lead::select('country')->where('country', $request->name)->first();
+                return response()->json($country);
             break;
             case 'current': 
-                $filter = FltrCountry::find($id);
+                $filter = FltrCountry::find($request->id);
                 return response()->json($filter);
             break;
         }
@@ -136,11 +137,10 @@ class FilterCountryController extends Controller
     {
         switch($request->type){
             case 'new': 
-                $leads = Lead::where('country', $request->name);
-                $leads->country = $request->name;
-                $leads->save();
+                $leads = Lead::where('country', $request->oldname)->update(['country' => $request->name]);
+                $filter = FltrCountry::where('name', $request->name)->update(['name' => $request->name], ['upsert' => true]);
 
-                if($leads)
+                if($leads && $filter)
                     return response()->json(array('success' => true, 'msg' => 'Country Updated'));
             break;
             case 'current': 

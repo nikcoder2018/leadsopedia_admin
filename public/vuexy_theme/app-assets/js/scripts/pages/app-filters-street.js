@@ -176,7 +176,7 @@ $(async function() {
 
         edit_filter_modal.modal('show');
 
-        const filter = await $.get('/filter/street/' + id + '/edit', { type: 'current' });
+        const filter = await $.get('/filter/street/edit', { type: 'current', id });
         form.find('input[name=type]').val('current');
         form.find('input[name=id]').val(filter._id);
         form.find('input[name=name]').val(filter.name);
@@ -234,7 +234,16 @@ $(async function() {
             }
         })
     });
+    dtNewTable.on('click', '.btn-edit', async function() {
+        var form = edit_filter_modal.find('form');
+        var name = $(this).data('name');
 
+        edit_filter_modal.modal('show');
+
+        form.find('input[name=type]').val('new');
+        form.find('input[name=oldname]').val(name);
+        form.find('input[name=name]').val(name);
+    });
     edit_filter_modal.on('submit', 'form', function(e) {
         e.preventDefault();
         var form = this;
@@ -242,8 +251,12 @@ $(async function() {
             url: $(this).attr('action'),
             type: 'POST',
             data: $(this).serialize(),
-            success: function(resp) {
+            beforeSend: () => {
+                $(form).find('button[type=submit]').prop('disabled', true);
+            },
+            success: (resp) => {
                 if (resp.success) {
+                    $(form).find('button[type=submit]').prop('disabled', false);
                     edit_filter_modal.modal('hide');
                     $(form)[0].reset();
 
@@ -254,6 +267,7 @@ $(async function() {
                     });
 
                     dtCurrent.ajax.reload();
+                    dtNew.ajax.reload();
                 }
             }
         });

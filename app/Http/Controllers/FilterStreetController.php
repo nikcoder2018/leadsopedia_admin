@@ -23,7 +23,7 @@ class FilterStreetController extends Controller
     public function data(Request $request){
         switch($request->type){
             case 'new': 
-                $totalData = Lead::select('street')->groupBy('street')->get()->count();
+                $totalData = Lead::select('street')->groupBy('street')->count();
                 $totalFiltered = $totalData; 
                 $current = FltrStreet::select('name')->get()->map(function($filter){ return $filter['name']; });
                 $columns = $request->columns;
@@ -33,16 +33,18 @@ class FilterStreetController extends Controller
                 $dir = $request->input('order.0.dir');
 
                 $search = $request->input('search.value');
-                $new = Lead::select('region')
+                $new = Lead::select('street')
                                 ->offset($start)
                                 ->limit($limit)
-                                ->whereNotIn('region', $current);
-
+                                ->where('street', '!=', '')
+                                ->whereNotIn('street', $current)->groupBy('street')->orderBy('street',$dir);
+                                return response()->json($new->get());               
+                exit;
                 if(!empty($request->input('search.value'))){ 
-                    $new = $new->where('region', 'LIKE', $search.'%');
+                    $new = $new->where('street', 'LIKE', $search.'%');
                 }
 
-                $new = $new->groupBy('region')->orderBy('region',$dir)->get();
+                $new = $new->groupBy('street')->orderBy('street',$dir)->get();
 
                 $json_data = array(
                     "draw"            => intval($request->input('draw')),  
@@ -135,9 +137,7 @@ class FilterStreetController extends Controller
     {
         switch($request->type){
             case 'new': 
-                $leads = Lead::where('street', $request->name);
-                $leads->street = $request->name;
-                $leads->save();
+                $leads = Lead::where('street', $request->oldname)->update(['street' => $request->name]);
 
                 if($leads)
                     return response()->json(array('success' => true, 'msg' => 'Street Updated'));

@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('leads/exportpdf', 'LeadsController@exportpdf')->name('leads.exportpdf');
 
     Route::get('filter/title', 'FiltersController@fltrTitleIndex')->name('filter.title');
-    Route::get('filter/title/{name}/edit', 'FiltersController@fltrTitleEdit');
+    Route::get('filter/title/edit', 'FiltersController@fltrTitleEdit');
     Route::post('filter/title/add', 'FiltersController@fltrTitleAdd')->name('filter.title.add');
     Route::post('filter/title/update', 'FiltersController@fltrTitleUpdate')->name('filter.title.update');
     Route::get('filter/title/{id}/delete', 'FiltersController@fltrTitleDelete')->name('filter.title.Delete');
@@ -51,7 +51,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('filter/title/groups/addfilter', 'FiltersController@fltrTitleGroupAddFilter')->name('filter.title.group.addfilter');
     Route::get('filter/title/groups/{id}/delete', 'FiltersController@fltrTitleGroupDelete')->name('filter.title.group.delete');
 
-    Route::resource('filter/industry', 'FilterIndustryController', array('as' => 'filter', 'except' => ['update','delete','show']));
+    Route::resource('filter/industry', 'FilterIndustryController', array('as' => 'filter', 'except' => ['edit','update','delete','show']));
+    Route::get('/filter/industry/edit', 'FilterIndustryController@edit')->name('filter.industry.edit');
     Route::post('/filter/industry/update', 'FilterIndustryController@update')->name('filter.industry.update');
     Route::get('/filter/industry/{id}/delete', 'FilterIndustryController@destroy')->name('filter.industry.delete');
     
@@ -60,19 +61,23 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/filter/industry/category/update', 'FilterIndustryCategoryController@update')->name('filter.industry.category.update');
     Route::get('/filter/industry/category/{id}/delete', 'FilterIndustryCategoryController@destroy')->name('filter.industry.category.delete');
     
-    Route::resource('filter/country', 'FilterCountryController', array('as' => 'filter', 'except' => ['update','delete','show']));
+    Route::resource('filter/country', 'FilterCountryController', array('as' => 'filter', 'except' => ['update','delete','show', 'edit']));
+    Route::get('/filter/country/edit', 'FilterCountryController@edit')->name('filter.country.edit');
     Route::post('/filter/country/update', 'FilterCountryController@update')->name('filter.country.update');
     Route::get('/filter/country/{id}/delete', 'FilterCountryController@destroy')->name('filter.country.delete');
     
-    Route::resource('filter/region', 'FilterRegionController', array('as' => 'filter', 'except' => ['update','delete','show']));
+    Route::resource('filter/region', 'FilterRegionController', array('as' => 'filter', 'except' => ['edit','update','delete','show']));
+    Route::get('/filter/region/edit', 'FilterRegionController@edit')->name('filter.region.edit');
     Route::post('/filter/region/update', 'FilterRegionController@update')->name('filter.region.update');
     Route::get('/filter/region/{id}/delete', 'FilterRegionController@destroy')->name('filter.region.delete');
     
-    Route::resource('filter/state', 'FilterStateController', array('as' => 'filter', 'except' => ['update','delete','show']));
+    Route::resource('filter/state', 'FilterStateController', array('as' => 'filter', 'except' => ['edit','update','delete','show']));
+    Route::get('/filter/state/edit', 'FilterStateController@edit')->name('filter.state.edit');
     Route::post('/filter/state/update', 'FilterStateController@update')->name('filter.state.update');
     Route::get('/filter/state/{id}/delete', 'FilterStateController@destroy')->name('filter.state.delete');
     
-    Route::resource('filter/city', 'FilterCityController', array('as' => 'filter', 'except' => ['update','delete','show']));
+    Route::resource('filter/city', 'FilterCityController', array('as' => 'filter', 'except' => ['edit','update','delete','show']));
+    Route::get('/filter/city/edit', 'FilterCityController@edit')->name('filter.city.edit');
     Route::post('/filter/city/update', 'FilterCityController@update')->name('filter.city.update');
     Route::get('/filter/city/{id}/delete', 'FilterCityController@destroy')->name('filter.city.delete');
     

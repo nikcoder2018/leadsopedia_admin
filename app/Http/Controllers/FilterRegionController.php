@@ -24,7 +24,7 @@ class FilterRegionController extends Controller
     public function data(Request $request){
         switch($request->type){
             case 'new': 
-                $totalData = Lead::select('region')->groupBy('region')->get()->count();
+                $totalData = Lead::select('region')->groupBy('region')->count();
                 $totalFiltered = $totalData; 
                 $current = FltrRegion::select('name')->get()->map(function($filter){ return $filter['name']; });
                 $columns = $request->columns;
@@ -34,9 +34,10 @@ class FilterRegionController extends Controller
                 $dir = $request->input('order.0.dir');
 
                 $search = $request->input('search.value');
-                $new = Lead::select('region')
+                $new = Lead::select('country','region')
                                 ->offset($start)
                                 ->limit($limit)
+                                ->where('region', '!=', '')
                                 ->whereNotIn('region', $current);
 
                 if(!empty($request->input('search.value'))){ 
@@ -88,7 +89,7 @@ class FilterRegionController extends Controller
      */
     public function store(Request $request)
     {
-        $filter = FltrRegion::create(['name' => $request->name]);
+        $filter = FltrRegion::where('name',$request->name)->update(['name' => $request->name],['upsert' => true]);
 
         if($filter)
             return response()->json(array('success' => true, 'msg' => 'New Filter Added'));
@@ -111,15 +112,15 @@ class FilterRegionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request)
     {
         switch($request->type){
             case 'new': 
-                $region = Lead::select('region')->where('region', $name)->first();
+                $region = Lead::select('region')->where('region', $request->name)->first();
                 return response()->json($region);
             break;
             case 'current': 
-                $filter = FltrRegion::find($id);
+                $filter = FltrRegion::find($request->id);
                 return response()->json($filter);
             break;
         }
@@ -136,11 +137,10 @@ class FilterRegionController extends Controller
     {
         switch($request->type){
             case 'new': 
-                $leads = Lead::where('region', $request->name);
-                $leads->region = $request->name;
-                $leads->save();
+                $leads = Lead::where('region', $request->oldname)->update(['region'=>$request->name]);
+                $filter = FltrRegion::where('name',$request->name)->update(['name' => $request->name],['upsert' => true]);
 
-                if($leads)
+                if($leads && $filter)
                     return response()->json(array('success' => true, 'msg' => 'Region Updated'));
             break;
             case 'current': 
