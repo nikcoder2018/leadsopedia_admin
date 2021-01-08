@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => ['check.admin.api_token','gate.admin.api_token', 'auth:api']], function(){
+Route::group(['middleware' => ['check.admin.api_token', 'gate.admin.api_token', 'auth:api']], function () {
     Route::get('dashboard/data', 'DashboardController@data');
     Route::get('leads/all', 'LeadsController@all')->name('api.leads');
     Route::get('leads/company', 'LeadsController@company')->name('api.leads.company');
@@ -32,13 +32,13 @@ Route::group(['middleware' => ['check.admin.api_token','gate.admin.api_token', '
     Route::get('filters/state/data', 'FilterStateController@data')->name('api.filters.state');
     Route::get('filters/city/data', 'FilterCityController@data')->name('api.filters.city');
     Route::get('filters/street/data', 'FilterStreetController@data')->name('api.filters.street');
-    
+
     Route::get('categories/all', 'CategoriesController@all')->name('api.category.list');
     Route::get('categories/json', 'CategoriesController@getCategoryJsonAPI')->name('api.categories.json');
     Route::get('admins/all', 'AdminsController@all')->name('api.admin.lists');
     Route::get('customers/all', 'CustomersController@all')->name('api.customers.lists');
     Route::get('subscriptions/all', 'SubscriptionsController@all')->name('api.subscriptions.lists');
-    
+
     Route::get('transactions/all', 'TransactionsController@getAllTransactions')->name('api.transactions.lists');
     Route::get('transactions/archivelist', 'TransactionsController@getAllTransactionsArchive')->name('api.transactions.archivelist');
     Route::get('countries', 'APIController@countries')->name('api.countries');
@@ -54,6 +54,7 @@ Route::group(['middleware' => ['check.admin.api_token','gate.admin.api_token', '
     Route::get('reports/sales/new', 'ReportsController@salesnewAPI');
     Route::get('reports/sales/renew', 'ReportsController@salesrenewAPI');
 
+    Route::apiResource('/settings/email-templates', 'EmailTemplateController');
 
     Route::get('settings/init', 'SettingsController@init');
 });

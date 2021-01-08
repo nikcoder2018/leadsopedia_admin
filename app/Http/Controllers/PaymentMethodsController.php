@@ -8,6 +8,7 @@ use App\PaymentMethod;
 use App\PaymentMethodData;
 
 use DataTables;
+
 class PaymentMethodsController extends Controller
 {
     /**
@@ -20,7 +21,8 @@ class PaymentMethodsController extends Controller
         //
     }
 
-    public function all(){
+    public function all()
+    {
         $payments = PaymentMethod::all();
         return DataTables::of(ResourcePaymentMethod::collection($payments))->toJson();
     }
@@ -46,14 +48,14 @@ class PaymentMethodsController extends Controller
             'name' => 'required:max:64',
             'description' => 'max:64'
         ]);
-        
+
         $newPaymentMethod = PaymentMethod::create([
             'name' => $validated['name'],
             'description' => $validated['description']
         ]);
 
-        if($request->get('attributes')){
-            foreach($request->get('attributes') as $attribute){
+        if ($request->get('attributes')) {
+            foreach ($request->get('attributes') as $attribute) {
                 PaymentMethodData::create([
                     'method_id' => $newPaymentMethod->id,
                     'name' => $attribute['name'],
@@ -74,7 +76,6 @@ class PaymentMethodsController extends Controller
      */
     public function show($id)
     {
-        
     }
 
     /**
@@ -107,11 +108,11 @@ class PaymentMethodsController extends Controller
         $paymentMethod->name = $validated['name'];
         $paymentMethod->description = $validated['description'];
         $paymentMethod->save();
-        
+
         PaymentMethodData::where('method_id', $paymentMethod->id)->delete();
 
-        if($request->get('attributes')){
-            foreach($request->get('attributes') as $attribute){
+        if ($request->get('attributes')) {
+            foreach ($request->get('attributes') as $attribute) {
                 PaymentMethodData::create([
                     'method_id' => $paymentMethod->id,
                     'name' => $attribute['name'],
@@ -133,7 +134,7 @@ class PaymentMethodsController extends Controller
     public function destroy($id)
     {
         $delete = PaymentMethod::find($id)->delete();
-        if($delete)
+        if ($delete)
             return response()->json(array('success' => true, 'msg' => 'Payment Method Deleted.', 'id' => $id));
     }
 }
