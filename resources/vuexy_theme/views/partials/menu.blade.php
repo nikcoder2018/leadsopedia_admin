@@ -2,10 +2,10 @@
 <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header mb-2">
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto" style="margin-top: .5rem !important">
+            <li class="nav-item mr-auto align-self-center">
                 <a class="navbar-brand" href="{{route('dashboard')}}" style="margin-top: 0 !important">
                     <span class="brand-logo">
-                        <img src="{{asset(env('APP_THEME','default').'/images/logo-default.png')}}" alt="">
+                        <img src="{{asset(env('APP_THEME','default').'/images/logo-new-full.svg')}}" style="max-height: 25px;" alt="">
                     </span>
                 </a>
             </li>
