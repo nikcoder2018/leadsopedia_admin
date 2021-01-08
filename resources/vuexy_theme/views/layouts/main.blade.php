@@ -51,31 +51,40 @@
 
 <body class="vertical-layout vertical-menu-modern light-layout  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="" data-layout="dark-layout">
 
-    @include('partials.header')
+    <div id="main-content-wrapper" class="d-none">
+        @include('partials.header')
 
-    @include('partials.menu')
+        @include('partials.menu')
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content ">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
-                @yield('header')
-            </div>
-            <div class="content-body">
-                @yield('content')
+        @include('partials.customizer')
+
+        <!-- BEGIN: Content-->
+        <div class="app-content content ">
+            <div class="content-overlay"></div>
+            <div class="header-navbar-shadow"></div>
+            <div class="content-wrapper">
+                <div class="content-header row">
+                    @yield('header')
+                </div>
+                <div class="content-body">
+                    @yield('content')
+                </div>
             </div>
         </div>
+        <!-- END: Content-->
+
+        <div class="sidenav-overlay"></div>
+        <div class="drag-target"></div>
+
+        @include('partials.footer')
+
+        @yield('modals')
     </div>
-    <!-- END: Content-->
-
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
-
-    @include('partials.footer')
-
-    @yield('modals')
+    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100vh; width: 100%;"
+        id="loading-content">
+        <img src="{{ asset(env('APP_THEME', 'default') . '/images/logo-new-full.svg') }}" alt=""
+            style="max-height: 60px;">
+    </div>
     
     <!-- BEGIN: Vendor JS-->
     <script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/vendors.min.js')}}"></script>
@@ -91,6 +100,7 @@
     <!-- BEGIN: Theme JS-->
     <script src="{{asset(env('APP_THEME','default').'/app-assets/js/core/app-menu.js')}}"></script>
     <script src="{{asset(env('APP_THEME','default').'/app-assets/js/core/app.js')}}"></script>
+    <script src="{{ asset(env('APP_THEME', 'default') . '/app-assets/js/scripts/customizer.js') }}"></script>
     <!-- END: Theme JS-->
 
     @yield('external_js')
