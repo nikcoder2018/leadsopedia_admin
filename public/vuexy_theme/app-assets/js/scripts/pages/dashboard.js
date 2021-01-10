@@ -220,7 +220,9 @@ $(window).on('load', function() {
     });
 
     $.get('/api/dashboard/data', { type: 'newaccounts', api_token }).then(result => {
+        listNewAccounts.empty();
         $.each(result.accounts, function(index, account) {
+            let title = account.subscription != null ? account.subscription.title : 'Undecided';
             listNewAccounts.append(`
             <div class="transaction-item">
                 <div class="media">
@@ -231,7 +233,7 @@ $(window).on('load', function() {
                     </div>
                     <div class="media-body">
                         <h6 class="transaction-title">${account.name}</h6>
-                        <small>${account.subscription.title}</small>
+                        <small>${title}</small>
                     </div>
                 </div>
                 <span class="font-small-2">${account.dateregistered}</span>

@@ -162,7 +162,7 @@
                     <h4 class="card-title">New Accounts</h4>
                 </div>
                 <div class="card-body list-new-accounts">
-                    
+                    <p class="text-muted">No results found</p>
                 </div>
             </div>
         </div>

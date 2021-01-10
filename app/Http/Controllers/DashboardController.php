@@ -40,7 +40,6 @@ class DashboardController extends Controller
             break;
 
             case 'credits': 
-                $total_credits = 0;
                 $total_unused_credits = 0;
                 $total_used_credits = 0;
                 $int_zb = Integration::where('app_key','zero_bounce')->where('scope','backend')->where('status', 'enabled')->first();
@@ -48,11 +47,15 @@ class DashboardController extends Controller
                     $zp_api_key = IntegrationDataDefault::where('integration_id', $int_zb->id)->where('name', 'api_key')->first()->value;
                     $zb = new ZeroBounce($zp_api_key);
                     $total_unused_credits += $zb->getCredits()['Credits'];
+                    $total_used_credits += $zb->getAPIUsage('2021-01-01',date('Y-m-d'))['total'];
                 }
-                $data['totalCredits'] = $total_credits;
                 $data['totalUnusedCredits'] = $total_unused_credits;
                 $data['totalUsedCredits'] = $total_used_credits;
-                $data['percentage'] = $total_credits > 0 ? ($total_used_credits/$total_credits)*100 : 0;
+                
+                $total_credits = $total_unused_credits+$total_used_credits;
+                $data['totalCredits'] = $total_credits;
+
+                $data['percentage'] = $total_credits > 0 ? number_format((100)-(($total_used_credits/$total_credits)*100),0) : 0;
                 return response()->json($data);
             break;
 
