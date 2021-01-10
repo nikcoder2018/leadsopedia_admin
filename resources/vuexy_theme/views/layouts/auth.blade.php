@@ -56,7 +56,7 @@
                             <div class="card-body">
                                 <a href="javascript:void(0);" class="brand-logo">
                                     <span class="brand-logo">
-                                        <img src="{{asset(env('APP_THEME','default').'/images/logo-default.png')}}" width="230px">
+                                        <img src="{{asset(env('APP_THEME','default').'/images/logo-new-full.svg')}}" style="max-height: 40px;">
                                     </span>
                                 </a>
 
