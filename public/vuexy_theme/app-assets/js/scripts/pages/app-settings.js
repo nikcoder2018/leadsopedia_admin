@@ -274,9 +274,7 @@ $(async function () {
             form.find("input#subject").val(data.subject);
             form.find(`input[name="_method"]`).val("PUT");
             form.attr("action", `/api/settings/email-templates/${id}`);
-            quill.clipboard.dangerouslyPasteHTML(
-                $.parseHTML(data.body)[0].outerHTML
-            );
+            quill.clipboard.dangerouslyPasteHTML(data.body);
             $("#addEmailTemplateModalLabel").text("Edit Email Template");
             const modal = $("#add-email-template-modal");
             modal.modal("show");
