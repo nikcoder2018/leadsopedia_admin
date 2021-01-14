@@ -274,9 +274,7 @@ $(async function () {
             form.find("input#subject").val(data.subject);
             form.find(`input[name="_method"]`).val("PUT");
             form.attr("action", `/api/settings/email-templates/${id}`);
-            quill.clipboard.dangerouslyPasteHTML(
-                $.parseHTML(data.body)[0].outerHTML
-            );
+            quill.clipboard.dangerouslyPasteHTML(data.body);
             $("#addEmailTemplateModalLabel").text("Edit Email Template");
             const modal = $("#add-email-template-modal");
             modal.modal("show");
@@ -285,23 +283,24 @@ $(async function () {
             });
         });
 
+        const deleteEmailTemplateButton = $("#delete-email-template-button");
+        const deteteEmailTemplateModal = $("#delete-email-template-modal");
+
         emailTemplatesTable.on("click", ".btn-delete", async function () {
             const id = $(this).attr("data-id");
-            const modal = $("#delete-email-template-modal");
-            const button = $("#delete-email-template-button");
-            button.attr("data-id", id);
-            button.on("click", () => {
-                modal.on("hidden.bs.modal", async () => {
-                    await axios.delete(
-                        `/api/settings/email-templates/${id}?api_token=${api_token}`
-                    );
-                    toastr.success("Email template deleted successfully.");
-                    datatable.ajax.reload();
-                    button.attr("data-id", "-1");
-                });
-                modal.modal("hide");
-            });
-            modal.modal("show");
+            deleteEmailTemplateButton.attr("data-id", id);
+            deteteEmailTemplateModal.modal("show");
+        });
+
+        deleteEmailTemplateButton.on("click", async () => {
+            const id = deleteEmailTemplateButton.attr("data-id");
+            deteteEmailTemplateModal.modal("hide");
+            await axios.delete(
+                `/api/settings/email-templates/${id}?api_token=${api_token}`
+            );
+            toastr.success("Email template deleted successfully.");
+            datatable.ajax.reload();
+            button.attr("data-id", "-1");
         });
     })();
 
