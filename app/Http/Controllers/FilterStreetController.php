@@ -38,8 +38,7 @@ class FilterStreetController extends Controller
                                 ->limit($limit)
                                 ->where('street', '!=', '')
                                 ->whereNotIn('street', $current)->groupBy('street')->orderBy('street',$dir);
-                                return response()->json($new->get());               
-                exit;
+     
                 if(!empty($request->input('search.value'))){ 
                     $new = $new->where('street', 'LIKE', $search.'%');
                 }
