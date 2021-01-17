@@ -2,7 +2,7 @@
 
 @section('content')
 <h4 class="card-title mb-1">Welcome Back! 👋</h4>
-<p class="card-text mb-2">Sign in to Leasopedia Admin Panel</p>
+<p class="card-text mb-2">Sign in to Leadsopedia Admin Panel</p>
 
 <form class="auth-login-form mt-2" action="{{route('login')}}" method="POST">
     @csrf
