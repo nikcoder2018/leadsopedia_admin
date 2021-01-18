@@ -22,7 +22,9 @@ Route::group(['middleware' => ['check.admin.api_token', 'gate.admin.api_token', 
     Route::get('dashboard/data', 'DashboardController@data');
     Route::get('leads/all', 'LeadsController@all')->name('api.leads');
     Route::get('leads/company', 'LeadsController@company')->name('api.leads.company');
+    Route::get('leads/stats', 'LeadsController@statsData');
     Route::post('leads/import', 'APIController@importLeads')->name('api.leads-import');
+    
     Route::get('filters/titles/data', 'FiltersController@fltrTitleData')->name('api.filters.title');
     Route::get('filters/titles/groups/data', 'FiltersController@fltrTitleGroupData')->name('api.filters.group.title');
     Route::get('filters/industry/data', 'FilterIndustryController@data')->name('api.filters.industry');

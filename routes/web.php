@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('profile/change-password', 'ProfilesController@changePassword')->name('profile.change.password');
 
     Route::resource('leads', 'LeadsController', ['except' => ['show', 'update', 'destroy']]);
+    Route::get('leads/contacts', 'LeadsController@index')->name('leads.contacts');
     Route::get('leads/company', 'LeadsController@company')->name('leads.company');
     Route::get('leads/{id}/delete', 'LeadsController@destroy')->name('leads.delete');
     Route::get('leads/import/{id}', 'LeadsController@import')->name('leads.import');
@@ -37,7 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('leads/uploadcsv', 'LeadsController@uploadcsv')->name('leads.uploadcsv');
     Route::get('leads/exportcsv', 'LeadsController@exportcsv')->name('leads.exportcsv');
     Route::get('leads/exportpdf', 'LeadsController@exportpdf')->name('leads.exportpdf');
-
+    Route::get('leads/statistics', 'LeadsController@stats')->name('leads.stats');
+    
     Route::get('filter/title', 'FiltersController@fltrTitleIndex')->name('filter.title');
     Route::get('filter/title/edit', 'FiltersController@fltrTitleEdit');
     Route::post('filter/title/add', 'FiltersController@fltrTitleAdd')->name('filter.title.add');

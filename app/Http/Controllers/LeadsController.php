@@ -32,6 +32,41 @@ class LeadsController extends Controller
         return view('contents.leads', $data);
     }
 
+    public function statsData(){
+        $results = Lead::where('country', '!=', '')->raw(function($collection){
+            return $collection->aggregate(array(
+                array(
+                    '$group' => array(
+                        '_id' => array(
+                            'country' => '$country'
+                        ),
+                        'total' => array('$sum' => 1)
+                    )
+                ),
+                array('$sort' => array(
+                    'country' => 1
+                ))
+            ));
+        });
+
+        $countries = array();
+        $data = array();
+        foreach($results as $result){
+            array_push($countries, $result['_id']['country'] != "" ? $result['_id']['country'] : "No Country");
+            array_push($data, $result['total'] > 1 ? $result['total'] : 0);
+        }
+        return [
+            'countries' => $countries,
+            'data' => $data
+        ];
+    }
+
+    public function stats(){
+        $data['title'] = 'Leads Statistics';
+        $data['total_leads'] = Lead::count();
+        return view('contents.leadstat', $data);
+    }
+
     public function company(Request $request)
     {
         abort_unless(Gate::any(['full_access','leads_show']), 404);

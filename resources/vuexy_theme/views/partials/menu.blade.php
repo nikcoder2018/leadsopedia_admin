@@ -54,14 +54,26 @@
             <li class="nav-item"><a class="d-flex align-items-center" href="#">
                 <i data-feather='database'></i><span class="menu-title text-truncate">Data Leads</span></a>
                 <ul class="menu-content">
-                    <li class="{{ Request::segment(1) === 'leads' ? 'active' : null }}">
-                        <a class="d-flex align-items-center" href="{{route('leads.index')}}">
-                            <i data-feather="circle"></i><span class="menu-item">Contacts</span>
+                    <li class="has-sub">
+                        <a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item">Data</span>
                         </a>
+                        <ul class="menu-content">
+                            <li class="{{ Request::segment(2) === 'contacts' ? 'active' : null }}">
+                                <a class="d-flex align-items-center" href="{{route('leads.contacts')}}">
+                                    <i data-feather="circle"></i><span class="menu-item">Contacts</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::segment(2) === 'company' ? 'active' : null }}">
+                                <a class="d-flex align-items-center" href="{{route('leads.company')}}">
+                                    <i data-feather="circle"></i><span class="menu-item">Company</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="{{ Request::segment(2) === 'company' ? 'active' : null }}">
-                        <a class="d-flex align-items-center" href="{{route('leads.company')}}">
-                            <i data-feather="circle"></i><span class="menu-item">Company</span>
+                    <li class="{{ Request::segment(2) === 'statistics' ? 'active' : null }}">
+                        <a class="d-flex align-items-center" href="{{route('leads.stats')}}">
+                            <i data-feather="circle"></i><span class="menu-item">Statistics</span>
                         </a>
                     </li>
                     <li class="has-sub">
