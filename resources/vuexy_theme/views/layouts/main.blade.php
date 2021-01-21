@@ -79,12 +79,12 @@
 <body class="vertical-layout vertical-menu-modern light-layout  navbar-floating footer-static  " data-open="click"
     data-menu="vertical-menu-modern" data-col="" data-layout="dark-layout">
 
-    <div id="main-content-wrapper" class="d-none">
+    <div id="main-content-wrapper">
         @include('partials.header')
 
         @include('partials.menu')
 
-        @include('partials.customizer')
+        {{-- @include('partials.customizer') --}}
 
         <!-- BEGIN: Content-->
         <div class="app-content content ">
@@ -108,11 +108,7 @@
 
         @yield('modals')
     </div>
-    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 100vh; width: 100%;"
-        id="loading-content">
-        <img src="{{ asset(env('APP_THEME', 'default') . '/images/logo-new-full.svg') }}" alt=""
-            style="max-height: 60px;">
-    </div>
+
 
     <!-- BEGIN: Vendor JS-->
     <script src="{{ asset(env('APP_THEME', 'default') . '/app-assets/vendors/js/vendors.min.js') }}"></script>
