@@ -34,6 +34,7 @@ class TransactionsController extends Controller
         abort_unless(Gate::any(['full_access','transactions_show']), 404);
 
         $transactions = Transaction::with(['customer','subscription', 'method'])->where('archived',0)->get();
+
         return DataTables::of(ResourceTransaction::collection($transactions))->toJson();
     }
 

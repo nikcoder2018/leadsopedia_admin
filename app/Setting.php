@@ -21,7 +21,13 @@ class Setting extends Model
             case 'completed': 
                 return 'badge badge-success';
             break;
+            case 'succeeded': 
+                return 'badge badge-success';
+            break;
             case 'created':
+                return 'badge badge-secondary';
+            break;
+            case 'requires_payment_method':
                 return 'badge badge-secondary';
             break;
             case 'denied':
@@ -48,6 +54,8 @@ class Setting extends Model
             case 'voided':
                 return 'badge badge-secondary';
             break;
+            default:
+                return '';
         }
     }
     public $timestamps = false;
