@@ -19,7 +19,7 @@ class Transaction extends JsonResource
             'invoice_number' => $this->invoice_number,
             'customer' => $this->customer->name,
             'payment_method' => $this->method->name,
-            'subscription' => $this->subscription->title,
+            'subscription' => @$this->subscription->title,
             'amount' => Setting::GetValue('currency_symbol').' '.$this->amount,
             'status' => $this->status,
             'status_class' => Setting::GetStatusClass($this->status),
