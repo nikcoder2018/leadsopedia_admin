@@ -12,6 +12,8 @@ $(async function() {
     const mypermissions = await $.get('/account/permissions');
     var has_full_access = $.inArray('full_access', mypermissions) != -1 ? true : false,
         can_show_customers = $.inArray('customers_show', mypermissions) != -1 ? true : false,
+        can_add_credits_customers = $.inArray('customers_add_credits', mypermissions) != -1 ? true : false,
+        can_add_subscription_customers = $.inArray('customers_add_subscription', mypermissions) != -1 ? true : false,
         can_create_customers = $.inArray('customers_create', mypermissions) != -1 ? true : false,
         can_edit_customerns = $.inArray('customers_edit', mypermissions) != -1 ? true : false,
         can_delete_customers = $.inArray('customers_delete', mypermissions) != -1 ? true : false,
@@ -43,6 +45,7 @@ $(async function() {
                 { data: 'name' },
                 { data: 'email' },
                 { data: 'company' },
+                { data: 'referrals' },
                 { data: 'created_at' },
                 { data: 'status' },
                 { data: '' }
@@ -63,7 +66,7 @@ $(async function() {
                     }
                 },
                 {
-                    targets: 5,
+                    targets: 6,
                     render: function(data, type, row) {
                         if (row.status == 'active') {
                             return `<div class="badge badge-success">${row.status}</div>`
@@ -79,8 +82,14 @@ $(async function() {
                     orderable: false,
                     render: function(data, type, row, meta) {
                         let elAction = '';
-                        if (can_show_customers || has_full_access) {
-                            elAction += `<a class="mr-1 text-primary" href="${URL}/${row.id}" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Customer Details">${feather.icons['user'].toSvg({ class: 'font-medium-2' })}</a>`;
+                        // if (can_show_customers || has_full_access) {
+                        //     elAction += `<a class="mr-1 text-primary" href="${URL}/${row.id}" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Customer Details">${feather.icons['user'].toSvg({ class: 'font-medium-2' })}</a>`;
+                        // }
+                        if (can_add_credits_customers || has_full_access) {
+                            elAction += `<a class="mr-1 text-secondary btn-add-credits" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Add Credits">${feather.icons['plus-circle'].toSvg({ class: 'font-medium-2' })}</a>`;
+                        }
+                        if (can_add_subscription_customers || has_full_access) {
+                            elAction += `<a class="mr-1 text-default btn-add-subscription" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Add Subscription">${feather.icons['plus-square'].toSvg({ class: 'font-medium-2' })}</a>`;
                         }
                         if (can_changestatus_customers || has_full_access) {
                             if (row.status == 'active') {
@@ -298,6 +307,94 @@ $(async function() {
             showLoaderOnConfirm: true,
             preConfirm: (password) => {
                 return fetch(`/customers/${id}/delete?password=${password}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                if (result.value.success) {
+                    Swal.fire('Success!', result.value.msg, 'success').then(() => { dtCustomer.ajax.reload(); });
+                } else {
+                    Swal.fire('Failed!', result.value.msg, 'error').then(() => { dtCustomer.ajax.reload(); });
+                }
+            }
+        });
+    });
+
+    $(dtCustomerTable).on('click', '.btn-add-credits', function() {
+        let id = $(this).data('id');
+        Swal.fire({
+            title: 'Add additional extra credits to this customer.',
+            text: "Enter the amount of credits:",
+            icon: 'warning',
+            input: 'number',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-outline-danger ml-1'
+            },
+            buttonsStyling: false,
+            showLoaderOnConfirm: true,
+            preConfirm: (credits) => {
+                return fetch(`/customers/${id}/addcredits?amount=${credits}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                if (result.value.success) {
+                    Swal.fire('Success!', result.value.msg, 'success').then(() => { dtCustomer.ajax.reload(); });
+                } else {
+                    Swal.fire('Failed!', result.value.msg, 'error').then(() => { dtCustomer.ajax.reload(); });
+                }
+            }
+        });
+    });
+
+    $(dtCustomerTable).on('click', '.btn-add-subscription', function() {
+        let id = $(this).data('id');
+        Swal.fire({
+            title: 'Add additional months to this customer subscription.',
+            text: "How many months?",
+            icon: 'warning',
+            input: 'number',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-outline-danger ml-1'
+            },
+            buttonsStyling: false,
+            showLoaderOnConfirm: true,
+            preConfirm: (months) => {
+                return fetch(`/customers/${id}/addsubscription?months=${months}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(response.statusText)

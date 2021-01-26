@@ -29,6 +29,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Company</th>
+                        <th>Referrals</th>
                         <th>Date Registered</th>
                         <th>Status</th>
                         <th class="cell-fit">Actions</th>

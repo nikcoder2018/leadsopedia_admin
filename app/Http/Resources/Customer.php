@@ -20,6 +20,7 @@ class Customer extends JsonResource
             'email' => $this->email,
             'email_status' => $this->email_verified_at != null ? 'verified' : 'not_verified',
             'company' => $this->company,
+            'referrals' => $this->countReferrals,
             'status' => $this->status ? 'active' : 'inactive',
             'created_at' => $this->created_at->format('Y-m-d')
         ];

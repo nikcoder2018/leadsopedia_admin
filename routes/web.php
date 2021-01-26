@@ -92,6 +92,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admins/{id}/delete', 'AdminsController@destroy')->name('admins.delete');
 
     Route::resource('customers', 'CustomersController');
+    Route::get('customers/{id}/addcredits', 'CustomersController@addCredits')->name('customers.addcredits');
+    Route::get('customers/{id}/addsubscription', 'CustomersController@addSubscription')->name('customers.addsubscription');
     Route::get('customers/{id}/deactivate', 'CustomersController@deactivate')->name('customers.deactivate');
     Route::get('customers/{id}/activate', 'CustomersController@activate')->name('customers.activate');
     Route::get('customers/{id}/delete', 'CustomersController@destroy')->name('customers.delete');

@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Customer as ResourceCustomer;
 use App\Customer;
 use App\User;
+use Carbon\Carbon;
 
 use DataTables;
 use Gate;
+
 class CustomersController extends Controller
 {
     /**
@@ -28,8 +30,9 @@ class CustomersController extends Controller
 
     public function all(){
         abort_unless(Gate::any(['full_access','customers_show']), 404);
-        $customers = Customer::all();
+        $customers = Customer::all()->append('referrals')->append('countReferrals');
 
+        //return response()->json($customers);
         return DataTables::of(ResourceCustomer::collection($customers))->toJson();
     }
     /**
@@ -143,5 +146,27 @@ class CustomersController extends Controller
         $customer->save();
 
         return response()->json(['success'=>true,'msg' => trans('customers.activated')]);
+    }
+
+    public function addCredits(Request $request, $id){
+        abort_unless(Gate::any(['full_access','customers_add_credits']), 404);
+
+        $customer = Customer::find($id);
+        $customer->credits_extra = $customer->credits_extra + $request->amount;
+        $customer->save();
+
+        return response()->json(['success'=>true,'msg' => trans('customers.addcredits.success')]);
+    }
+
+    public function addSubscription(Request $request, $id){
+        abort_unless(Gate::any(['full_access','customers_add_subscription']), 404);
+
+        $customer = Customer::find($id);
+
+        $subs_ends = Carbon::parse($customer->subscription_ends);
+        $customer->subscription_ends = $subs_ends->addMonths($request->months)->toDateString();
+        $customer->save();
+
+        return response()->json(['success'=>true,'msg' => trans('customers.addsubscriptions.success')]);
     }
 }
