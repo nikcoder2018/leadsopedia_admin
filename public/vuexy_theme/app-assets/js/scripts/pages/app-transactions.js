@@ -41,7 +41,7 @@ $(async function() {
                 { data: 'invoice_number' },
                 { data: 'customer' },
                 { data: 'payment_method' },
-                { data: 'subscription' },
+                { data: 'for' },
                 { data: 'amount' },
                 { data: 'status' },
                 { data: 'date' },

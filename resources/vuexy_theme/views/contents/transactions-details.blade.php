@@ -30,7 +30,7 @@
                     <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
                         <div>
                             <div class="logo-wrapper mb-2">
-                                <img src="{{asset(env('APP_THEME').'/images/logo-default.png')}}" >
+                                <img src="{{asset(env('APP_THEME').'/images/logo-new-full.svg')}}" width="300">
                             </div>
                             <p class="card-text mb-25">{{App\Setting::GetValue('invoice_address1')}}</p>
                             <p class="card-text mb-25">{{App\Setting::GetValue('invoice_address2')}}</p>
@@ -149,15 +149,13 @@
             </div>
         </div>
         <!-- /Invoice -->
-
+        <div id="pdf-handler"></div>
         <!-- Invoice Actions -->
         <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
             <div class="card">
                 <div class="card-body">
-                    <button class="btn btn-outline-primary btn-block btn-download-invoice mb-75"><i data-feather='download'></i> Download</button>
-                    <a class="btn btn-outline-secondary btn-block mb-75" href="./app-invoice-print.html" target="_blank">
-                        <i data-feather='printer'></i> Print
-                    </a>
+                    <button class="btn btn-outline-primary btn-block btn-download-invoice mb-75" id="download-invoice"><i data-feather='download'></i> Download</button>
+                    <button class="btn btn-outline-secondary btn-block mb-75" id="print-invoice"><i data-feather='printer'></i> Print</button>
                 </div>
             </div>
         </div>
@@ -171,5 +169,50 @@
 @endsection
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+<script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/printThis/printThis.js')}}"></script>
 <script src="{{asset(env('APP_THEME','default').'/app-assets/js/scripts/pages/app-transactions.js')}}"></script>
+<script>
+    var btnDownloadInvoice = $('#download-invoice'),
+        btnPrintInvoice = $('#print-invoice');
+
+    btnPrintInvoice.on('click', function() {
+        $('.invoice-preview-card').printThis({
+            debug: false, // show the iframe for debugging
+            importCSS: true, // import parent page css
+            importStyle: false, // import style tags
+            printContainer: true, // print outer container/$.selector
+            loadCSS: "", // path to additional css file - use an array [] for multiple
+            pageTitle: "", // add title to print page
+            removeInline: false, // remove inline styles from print elements
+            removeInlineSelector: "*", // custom selectors to filter inline styles. removeInline must be true
+            printDelay: 333, // variable print delay
+            header: null, // prefix to html
+            footer: null, // postfix to html
+            base: false, // preserve the BASE tag or accept a string for the URL
+            formValues: true, // preserve input/form values
+            canvas: false, // copy canvas content
+            doctypeString: '...', // enter a different doctype for older markup
+            removeScripts: false, // remove script tags from print content
+            copyTagClasses: false, // copy classes from the html & body tag
+            beforePrintEvent: null, // function for printEvent in iframe
+            beforePrint: null, // function called before iframe is filled
+            afterPrint: null // function called before iframe is removed
+        });
+    });
+
+    var doc = new jsPDF();
+    var specialElementHandlers = {
+        '#pdf-handler': function(element, renderer) {
+            return true;
+        }
+    };
+    btnDownloadInvoice.on('click', function() {
+        doc.fromHTML($('.invoice-preview-card').html(), 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample-file.pdf');
+    });
+</script>
 @endsection

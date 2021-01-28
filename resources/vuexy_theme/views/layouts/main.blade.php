@@ -13,10 +13,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="api-token" content="{{ auth()->user()->api_token }}">
 
-    <link rel="apple-touch-icon"
-        href="{{ asset(env('APP_THEME', 'default') . '/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon"
-        href="{{ asset(env('APP_THEME', 'default') . '/app-assets/images/ico/favicon.ico') }}">
+        href="{{ asset(env('APP_THEME', 'default') . '/images/logo-new-solo.png') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">

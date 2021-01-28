@@ -31,7 +31,7 @@
                         <th>Invoice #</th>
                         <th>Customer</th>
                         <th>Payment Method</th>
-                        <th>Subscription</th>
+                        <th>For</th>
                         <th>Purchased Price</th>
                         <th>Status</th>
                         <th>Date</th>
