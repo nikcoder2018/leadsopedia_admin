@@ -18,6 +18,9 @@ class Setting extends Model
 
     function scopeGetStatusClass($query, $status){
         switch($status){
+            case 'approved': 
+                return 'badge badge-success';
+            break;
             case 'completed': 
                 return 'badge badge-success';
             break;
