@@ -22,7 +22,9 @@
                     <span class="menu-title text-truncate">Dashboard</span>
                 </a>
             </li>
-
+            <li class="nav-item {{ Request::segment(1) === 'messages' ? 'active' : null }}">
+                <a class="d-flex align-items-center" href="{{route('messages.index')}}"><i data-feather="mail"></i><span class="menu-title text-truncate">Messages</span></a>
+            </li>
             <li class="nav-item"><a class="d-flex align-items-center" href="#">
                 <i data-feather="users"></i><span class="menu-title text-truncate">Users Management</span></a>
                 <ul class="menu-content">

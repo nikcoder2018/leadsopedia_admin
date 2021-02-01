@@ -149,8 +149,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('settings', 'SettingsController@index')->name('settings.index');
     Route::post('settings/general', 'SettingsController@update_general')->name('settings.general.update');
 
-    Route::get('/user/settings', 'UserSettingController@index')->name('user.settings.index');
-    Route::post('/user/settings', 'UserSettingController@store')->name('user.settings.store');
+    Route::get('user/settings', 'UserSettingController@index')->name('user.settings.index');
+    Route::post('user/settings', 'UserSettingController@store')->name('user.settings.store');
+
+    Route::get('messages', 'MessagesController@index')->name('messages.index');
+    Route::get('messages/inbox', 'MessagesController@messageInbox')->name('messages.inbox');
+    Route::get('messages/sent', 'MessagesController@messageSent')->name('messages.sent');
+    Route::get('messages/trash', 'MessagesController@messageTrash')->name('messages.trash');
+    Route::get('messages/{id}/read', 'MessagesController@read')->name('messages.read');
+    Route::get('messages/{id}/next', 'MessagesController@next')->name('messages.next');
+    Route::get('messages/{id}/prev', 'MessagesController@prev')->name('messages.prev');
+    Route::get('messages/delete', 'MessagesController@delete')->name('messages.delete');
+    Route::get('messages/delete-sent', 'MessagesController@delete_sent')->name('messages.deletesent');
+    Route::get('messages/delete-force', 'MessagesController@delete_force')->name('messages.deleteforce');
+    Route::post('message', 'MessagesController@send')->name('messages.send');
 });
 
 use App\Integration;
