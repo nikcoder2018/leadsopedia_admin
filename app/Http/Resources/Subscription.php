@@ -19,7 +19,8 @@ class Subscription extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'duration' => $this->months > 1 ? $this->months.' Months' : $this->months.' Month',
-            'price' => Setting::GetValue('currency_symbol').' '.$this->price
+            'price' => Setting::GetValue('currency_symbol').$this->price,
+            'price_annual' => $this->price_annual != null ? Setting::GetValue('currency_symbol').$this->price_annual : ''
         ];
     }
 }

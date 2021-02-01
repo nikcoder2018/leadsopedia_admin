@@ -97,23 +97,23 @@
                             <tr>
                                 <th class="py-1">Description</th>
                                 <th class="py-1">Price</th>
-                                <th class="py-1">Months</th>
+                                <th class="py-1">Qty</th>
                                 <th class="py-1">Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="py-1">
-                                    <p class="card-text font-weight-bold mb-25">{{$transaction->subscription->title}}</p>
+                                    <p class="card-text font-weight-bold mb-25">{{$item->description}}</p>
                                 </td>
                                 <td class="py-1">
-                                    <span class="font-weight-bold">{{App\Setting::GetValue('currency_symbol')}} {{$transaction->amount}}</span>
+                                    <span class="font-weight-bold">{{App\Setting::GetValue('currency_symbol')}} {{$item->amount}}</span>
                                 </td>
                                 <td class="py-1">
-                                    <span class="font-weight-bold">{{$transaction->subscription->months}}</span>
+                                    <span class="font-weight-bold">{{$item->qty}}</span>
                                 </td>
                                 <td class="py-1">
-                                    <span class="font-weight-bold">{{App\Setting::GetValue('currency_symbol')}} {{$transaction->amount}}</span>
+                                    <span class="font-weight-bold">{{App\Setting::GetValue('currency_symbol')}} {{$item->amount}}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -126,7 +126,7 @@
                             <div class="invoice-total-wrapper">
                                 <div class="invoice-total-item">
                                     <p class="invoice-total-title">Subtotal:</p>
-                                    <p class="invoice-total-amount">{{App\Setting::GetValue('currency_symbol')}} {{$transaction->amount}}</p>
+                                    <p class="invoice-total-amount">{{App\Setting::GetValue('currency_symbol')}} {{$item->amount}}</p>
                                 </div>
                                 <div class="invoice-total-item">
                                     <p class="invoice-total-title">Discount:</p>
@@ -139,7 +139,7 @@
                                 <hr class="my-50" />
                                 <div class="invoice-total-item">
                                     <p class="invoice-total-title">Total:</p>
-                                    <p class="invoice-total-amount">{{App\Setting::GetValue('currency_symbol')}} {{$transaction->amount}}</p>
+                                    <p class="invoice-total-amount">{{App\Setting::GetValue('currency_symbol')}} {{$item->amount}}</p>
                                 </div>
                             </div>
                         </div>
@@ -154,8 +154,7 @@
         <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
             <div class="card">
                 <div class="card-body">
-                    <button class="btn btn-outline-primary btn-block btn-download-invoice mb-75" id="download-invoice"><i data-feather='download'></i> Download</button>
-                    <button class="btn btn-outline-secondary btn-block mb-75" id="print-invoice"><i data-feather='printer'></i> Print</button>
+                    <a href="{{route('transactions.download', $transaction->id)}}" class="btn btn-outline-primary btn-block btn-download-invoice mb-75" id="download-invoice"><i data-feather='download'></i> Download</a>
                 </div>
             </div>
         </div>

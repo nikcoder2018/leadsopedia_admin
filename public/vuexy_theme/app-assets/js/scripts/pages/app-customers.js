@@ -85,12 +85,14 @@ $(async function() {
                         // if (can_show_customers || has_full_access) {
                         //     elAction += `<a class="mr-1 text-primary" href="${URL}/${row.id}" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Customer Details">${feather.icons['user'].toSvg({ class: 'font-medium-2' })}</a>`;
                         // }
+
                         if (can_add_credits_customers || has_full_access) {
                             elAction += `<a class="mr-1 text-secondary btn-add-credits" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Add Credits">${feather.icons['plus-circle'].toSvg({ class: 'font-medium-2' })}</a>`;
                         }
                         if (can_add_subscription_customers || has_full_access) {
                             elAction += `<a class="mr-1 text-default btn-add-subscription" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Add Subscription">${feather.icons['plus-square'].toSvg({ class: 'font-medium-2' })}</a>`;
                         }
+                        elAction += `<a class="mr-1 text-danger btn-add-cancelsubscription" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Cancel Subscription">${feather.icons['x-square'].toSvg({ class: 'font-medium-2' })}</a>`;
                         if (can_changestatus_customers || has_full_access) {
                             if (row.status == 'active') {
                                 elAction += `<a class="mr-1 text-warning btn-deactivate" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Deactivate">${feather.icons['user-x'].toSvg({ class: 'font-medium-2' })}</a>`;

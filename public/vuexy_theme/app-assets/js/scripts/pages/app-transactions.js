@@ -68,6 +68,7 @@ $(async function() {
                         let elAction = '';
                         if (can_show_transaction || has_full_access) {
                             elAction += `<a class="mr-1 text-primary btn-details" href="/transactions/${row.id}/details" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="View Details">${feather.icons['file-text'].toSvg({ class: 'font-medium-2' })}</a>`;
+                            elAction += `<a class="mr-1 text-info" href="/transactions/${row.id}/download" data-toggle="tooltip" target="_blank" data-placement="top" title="Download Invoice">${feather.icons['download'].toSvg({ class: 'font-medium-2' })}</a>`;
                         }
                         if (can_archive_transaction || has_full_access) {
                             elAction += `<a class="mr-1 text-warning btn-archive" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Archive">${feather.icons['delete'].toSvg({ class: 'font-medium-2' })}</a>`;

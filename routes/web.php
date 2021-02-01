@@ -124,6 +124,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('transactions/{id}/archive', 'TransactionsController@archive')->name('transactions.archive');
     Route::get('transactions/{id}/restore', 'TransactionsController@restore')->name('transactions.restore');
     Route::get('transactions/{id}/delete', 'TransactionsController@destroy')->name('transactions.delete');
+    Route::get('transactions/{id}/download', 'TransactionsController@download')->name('transactions.download');
 
     Route::post('payment-methods/store', 'PaymentMethodsController@store')->name('payment-methods.store');
     Route::get('payment-methods/{id}/edit', 'PaymentMethodsController@edit')->name('payment-methods.edit');

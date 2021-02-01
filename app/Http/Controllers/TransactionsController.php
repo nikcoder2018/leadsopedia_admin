@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transaction;
+use App\User;
+use App\Subscription;
 use App\Http\Resources\Transaction as ResourceTransaction;
 use DataTables;
 use Gate;
+use PDF;
+use Carbon\Carbon;
 class TransactionsController extends Controller
 {
     public function index(){
@@ -20,8 +24,24 @@ class TransactionsController extends Controller
         abort_unless(Gate::any(['full_access','transactions_show']), 404);
 
         $data['title'] = 'Transaction Details';
-        $data['transaction'] = Transaction::with(['customer','subscription', 'method'])->where(['id' => $id])->first();
+        $transaction = Transaction::with(['customer','subscription', 'method'])->where(['id' => $id])->first();
         #return response()->json($data);
+        $description = '';
+        $qty = 0;
+        if($transaction->subscription){
+            $description = $transaction->subscription->title;
+            $qty = $transaction->subscription->months;
+        }elseif($transaction->credits != ''){
+            $description = 'Credits';
+            $qty = $transaction->credits;
+        }
+
+        $data['item'] = (object) [
+            'description' => $description,
+            'amount' => $transaction->amount,
+            'qty' => $qty,
+        ];
+        $data['transaction'] = $transaction;
         return view('contents.transactions-details',$data);
     }
     public function archiveslist(){
@@ -72,5 +92,42 @@ class TransactionsController extends Controller
         $transaction->delete();
 
         return response()->json(array('success' => true, 'msg' => 'Transaction Deleted.', 'id' => $transaction->id));
+    }
+
+    public function download($id){
+        $transaction = Transaction::find($id);
+        $user = User::find($transaction->user_id);
+        $items = array();
+        if($transaction->subscription_id == ''){
+            $items = array(
+                'name' => $transaction->credits.' Credits',
+                'period' => '',
+                'vat' => 0,
+                'price' => $transaction->amount
+            );
+        }else{
+            $subs = Subscription::find($transaction->subscription_id);
+            $items = array(
+                'name' => $subs->title,
+                'period' => '',
+                'vat' => 0,
+                'price' => $transaction->amount
+            );
+        }
+
+        $data = array(
+            'subject' => 'Your Payment Receipt',
+            'order_number' => $transaction->invoice_number,
+            'billing_date' => Carbon::parse($transaction->paid_at)->format('d M Y'),
+            'to' => array(
+                'name' => $user['name'],
+                'email' => $user['email']
+            ),
+            'items' => $items,
+            'total' => $transaction->amount
+        );
+
+        $pdf = PDF::loadView('pdf.receipt', $data);
+        return $pdf->download('Receipt#'.$transaction->invoice_number.'.pdf');
     }
 }

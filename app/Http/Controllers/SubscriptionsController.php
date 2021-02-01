@@ -60,6 +60,7 @@ class SubscriptionsController extends Controller
             'description' => $request->description,
             'months' => $request->months,
             'price' => $request->price,
+            'price_annual' => $request->price_annual,
             'search_limits' => $request->search_limits,
             'search_leads_limits' => $request->search_leads_limits,
             'credits' => $request->credits,
@@ -122,6 +123,7 @@ class SubscriptionsController extends Controller
         $subscription->description = $request->description;
         $subscription->months = $request->months;
         $subscription->price = $request->price;
+        $subscription->price_annual = $request->price_annual;
         $subscription->search_limits = $request->search_limits;
         $subscription->search_leads_limits = $request->search_leads_limits;
         $subscription->credits = $request->credits;

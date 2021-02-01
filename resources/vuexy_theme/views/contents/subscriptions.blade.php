@@ -67,6 +67,11 @@
                             <label for="price">Price <sup>*</sup></label>
                             <input type="number" class="form-control" name="price" step="0.01" placeholder="Amount">
                         </div>
+                        <div class="col">
+                            <label for="price">Annual Price<sup>*</sup></label>
+                            <input type="number" class="form-control" name="price_annual" step="0.01" placeholder="Amount">
+                            <p class="text-muted">Put fixed price for annual </p>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <div class="col">
@@ -164,6 +169,11 @@
                         <div class="col">
                             <label for="price">Price <sup>*</sup></label>
                             <input type="number" class="form-control" name="price" step="0.01" placeholder="Amount">
+                        </div>
+                        <div class="col">
+                            <label for="price">Annual Price<sup>*</sup></label>
+                            <input type="number" class="form-control" name="price_annual" step="0.01" placeholder="Amount">
+                            <p class="text-muted">Put fixed price for annual </p>
                         </div>
                     </div>
                     <div class="form-group row">

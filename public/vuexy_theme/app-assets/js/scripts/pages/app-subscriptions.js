@@ -53,6 +53,16 @@ $(async function() {
                     targets: 0
                 },
                 {
+                    targets: 4,
+                    render: function($data, type, row) {
+                        if (row.price_annual != '' && row.price_annual != null) {
+                            return `${row.price} <span class="badge badge-warning"><small>${row.price_annual}/Year</small></span>`;
+                        } else {
+                            return row.price;
+                        }
+                    }
+                },
+                {
                     // Actions
                     targets: -1,
                     width: '80px',
@@ -174,6 +184,7 @@ $(async function() {
         form.find('textarea[name=description]').val(subscription.description);
         form.find('input[name=months]').val(subscription.months);
         form.find('input[name=price]').val(subscription.price);
+        form.find('input[name=price_annual]').val(subscription.price_annual);
         form.find('input[name=search_limits]').val(subscription.search_limits);
         form.find('input[name=search_leads_limits]').val(subscription.search_leads_limits);
         form.find('input[name=credits]').val(subscription.credits);

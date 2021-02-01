@@ -174,7 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -231,7 +231,8 @@ return [
         'ReplyIO' => App\Helpers\ReplyIO::class,
         'HubspotContactList' => App\Helpers\HubspotContactList::class,
         'HubspotContact' => App\Helpers\HubspotContact::class,
-        'Copper' => App\Helpers\Copper::class
+        'Copper' => App\Helpers\Copper::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
