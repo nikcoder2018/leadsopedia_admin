@@ -68,6 +68,13 @@
                             <span class="font-weight-bold">Email Templates</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pill-credit-package" data-toggle="pill" href="#credit-packages"
+                            aria-expanded="false">
+                            <i data-feather="box" class="font-medium-3 mr-1"></i>
+                            <span class="font-weight-bold">Credit Packages</span>
+                        </a>
+                    </li>
                     <!-- notification -->
                     {{-- <li class="nav-item">
                         <a class="nav-link" id="pill-notifications" data-toggle="pill" href="#notifications"
@@ -200,6 +207,25 @@
                                                     <th>ID</th>
                                                     <th>Title</th>
                                                     <th>Subject</th>
+                                                    <th class="cell-fit">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="credit-packages"
+                                aria-labelledby="pill-credit-packages" aria-expanded="false">
+                                <div class="card">
+                                    <div class="card-datatable table-responsive">
+                                        <table class="table table-credit-packages">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Credits</th>
+                                                    <th>Price</th>
                                                     <th class="cell-fit">Actions</th>
                                                 </tr>
                                             </thead>
@@ -669,6 +695,67 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="new-credit-packages-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2"
+        aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 650px !important" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel-2">Add</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form id="form-add-cpackage" action="{{ route('creditpackages.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title">Credits <sup>*</sup></label>
+                            <input type="number" class="form-control" name="credits" placeholder="Credits" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Price <sup>*</sup></label>
+                            <input type="number" class="form-control" name="price" step="0.01" placeholder="Price" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="edit-credit-packages-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2"
+        aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 650px !important" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel-2">Add</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form id="form-add-cpackage" action="{{ route('creditpackages.update') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title">Credits <sup>*</sup></label>
+                            <input type="number" class="form-control" name="credits" placeholder="Credits" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Price <sup>*</sup></label>
+                            <input type="number" class="form-control" name="price" placeholder="Price" step="0.01" required>
                         </div>
                     </div>
                     <div class="modal-footer">

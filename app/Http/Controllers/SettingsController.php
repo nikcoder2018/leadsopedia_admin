@@ -13,6 +13,7 @@ use App\Integration;
 use App\IntegrationData;
 use App\IntegrationDataDefault;
 use App\IntegrationGroup;
+use App\CreditPackage;
 use Gate;
 class SettingsController extends Controller
 {

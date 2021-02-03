@@ -8,7 +8,7 @@
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-$(async function () {
+$(async function() {
     "use strict";
     const api_token = $("[name=api-token]").attr("content");
     const mypermissions = await $.get("/account/permissions");
@@ -31,22 +31,25 @@ $(async function () {
         tab_integration = $("#integrations"),
         new_integration_modal = $("#new-integration-modal"),
         edit_integration_modal = $("#edit-integration-modal"),
-        tab_integration_table = tab_integration.find("table");
+        tab_integration_table = tab_integration.find("table"),
+        pill_credit_package = $("#pill-credit-package"),
+        tab_credit_package = $("#credit-packages"),
+        new_credit_package_modal = $("#new-credit-packages-modal"),
+        edit_credit_package_modal = $("#edit-credit-packages-modal"),
+        tab_credit_package_table = tab_credit_package.find("table");
 
     (() => {
         var toolbarOptions = [
             ["bold", "italic", "underline", "strike"], // toggled buttons
 
-            [
-                {
+            [{
                     header: 1,
                 },
                 {
                     header: 2,
                 },
             ], // custom button values
-            [
-                {
+            [{
                     list: "ordered",
                 },
                 {
@@ -56,8 +59,7 @@ $(async function () {
                 "code-block",
             ],
 
-            [
-                {
+            [{
                     script: "sub",
                 },
                 {
@@ -65,37 +67,28 @@ $(async function () {
                 },
             ], // superscript/subscript
 
-            [
-                {
-                    size: ["small", false, "large", "huge"],
-                },
-            ], // custom dropdown
+            [{
+                size: ["small", false, "large", "huge"],
+            }, ], // custom dropdown
 
-            [
-                {
-                    header: [1, 2, 3, 4, 5, 6, false],
-                },
-            ],
+            [{
+                header: [1, 2, 3, 4, 5, 6, false],
+            }, ],
 
-            [
-                {
+            [{
                     color: [],
                 },
                 {
                     background: [],
                 },
             ], // dropdown with defaults from theme
-            [
-                {
-                    font: [],
-                },
-            ],
+            [{
+                font: [],
+            }, ],
 
-            [
-                {
-                    align: [],
-                },
-            ],
+            [{
+                align: [],
+            }, ],
 
             ["link", "image"],
 
@@ -107,7 +100,7 @@ $(async function () {
                 toolbar: {
                     container: toolbarOptions,
                     handlers: {
-                        image: function () {
+                        image: function() {
                             const range = this.quill.getSelection();
                             const value = prompt("What is the image URL?");
                             if (value) {
@@ -147,8 +140,7 @@ $(async function () {
                     { data: "subject" },
                     { data: "" },
                 ],
-                columnDefs: [
-                    {
+                columnDefs: [{
                         // For Responsive
                         className: "control",
                         responsivePriority: 2,
@@ -159,7 +151,7 @@ $(async function () {
                         targets: -1,
                         width: "80px",
                         orderable: false,
-                        render: function (data, type, full, meta) {
+                        render: function(data, type, full, meta) {
                             return `<div class="d-flex align-items-center col-actions">
                             <a class="mr-1 btn-view" href="javascript:void(0);" data-id="${
                                 full.id
@@ -181,9 +173,10 @@ $(async function () {
                         },
                     },
                 ],
-                order: [[1, "desc"]],
-                dom:
-                    '<"row d-flex justify-content-between align-items-center m-1"' +
+                order: [
+                    [1, "desc"]
+                ],
+                dom: '<"row d-flex justify-content-between align-items-center m-1"' +
                     '<"col-lg-6 d-flex align-items-center"l<"dt-action-buttons text-xl-right text-lg-left text-lg-right text-left "B>>' +
                     '<"col-lg-6 d-flex align-items-center justify-content-lg-end flex-lg-nowrap flex-wrap pr-lg-1 p-0"f<"invoice_status ml-sm-2">>' +
                     ">t" +
@@ -202,38 +195,36 @@ $(async function () {
                     },
                 },
                 // Buttons with Dropdown
-                buttons: [
-                    {
-                        text: "Add Email Template",
-                        className: "btn btn-primary btn-sm btn-add-record ml-2",
-                        action: function (e, dt, button, config) {
-                            const modal = $("#add-email-template-modal");
-                            const form = modal.find("form");
-                            $("#addEmailTemplateModalLabel").text(
-                                "Add Email Template"
-                            );
-                            form[0].reset();
-                            form.find(`input[name="_method"]`).val("POST");
-                            form.attr(
-                                "action",
-                                `/api/settings/email-templates`
-                            );
-                            quill.root.innerHTML = "";
-                            modal.modal("show");
-                        },
+                buttons: [{
+                    text: "Add Email Template",
+                    className: "btn btn-primary btn-sm btn-add-record ml-2",
+                    action: function(e, dt, button, config) {
+                        const modal = $("#add-email-template-modal");
+                        const form = modal.find("form");
+                        $("#addEmailTemplateModalLabel").text(
+                            "Add Email Template"
+                        );
+                        form[0].reset();
+                        form.find(`input[name="_method"]`).val("POST");
+                        form.attr(
+                            "action",
+                            `/api/settings/email-templates`
+                        );
+                        quill.root.innerHTML = "";
+                        modal.modal("show");
                     },
-                ],
-                initComplete: function () {
+                }, ],
+                initComplete: function() {
                     $(document).find('[data-toggle="tooltip"]').tooltip();
                     // Adding role filter once table initialized
                 },
-                drawCallback: function () {
+                drawCallback: function() {
                     $(document).find('[data-toggle="tooltip"]').tooltip();
                 },
             });
         }
 
-        $("#add-email-template-form").on("submit", async function (e) {
+        $("#add-email-template-form").on("submit", async function(e) {
             e.preventDefault();
             const data = new FormData(this);
             data.append("word_template", 0);
@@ -247,7 +238,7 @@ $(async function () {
             datatable.ajax.reload();
         });
 
-        emailTemplatesTable.on("click", ".btn-view", async function () {
+        emailTemplatesTable.on("click", ".btn-view", async function() {
             const id = $(this).attr("data-id");
             const { data } = await axios.get(
                 `/api/settings/email-templates/${id}?api_token=${api_token}`
@@ -264,7 +255,7 @@ $(async function () {
             });
         });
 
-        emailTemplatesTable.on("click", ".btn-edit", async function () {
+        emailTemplatesTable.on("click", ".btn-edit", async function() {
             const id = $(this).attr("data-id");
             const { data } = await axios.get(
                 `/api/settings/email-templates/${id}?api_token=${api_token}`
@@ -286,13 +277,13 @@ $(async function () {
         const deleteEmailTemplateButton = $("#delete-email-template-button");
         const deteteEmailTemplateModal = $("#delete-email-template-modal");
 
-        emailTemplatesTable.on("click", ".btn-delete", async function () {
+        emailTemplatesTable.on("click", ".btn-delete", async function() {
             const id = $(this).attr("data-id");
             deleteEmailTemplateButton.attr("data-id", id);
             deteteEmailTemplateModal.modal("show");
         });
 
-        deleteEmailTemplateButton.on("click", async () => {
+        deleteEmailTemplateButton.on("click", async() => {
             const id = deleteEmailTemplateButton.attr("data-id");
             deteteEmailTemplateModal.modal("hide");
             await axios.delete(
@@ -306,13 +297,15 @@ $(async function () {
 
     general_settings();
 
-    pill_payments.on("click", async function () {
+    pill_payments.on("click", async function() {
         payments_settings();
     });
-    pill_integration.on("click", async function () {
+    pill_integration.on("click", async function() {
         integration_settings();
     });
-
+    pill_credit_package.on("click", async function() {
+        credit_packages_settings();
+    });
     async function general_settings() {
         tab_general_form.hide();
         tab_general.addClass(
@@ -345,7 +338,7 @@ $(async function () {
             .find("input[name=backoffice_web_title]")
             .val(general.defaults.backoffice_web_title);
 
-        $.each(general.languages, function (index, language) {
+        $.each(general.languages, function(index, language) {
             let selected = "";
             if (general.defaults.language == language.code)
                 selected = "selected";
@@ -354,7 +347,7 @@ $(async function () {
             ).appendTo(tab_general_form.find("select[name=language]"));
         });
 
-        $.each(general.currencies, function (index, currency) {
+        $.each(general.currencies, function(index, currency) {
             let selected = "";
             if (general.defaults.currency == currency.abbreviation)
                 selected = "selected";
@@ -363,7 +356,7 @@ $(async function () {
             ).appendTo(tab_general_form.find("select[name=currency]"));
         });
 
-        $.each(general.timezones, function (index, timezone) {
+        $.each(general.timezones, function(index, timezone) {
             let selected = "";
             if (general.defaults.timezone == timezone.value)
                 selected = "selected";
@@ -372,13 +365,13 @@ $(async function () {
             ).appendTo(tab_general_form.find("select[name=timezone]"));
         });
 
-        tab_general_form.on("submit", function (e) {
+        tab_general_form.on("submit", function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
                 data: $(this).serialize(),
-                success: function (resp) {
+                success: function(resp) {
                     if (resp.success) {
                         toastr["success"](resp.msg, "Success!", {
                             closeButton: true,
@@ -411,8 +404,7 @@ $(async function () {
                     { data: "description" },
                     { data: "" },
                 ],
-                columnDefs: [
-                    {
+                columnDefs: [{
                         // For Responsive
                         className: "control",
                         responsivePriority: 2,
@@ -423,7 +415,7 @@ $(async function () {
                         targets: -1,
                         width: "80px",
                         orderable: false,
-                        render: function (data, type, full, meta) {
+                        render: function(data, type, full, meta) {
                             return `<div class="d-flex align-items-center col-actions">
                                   <a class="mr-1 btn-edit" href="javascript:void(0);" data-id="${
                                       full.id
@@ -440,9 +432,10 @@ $(async function () {
                         },
                     },
                 ],
-                order: [[1, "desc"]],
-                dom:
-                    '<"row d-flex justify-content-between align-items-center m-1"' +
+                order: [
+                    [1, "desc"]
+                ],
+                dom: '<"row d-flex justify-content-between align-items-center m-1"' +
                     '<"col-lg-6 d-flex align-items-center"l<"dt-action-buttons text-xl-right text-lg-left text-lg-right text-left "B>>' +
                     '<"col-lg-6 d-flex align-items-center justify-content-lg-end flex-lg-nowrap flex-wrap pr-lg-1 p-0"f<"invoice_status ml-sm-2">>' +
                     ">t" +
@@ -461,20 +454,18 @@ $(async function () {
                     },
                 },
                 // Buttons with Dropdown
-                buttons: [
-                    {
-                        text: "Add Payment Method",
-                        className: "btn btn-primary btn-sm btn-add-record ml-2",
-                        action: function (e, dt, button, config) {
-                            $(new_payment_method_modal).modal("show");
-                        },
+                buttons: [{
+                    text: "Add Payment Method",
+                    className: "btn btn-primary btn-sm btn-add-record ml-2",
+                    action: function(e, dt, button, config) {
+                        $(new_payment_method_modal).modal("show");
                     },
-                ],
+                }, ],
                 // For responsive popup
                 responsive: {
                     details: {
                         display: $.fn.dataTable.Responsive.display.modal({
-                            header: function (row) {
+                            header: function(row) {
                                 var data = row.data();
                                 return "Details of " + data.title;
                             },
@@ -482,8 +473,7 @@ $(async function () {
                         type: "column",
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
                             tableClass: "table",
-                            columnDefs: [
-                                {
+                            columnDefs: [{
                                     targets: 1,
                                     visible: false,
                                 },
@@ -495,23 +485,23 @@ $(async function () {
                         }),
                     },
                 },
-                initComplete: function () {
+                initComplete: function() {
                     $(document).find('[data-toggle="tooltip"]').tooltip();
                     // Adding role filter once table initialized
                 },
-                drawCallback: function () {
+                drawCallback: function() {
                     $(document).find('[data-toggle="tooltip"]').tooltip();
                 },
             });
         }
 
-        new_payment_method_modal.on("submit", "form", function (e) {
+        new_payment_method_modal.on("submit", "form", function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
                 data: $(this).serialize(),
-                success: function (resp) {
+                success: function(resp) {
                     if (resp.success) {
                         new_payment_method_modal.modal("hide");
                         new_payment_method_modal.find("form")[0].reset();
@@ -525,7 +515,7 @@ $(async function () {
             });
         });
 
-        dtPaymentsTable.on("click", ".btn-edit", async function () {
+        dtPaymentsTable.on("click", ".btn-edit", async function() {
             let id = $(this).data().id;
             let form = $(edit_payment_method_modal).find("form");
             $(edit_payment_method_modal).modal("show");
@@ -538,7 +528,7 @@ $(async function () {
 
             let attributes = form.find('[data-repeater-list="attributes"]');
 
-            await $.each(payment.details, function (index, detail) {
+            await $.each(payment.details, function(index, detail) {
                 $(`
                 <div data-repeater-item>
                     <div class="row d-flex align-items-end">
@@ -569,7 +559,7 @@ $(async function () {
             });
 
             await $(".attribute-lists-edit").repeater({
-                show: function () {
+                show: function() {
                     console.log($(this));
                     $(this).slideDown();
                     // Feather Icons
@@ -577,7 +567,7 @@ $(async function () {
                         feather.replace({ width: 14, height: 14 });
                     }
                 },
-                hide: function (deleteElement) {
+                hide: function(deleteElement) {
                     if (
                         confirm(
                             "Are you sure you want to delete this attribute?"
@@ -589,7 +579,7 @@ $(async function () {
             });
         });
 
-        dtPaymentsTable.on("click", ".btn-delete", function () {
+        dtPaymentsTable.on("click", ".btn-delete", function() {
             let id = $(this).data("id");
             Swal.fire({
                 title: "Are you sure?",
@@ -602,7 +592,7 @@ $(async function () {
                     cancelButton: "btn btn-outline-danger ml-1",
                 },
                 buttonsStyling: false,
-            }).then(async function (result) {
+            }).then(async function(result) {
                 if (result.isConfirmed) {
                     const deleteData = await $.get(
                         `/payment-methods/${id}/delete`
@@ -641,8 +631,7 @@ $(async function () {
                     { data: "status" },
                     { data: "" },
                 ],
-                columnDefs: [
-                    {
+                columnDefs: [{
                         // For Responsive
                         className: "control",
                         responsivePriority: 2,
@@ -650,7 +639,7 @@ $(async function () {
                     },
                     {
                         targets: 2,
-                        render: function (data, type, row) {
+                        render: function(data, type, row) {
                             if (row.group) {
                                 return row.group.name;
                             } else {
@@ -663,7 +652,7 @@ $(async function () {
                         targets: -1,
                         width: "80px",
                         orderable: false,
-                        render: function (data, type, full, meta) {
+                        render: function(data, type, full, meta) {
                             return `<div class="d-flex align-items-center col-actions">
                                   <a class="mr-1 btn-edit" href="javascript:void(0);" data-id="${
                                       full.id
@@ -680,9 +669,10 @@ $(async function () {
                         },
                     },
                 ],
-                order: [[1, "desc"]],
-                dom:
-                    '<"row d-flex justify-content-between align-items-center m-1"' +
+                order: [
+                    [1, "desc"]
+                ],
+                dom: '<"row d-flex justify-content-between align-items-center m-1"' +
                     '<"col-lg-6 d-flex align-items-center"l<"dt-action-buttons text-xl-right text-lg-left text-lg-right text-left "B>>' +
                     '<"col-lg-6 d-flex align-items-center justify-content-lg-end flex-lg-nowrap flex-wrap pr-lg-1 p-0"f<"invoice_status ml-sm-2">>' +
                     ">t" +
@@ -701,25 +691,24 @@ $(async function () {
                     },
                 },
                 // Buttons with Dropdown
-                buttons: [
-                    {
+                buttons: [{
                         text: "Add",
                         className: "btn btn-primary btn-sm btn-add-record",
-                        action: function (e, dt, button, config) {
+                        action: function(e, dt, button, config) {
                             new_integration_modal.modal("show");
                         },
                     },
                     {
                         text: "Groups",
                         className: "btn btn-success btn-sm",
-                        action: function (e, dt, button, config) {},
+                        action: function(e, dt, button, config) {},
                     },
                 ],
                 // For responsive popup
                 responsive: {
                     details: {
                         display: $.fn.dataTable.Responsive.display.modal({
-                            header: function (row) {
+                            header: function(row) {
                                 var data = row.data();
                                 return "Details of " + data.name;
                             },
@@ -727,8 +716,7 @@ $(async function () {
                         type: "column",
                         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
                             tableClass: "table",
-                            columnDefs: [
-                                {
+                            columnDefs: [{
                                     targets: 1,
                                     visible: false,
                                 },
@@ -740,23 +728,23 @@ $(async function () {
                         }),
                     },
                 },
-                initComplete: function () {
+                initComplete: function() {
                     $(document).find('[data-toggle="tooltip"]').tooltip();
                     // Adding role filter once table initialized
                 },
-                drawCallback: function () {
+                drawCallback: function() {
                     $(document).find('[data-toggle="tooltip"]').tooltip();
                 },
             });
         }
 
-        new_integration_modal.on("submit", "form", function (e) {
+        new_integration_modal.on("submit", "form", function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
                 data: $(this).serialize(),
-                success: function (resp) {
+                success: function(resp) {
                     if (resp.success) {
                         new_integration_modal.modal("hide");
                         new_integration_modal.find("form")[0].reset();
@@ -770,7 +758,7 @@ $(async function () {
             });
         });
 
-        dtIntegrationsTable.on("click", ".btn-edit", async function () {
+        dtIntegrationsTable.on("click", ".btn-edit", async function() {
             let id = $(this).data().id;
             let form = $(edit_integration_modal).find("form");
             $(edit_integration_modal).modal("show");
@@ -792,7 +780,7 @@ $(async function () {
             let attributes = form.find('[data-repeater-list="attributes"]');
             attributes.empty();
 
-            await $.each(integration.keys, function (index, item) {
+            await $.each(integration.keys, function(index, item) {
                 $(`
                 <div data-repeater-item>
                     <div class="row d-flex align-items-end">
@@ -823,13 +811,13 @@ $(async function () {
             });
         });
 
-        edit_integration_modal.on("submit", "form", function (e) {
+        edit_integration_modal.on("submit", "form", function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
                 data: $(this).serialize(),
-                success: function (resp) {
+                success: function(resp) {
                     if (resp.success) {
                         edit_integration_modal.modal("hide");
                         edit_integration_modal.find("form")[0].reset();
@@ -843,7 +831,7 @@ $(async function () {
             });
         });
 
-        dtIntegrationsTable.on("click", ".btn-delete", function () {
+        dtIntegrationsTable.on("click", ".btn-delete", function() {
             let id = $(this).data("id");
             Swal.fire({
                 title: "Are you sure?",
@@ -856,7 +844,7 @@ $(async function () {
                     cancelButton: "btn btn-outline-danger ml-1",
                 },
                 buttonsStyling: false,
-            }).then(async function (result) {
+            }).then(async function(result) {
                 if (result.isConfirmed) {
                     const deleteData = await $.get(
                         `/integrations/${id}/delete`
@@ -873,10 +861,204 @@ $(async function () {
         });
     }
 
+    function credit_packages_settings() {
+        if (
+            tab_credit_package_table.length &&
+            !$.fn.dataTable.isDataTable(tab_credit_package_table)
+        ) {
+            var dtCPTable = tab_credit_package_table.DataTable({
+                ajax: {
+                    url: "/api/credit-packages/all",
+                    type: "GET",
+                    data: {
+                        api_token,
+                    },
+                }, // JSON file to add data
+                autoWidth: false,
+                columns: [
+                    // columns according to JSON
+                    { data: "id" },
+                    { data: "credits" },
+                    { data: "price" },
+                    { data: "" },
+                ],
+                columnDefs: [{
+                        // For Responsive
+                        className: "control",
+                        responsivePriority: 2,
+                        targets: 0,
+                    },
+                    {
+                        // Actions
+                        targets: -1,
+                        width: "80px",
+                        orderable: false,
+                        render: function(data, type, full, meta) {
+                            return `<div class="d-flex align-items-center col-actions">
+                                  <a class="mr-1 btn-edit" href="javascript:void(0);" data-id="${
+                                      full.id
+                                  }" data-toggle="tooltip" data-placement="top" title="Edit">${feather.icons[
+                                "edit-2"
+                            ].toSvg({ class: "font-medium-2" })}</a>
+                                  <a class="mr-1 btn-delete" href="javascript:void(0);" data-toggle="tooltip" data-id="${
+                                      full.id
+                                  }" data-placement="top" title="Delete">${feather.icons[
+                                "delete"
+                            ].toSvg({ class: "font-medium-2" })}</a>
+                                </div>
+                                `;
+                        },
+                    },
+                ],
+                order: [
+                    [1, "desc"]
+                ],
+                dom: '<"row d-flex justify-content-between align-items-center m-1"' +
+                    '<"col-lg-6 d-flex align-items-center"l<"dt-action-buttons text-xl-right text-lg-left text-lg-right text-left "B>>' +
+                    '<"col-lg-6 d-flex align-items-center justify-content-lg-end flex-lg-nowrap flex-wrap pr-lg-1 p-0"f<"invoice_status ml-sm-2">>' +
+                    ">t" +
+                    '<"d-flex justify-content-between mx-2 row"' +
+                    '<"col-sm-12 col-md-6"i>' +
+                    '<"col-sm-12 col-md-6"p>' +
+                    ">",
+                language: {
+                    sLengthMenu: "Show _MENU_",
+                    search: "Search",
+                    searchPlaceholder: "Search Package",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                },
+                // Buttons with Dropdown
+                buttons: [{
+                    text: "Add Package",
+                    className: "btn btn-primary btn-sm btn-add-record ml-2",
+                    action: function(e, dt, button, config) {
+                        $(new_credit_package_modal).modal("show");
+                    },
+                }, ],
+                // For responsive popup
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal({
+                            header: function(row) {
+                                var data = row.data();
+                                return "Details of " + data.credits;
+                            },
+                        }),
+                        type: "column",
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                            tableClass: "table",
+                            columnDefs: [{
+                                    targets: 1,
+                                    visible: false,
+                                },
+                                {
+                                    targets: 2,
+                                    visible: false,
+                                },
+                            ],
+                        }),
+                    },
+                },
+                initComplete: function() {
+                    $(document).find('[data-toggle="tooltip"]').tooltip();
+                    // Adding role filter once table initialized
+                },
+                drawCallback: function() {
+                    $(document).find('[data-toggle="tooltip"]').tooltip();
+                },
+            });
+        }
+
+        new_credit_package_modal.on("submit", "form", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: $(this).serialize(),
+                success: function(resp) {
+                    if (resp.success) {
+                        new_credit_package_modal.modal("hide");
+                        new_credit_package_modal.find("form")[0].reset();
+                        toastr["success"](resp.msg, "Success!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                        });
+                        dtCPTable.ajax.reload();
+                    }
+                },
+            });
+        });
+
+        dtCPTable.on("click", ".btn-edit", async function() {
+            let id = $(this).data().id;
+            let form = $(edit_credit_package_modal).find("form");
+            $(edit_credit_package_modal).modal("show");
+
+            const cpackage = await $.get(`/creditpackages/${id}/edit`);
+
+            form.find("input[name=id]").val(cpackage.id);
+            form.find("input[name=credits]").val(cpackage.credits);
+            form.find("input[name=price]").val(cpackage.price);
+        });
+
+        edit_credit_package_modal.on("submit", "form", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: $(this).serialize(),
+                success: function(resp) {
+                    if (resp.success) {
+                        edit_credit_package_modal.modal("hide");
+                        edit_credit_package_modal.find("form")[0].reset();
+                        toastr["success"](resp.msg, "Success!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                        });
+                        dtCPTable.ajax.reload();
+                    }
+                },
+            });
+        });
+
+        dtCPTable.on("click", ".btn-delete", function() {
+            let id = $(this).data("id");
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-outline-danger ml-1",
+                },
+                buttonsStyling: false,
+            }).then(async function(result) {
+                if (result.isConfirmed) {
+                    const deleteData = await $.get(
+                        `/creditpackages/${id}/delete`
+                    );
+                    if (deleteData.success) {
+                        toastr["success"](deleteData.msg, "Deleted!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                        });
+                        dtCPTable.ajax.reload();
+                    }
+                }
+            });
+        });
+    }
+
     // form repeater jquery
 
     $(".attribute-lists").repeater({
-        show: function () {
+        show: function() {
             console.log($(this));
             $(this).slideDown();
             // Feather Icons
@@ -884,7 +1066,7 @@ $(async function () {
                 feather.replace({ width: 14, height: 14 });
             }
         },
-        hide: function (deleteElement) {
+        hide: function(deleteElement) {
             if (confirm("Are you sure you want to delete this attribute?")) {
                 $(this).slideUp(deleteElement);
             }

@@ -49,10 +49,11 @@ Route::group(['middleware' => ['check.admin.api_token', 'gate.admin.api_token', 
     Route::get('permissions/all', 'PermissionsController@all');
     Route::get('roles/all', 'RolesController@all');
 
+    Route::get('credit-packages/all', 'CreditPackagesController@all');
     Route::get('payments/all', 'PaymentMethodsController@all');
     Route::get('integrations/all', 'IntegrationsController@all');
     Route::get('integrationgroups/all', 'IntegrationsGroupsController@all');
-
+    Route::get('integrationgroups/all', 'IntegrationsGroupsController@all');
     Route::get('reports/sales/new', 'ReportsController@salesnewAPI');
     Route::get('reports/sales/renew', 'ReportsController@salesrenewAPI');
 

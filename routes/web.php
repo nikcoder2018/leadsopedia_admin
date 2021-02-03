@@ -141,6 +141,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('integrationgroups/update', 'IntegrationsGroupsController@update')->name('integrationgroups.update');
     Route::post('integrationgroups/destroy', 'IntegrationsGroupsController@destroy')->name('integrationgroups.destroy');
 
+    Route::post('creditpackages/store', 'CreditPackagesController@store')->name('creditpackages.store');
+    Route::get('creditpackages/{id}/edit', 'CreditPackagesController@edit')->name('creditpackages.edit');
+    Route::post('creditpackages/update', 'CreditPackagesController@update')->name('creditpackages.update');
+    Route::get('creditpackages/{id}/delete', 'CreditPackagesController@destroy')->name('creditpackages.destroy');
+
     Route::get('reports/sales/new', 'ReportsController@salesnew')->name('reports.sales.new');
     Route::get('reports/sales/renew', 'ReportsController@salesrenew')->name('reports.sales.renew');
 
