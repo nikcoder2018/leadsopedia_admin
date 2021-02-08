@@ -153,6 +153,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('settings', 'SettingsController@index')->name('settings.index');
     Route::post('settings/general', 'SettingsController@update_general')->name('settings.general.update');
+    Route::post('settings/meta', 'SettingsController@update_meta')->name('settings.meta.update');
 
     Route::get('user/settings', 'UserSettingController@index')->name('user.settings.index');
     Route::post('user/settings', 'UserSettingController@store')->name('user.settings.store');

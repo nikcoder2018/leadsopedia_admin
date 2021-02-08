@@ -22,6 +22,9 @@ $(async function() {
     let pill_general = $("#pill-general"),
         tab_general = $("#general"),
         tab_general_form = tab_general.find("form"),
+        pill_seo = $("#pill-seo"),
+        tab_seo = $("#seo"),
+        tab_seo_form = tab_seo.find("form"),
         pill_payments = $("#pill-payments"),
         tab_payments = $("#payments"),
         new_payment_method_modal = $("#new-payment-method-modal"),
@@ -306,6 +309,10 @@ $(async function() {
     pill_credit_package.on("click", async function() {
         credit_packages_settings();
     });
+
+    pill_seo.on("click", async function() {
+        seo_settings();
+    });
     async function general_settings() {
         tab_general_form.hide();
         tab_general.addClass(
@@ -366,6 +373,39 @@ $(async function() {
         });
 
         tab_general_form.on("submit", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: $(this).serialize(),
+                success: function(resp) {
+                    if (resp.success) {
+                        toastr["success"](resp.msg, "Success!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                        });
+                    }
+                },
+            });
+        });
+    }
+
+    async function seo_settings() {
+        const seo = await $.get("/api/settings/init", {
+            api_token,
+            type: "seo",
+        });
+        tab_seo_form
+            .find("textarea[name=meta_tag_description]")
+            .val(seo.defaults.meta_tag_description);
+        tab_seo_form
+            .find("textarea[name=meta_tag_keywords]")
+            .val(seo.defaults.meta_tag_keywords);
+        tab_seo_form
+            .find("input[name=meta_tag_author]")
+            .val(seo.defaults.meta_tag_author);
+
+        tab_seo_form.on("submit", function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr("action"),

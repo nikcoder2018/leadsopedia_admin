@@ -44,6 +44,15 @@ class SettingsController extends Controller
                 );
                 return response()->json($data);
             break;
+
+            case 'seo': 
+                $data['defaults'] = array(
+                    'meta_tag_description' => Setting::GetValue('meta_tag_description'),
+                    'meta_tag_keywords' => Setting::GetValue('meta_tag_keywords'),
+                    'meta_tag_author' => Setting::GetValue('meta_tag_author'),
+                );
+                return response()->json($data);
+            break;
         }
     }   
 
@@ -59,5 +68,19 @@ class SettingsController extends Controller
         }
 
         return response()->json(array('success' => true, 'msg' => 'General Settings Updated.'));
+    }
+
+    public function update_meta(Request $request){
+        abort_unless(Gate::any(['full_access','settings_update']), 404);
+
+        foreach($request->input() as $name=>$value){
+            if(Setting::where('name',$name)->exists()){
+                $setting = Setting::where('name',$name)->first();
+                $setting->value = $value;
+                $setting->save();
+            }
+        }
+
+        return response()->json(array('success' => true, 'msg' => 'Meta Settings Updated.'));
     }
 }

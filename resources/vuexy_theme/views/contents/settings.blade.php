@@ -75,6 +75,13 @@
                             <span class="font-weight-bold">Credit Packages</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pill-seo" data-toggle="pill" href="#seo"
+                            aria-expanded="false">
+                            <i data-feather='search' class="font-medium-3 mr-1"></i>
+                            <span class="font-weight-bold">SEO</span>
+                        </a>
+                    </li>
                     <!-- notification -->
                     {{-- <li class="nav-item">
                         <a class="nav-link" id="pill-notifications" data-toggle="pill" href="#notifications"
@@ -153,6 +160,40 @@
                                 <!--/ form -->
                             </div>
                             <!--/ general tab -->
+                            <!-- seo tab -->
+                            <div role="tabpanel" class="tab-pane" id="seo" aria-labelledby="pill-seo"
+                                aria-expanded="true">
+                                <!-- form -->
+                                <form action="{{ route('settings.meta.update') }}">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Meta Tag Description</label>
+                                                <textarea name="meta_tag_description" cols="30" rows="5" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Meta Tag Keywords</label>
+                                                <textarea name="meta_tag_keywords" cols="30" rows="5" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Meta Tag Author</label>
+                                                <input type="text" name="meta_tag_author" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary mt-2 mr-1">Save changes</button>
+                                            <button type="reset" class="btn btn-outline-secondary mt-2">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--/ form -->
+                            </div>
+                            <!--/ seo tab -->
 
                             <!-- payments -->
                             <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="pill-payments"
