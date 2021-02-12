@@ -554,6 +554,25 @@ $(async function() {
                 },
             });
         });
+        edit_payment_method_modal.on("submit", "form", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: $(this).serialize(),
+                success: function(resp) {
+                    if (resp.success) {
+                        edit_payment_method_modal.modal("hide");
+                        edit_payment_method_modal.find("form")[0].reset();
+                        toastr["success"](resp.msg, "Success!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                        });
+                        dtPaymentsTable.ajax.reload();
+                    }
+                },
+            });
+        });
 
         dtPaymentsTable.on("click", ".btn-edit", async function() {
             let id = $(this).data().id;
@@ -567,7 +586,7 @@ $(async function() {
             form.find("textarea[name=description]").val(payment.description);
 
             let attributes = form.find('[data-repeater-list="attributes"]');
-
+            attributes.empty();
             await $.each(payment.details, function(index, detail) {
                 $(`
                 <div data-repeater-item>
