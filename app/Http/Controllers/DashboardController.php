@@ -34,7 +34,10 @@ class DashboardController extends Controller
                 $data['totalSearches'] = $this->simplifyCount(Result::count());
                 $data['totalCustomers'] = $this->simplifyCount(Customer::count()); 
                 $data['totalSales'] = Setting::GetValue('currency_symbol').$this->simplifyCount(Transaction::sum('amount')); 
-                $data['todaySales'] = Setting::GetValue('currency_symbol').$this->simplifyCount(Transaction::where('created_at', '>', Carbon::now()->startOfDay())->sum('amount'));
+                $data['todaySales'] = Setting::GetValue('currency_symbol').$this->simplifyCount(Transaction::where(function($q){ 
+                    $q->orWhere('status','succeeded');
+                    $q->orWhere('status', 'approved');
+                })->where('created_at', '>', Carbon::now()->startOfDay())->sum('amount'));
 
                 return response()->json($data);
             break;

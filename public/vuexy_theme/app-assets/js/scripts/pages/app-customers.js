@@ -17,6 +17,7 @@ $(async function() {
         can_create_customers = $.inArray('customers_create', mypermissions) != -1 ? true : false,
         can_edit_customerns = $.inArray('customers_edit', mypermissions) != -1 ? true : false,
         can_delete_customers = $.inArray('customers_delete', mypermissions) != -1 ? true : false,
+        can_verify_customers = $.inArray('customers_verify', mypermissions) != -1 ? true : false,
         can_changestatus_customers = $.inArray('customers_delete', mypermissions) != -1 ? true : false;
 
     var dtCustomerTable = $('.customers-list-table'),
@@ -31,6 +32,7 @@ $(async function() {
         var dtCustomer = dtCustomerTable.DataTable({
             processing: true,
             serverSide: true,
+            scrollX: true,
             ajax: {
                 url: API_URL,
                 type: "GET",
@@ -85,7 +87,9 @@ $(async function() {
                         // if (can_show_customers || has_full_access) {
                         //     elAction += `<a class="mr-1 text-primary" href="${URL}/${row.id}" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Customer Details">${feather.icons['user'].toSvg({ class: 'font-medium-2' })}</a>`;
                         // }
-
+                        // if (can_verify_customers || has_full_access) {
+                        //     elAction += `<a class="mr-1 text-success btn-add-verify" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Manual Verify">${feather.icons['check-circle'].toSvg({ class: 'font-medium-2' })}</a>`;
+                        // }
                         if (can_add_credits_customers || has_full_access) {
                             elAction += `<a class="mr-1 text-secondary btn-add-credits" href="javascript:void(0);" data-id="${row.id}" data-toggle="tooltip" data-placement="top" title="Add Credits">${feather.icons['plus-circle'].toSvg({ class: 'font-medium-2' })}</a>`;
                         }
