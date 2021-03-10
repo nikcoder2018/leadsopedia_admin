@@ -69,7 +69,7 @@ class DashboardController extends Controller
                 $numberOfMonths = 7;
                 $months = array();
                 $data = array();
-                for($i = $numberOfMonths; $i >= 1; $i--){
+                for($i = $numberOfMonths; $i >= 0; $i--){
                     $month = Carbon::now()->subMonths($i)->format('M');
                     $sMonth = Carbon::now()->subMonths($i)->startOfMonth()->format('Y-m-d H:i:s');
                     $eMonth = Carbon::now()->subMonths($i)->endOfMonth()->format('Y-m-d H:i:s');
