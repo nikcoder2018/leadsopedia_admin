@@ -33,7 +33,10 @@ class DashboardController extends Controller
                 $data['totalData'] = $this->simplifyCount(Lead::count());
                 $data['totalSearches'] = $this->simplifyCount(Result::count());
                 $data['totalCustomers'] = $this->simplifyCount(Customer::count()); 
-                $data['totalSales'] = Setting::GetValue('currency_symbol').$this->simplifyCount(Transaction::sum('amount')); 
+                $data['totalSales'] = Setting::GetValue('currency_symbol').$this->simplifyCount(Transaction::where(function($q){ 
+                    $q->orWhere('status','succeeded');
+                    $q->orWhere('status', 'approved');
+                })->sum('amount')); 
                 $data['todaySales'] = Setting::GetValue('currency_symbol').$this->simplifyCount(Transaction::where(function($q){ 
                     $q->orWhere('status','succeeded');
                     $q->orWhere('status', 'approved');
@@ -70,7 +73,10 @@ class DashboardController extends Controller
                     $month = Carbon::now()->subMonths($i)->format('M');
                     $sMonth = Carbon::now()->subMonths($i)->startOfMonth()->format('Y-m-d H:i:s');
                     $eMonth = Carbon::now()->subMonths($i)->endOfMonth()->format('Y-m-d H:i:s');
-                    $transaction = Transaction::whereBetween('created_at', [$sMonth, $eMonth])->sum('amount');
+                    $transaction = Transaction::where(function($q){ 
+                        $q->orWhere('status','succeeded');
+                        $q->orWhere('status', 'approved');
+                    })->whereBetween('created_at', [$sMonth, $eMonth])->sum('amount');
                     array_push($data, $transaction);
                     array_push($months, $month);
                 }
