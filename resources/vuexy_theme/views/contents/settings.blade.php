@@ -163,35 +163,22 @@
                             <!-- seo tab -->
                             <div role="tabpanel" class="tab-pane" id="seo" aria-labelledby="pill-seo"
                                 aria-expanded="true">
-                                <!-- form -->
-                                <form action="{{ route('settings.meta.update') }}">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-12 col-sm-12">
-                                            <div class="form-group">
-                                                <label>Meta Tag Description</label>
-                                                <textarea name="meta_tag_description" cols="30" rows="5" class="form-control"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-12">
-                                            <div class="form-group">
-                                                <label>Meta Tag Keywords</label>
-                                                <textarea name="meta_tag_keywords" cols="30" rows="5" class="form-control"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-12">
-                                            <div class="form-group">
-                                                <label>Meta Tag Author</label>
-                                                <input type="text" name="meta_tag_author" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn btn-primary mt-2 mr-1">Save changes</button>
-                                            <button type="reset" class="btn btn-outline-secondary mt-2">Cancel</button>
-                                        </div>
+                                <div class="card">
+                                    <div class="card-datatable table-responsive">
+                                        <table class="table table-seo">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Path</th>
+                                                    <th>Title</th>
+                                                    <th>Description</th>
+                                                    <th>Keywords</th>
+                                                    <th class="cell-fit">Actions</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
                                     </div>
-                                </form>
-                                <!--/ form -->
+                                </div>
                             </div>
                             <!--/ seo tab -->
 
@@ -807,6 +794,85 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="new-seo-page-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2"
+    aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 650px !important" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel-2">Add SEO Page Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form-add-seo" action="{{ route('seo-pages.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="path">path <sup>*</sup></label>
+                        <input type="text" class="form-control" name="path" placeholder="Path" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" placeholder="Title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" cols="30" rows="6" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="keywords">Keywords</label>
+                        <input type="text" name="keywords" placeholder="Keywords" class="form-control">
+                        <small>Separate keywords by comma (,)</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit-seo-page-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2"
+    aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 650px !important" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel-2">Edit Page SEO Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form-edit-seo" action="{{ route('seo-pages.update') }}" method="POST">
+                @csrf
+                <input type="hidden" name="id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="path">path <sup>*</sup></label>
+                        <input type="text" class="form-control" name="path" placeholder="Path" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" placeholder="Title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" cols="30" rows="6" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="keywords">Keywords</label>
+                        <input type="text" name="keywords" placeholder="Keywords" class="form-control">
+                        <small>Separate keywords by comma (,)</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('external_js')

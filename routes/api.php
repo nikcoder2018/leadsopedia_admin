@@ -54,6 +54,8 @@ Route::group(['middleware' => ['check.admin.api_token', 'gate.admin.api_token', 
     Route::get('integrations/all', 'IntegrationsController@all');
     Route::get('integrationgroups/all', 'IntegrationsGroupsController@all');
     Route::get('integrationgroups/all', 'IntegrationsGroupsController@all');
+    Route::get('seo-pages/all', 'SEOPagesController@all');
+
     Route::get('reports/sales/new', 'ReportsController@salesnewAPI');
     Route::get('reports/sales/renew', 'ReportsController@salesrenewAPI');
 

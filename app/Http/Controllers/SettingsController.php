@@ -14,6 +14,7 @@ use App\IntegrationData;
 use App\IntegrationDataDefault;
 use App\IntegrationGroup;
 use App\CreditPackage;
+use App\SEOPage;
 use Gate;
 class SettingsController extends Controller
 {

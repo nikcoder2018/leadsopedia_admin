@@ -146,6 +146,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('creditpackages/update', 'CreditPackagesController@update')->name('creditpackages.update');
     Route::get('creditpackages/{id}/delete', 'CreditPackagesController@destroy')->name('creditpackages.destroy');
 
+    Route::post('seo-pages/store', 'SEOPagesController@store')->name('seo-pages.store');
+    Route::get('seo-pages/{id}/edit', 'SEOPagesController@edit')->name('seo-pages.edit');
+    Route::post('seo-pages/update', 'SEOPagesController@update')->name('seo-pages.update');
+    Route::get('seo-pages/{id}/delete', 'SEOPagesController@destroy')->name('seo-pages.delete');
+
     Route::get('reports/sales/new', 'ReportsController@salesnew')->name('reports.sales.new');
     Route::get('reports/sales/renew', 'ReportsController@salesrenew')->name('reports.sales.renew');
 
