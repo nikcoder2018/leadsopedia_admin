@@ -91,7 +91,7 @@
 
 .email-application .content-area-wrapper .email-user-list {
   position : relative;
-  height : calc( 100% - calc(3.49rem + 3.32rem));
+  height : calc(  100% - calc(3.49rem + 3.32rem));
 }
 
 .email-application .content-area-wrapper .email-user-list .email-media-list {

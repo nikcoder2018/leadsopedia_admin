@@ -17,7 +17,8 @@
 }
 
 .blog-sidebar .blog-recent-posts img {
-  object-fit : cover;
+  -o-object-fit : cover;
+     object-fit : cover;
 }
 
 .blog-sidebar .blog-recent-posts .text-body-heading:hover {

@@ -53,6 +53,13 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ Request::segment(1) === 'datarequests' ? 'active' : null }}">
+                <a class="d-flex align-items-center" href="{{route('datarequests.index')}}">
+                    <i data-feather="box"></i>
+                    <span class="menu-title text-truncate">Data Sample Requests</span>
+                </a>
+            </li>
+
             <li class="nav-item"><a class="d-flex align-items-center" href="#">
                 <i data-feather='database'></i><span class="menu-title text-truncate">Data Leads</span></a>
                 <ul class="menu-content">

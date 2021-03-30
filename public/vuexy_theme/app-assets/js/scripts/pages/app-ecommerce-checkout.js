@@ -16,14 +16,16 @@ $(function () {
     bsStepper = document.querySelectorAll('.bs-stepper'),
     checkoutWizard = document.querySelector('.checkout-tab-steps'),
     removeItem = $('.remove-wishlist'),
-    moveToCart = $('.move-cart');
+    moveToCart = $('.move-cart'),
+    isRtl = $('html').attr('data-textdirection') === 'rtl';
 
   // remove items from wishlist page
   removeItem.on('click', function () {
     $(this).closest('.ecommerce-card').remove();
     toastr['error']('', 'Removed Item 🗑️', {
       closeButton: true,
-      tapToDismiss: false
+      tapToDismiss: false,
+      rtl: isRtl
     });
   });
 
@@ -32,7 +34,8 @@ $(function () {
     $(this).closest('.ecommerce-card').remove();
     toastr['success']('', 'Added to wishlist ❤️', {
       closeButton: true,
-      tapToDismiss: false
+      tapToDismiss: false,
+      rtl: isRtl
     });
   });
 

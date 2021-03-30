@@ -335,7 +335,7 @@ label {
 }
 
 .custom-file-label:after {
-  height : 2.55rem;
+  height : 2.58rem;
   line-height : 1.75;
 }
 
@@ -615,6 +615,20 @@ select.form-control.form-control-sm {
   opacity : 0;
 }
 
+.form-label-group > input:focus:not(:-moz-placeholder-shown) ~ label, .form-label-group > input:not(:active):not(:-moz-placeholder-shown) ~ label, .form-label-group textarea:focus:not(:-moz-placeholder-shown) ~ label, .form-label-group textarea:not(:active):not(:-moz-placeholder-shown) ~ label {
+  color : #7367F0 !important;
+  -moz-transition : all 0.25s ease-in-out;
+       transition : all 0.25s ease-in-out;
+  opacity : 1;
+}
+
+.form-label-group > input:focus:not(:-ms-input-placeholder) ~ label, .form-label-group > input:not(:active):not(:-ms-input-placeholder) ~ label, .form-label-group textarea:focus:not(:-ms-input-placeholder) ~ label, .form-label-group textarea:not(:active):not(:-ms-input-placeholder) ~ label {
+  color : #7367F0 !important;
+  -ms-transition : all 0.25s ease-in-out;
+      transition : all 0.25s ease-in-out;
+  opacity : 1;
+}
+
 .form-label-group > input:focus:not(:placeholder-shown) ~ label, .form-label-group > input:not(:active):not(:placeholder-shown) ~ label, .form-label-group textarea:focus:not(:placeholder-shown) ~ label, .form-label-group textarea:not(:active):not(:placeholder-shown) ~ label {
   color : #7367F0 !important;
   -webkit-transition : all 0.25s ease-in-out;
@@ -622,8 +636,28 @@ select.form-control.form-control-sm {
   opacity : 1;
 }
 
+.form-label-group > input:not(:focus):not(:-moz-placeholder-shown) ~ label, .form-label-group textarea:not(:focus):not(:-moz-placeholder-shown) ~ label {
+  color : rgba(34, 41, 47, 0.4) !important;
+}
+
+.form-label-group > input:not(:focus):not(:-ms-input-placeholder) ~ label, .form-label-group textarea:not(:focus):not(:-ms-input-placeholder) ~ label {
+  color : rgba(34, 41, 47, 0.4) !important;
+}
+
 .form-label-group > input:not(:focus):not(:placeholder-shown) ~ label, .form-label-group textarea:not(:focus):not(:placeholder-shown) ~ label {
   color : rgba(34, 41, 47, 0.4) !important;
+}
+
+.form-label-group > input:not(:-moz-placeholder-shown) ~ label, .form-label-group textarea:not(:-moz-placeholder-shown) ~ label {
+  padding : 0.25rem 0;
+  top : -20px;
+  right : 3px;
+}
+
+.form-label-group > input:not(:-ms-input-placeholder) ~ label, .form-label-group textarea:not(:-ms-input-placeholder) ~ label {
+  padding : 0.25rem 0;
+  top : -20px;
+  right : 3px;
 }
 
 .form-label-group > input:not(:placeholder-shown) ~ label, .form-label-group textarea:not(:placeholder-shown) ~ label {
@@ -632,8 +666,24 @@ select.form-control.form-control-sm {
   right : 3px;
 }
 
+.form-label-group > input.form-control-lg:not(:-moz-placeholder-shown) ~ label, .form-label-group textarea.form-control-lg:not(:-moz-placeholder-shown) ~ label {
+  top : -23px;
+}
+
+.form-label-group > input.form-control-lg:not(:-ms-input-placeholder) ~ label, .form-label-group textarea.form-control-lg:not(:-ms-input-placeholder) ~ label {
+  top : -23px;
+}
+
 .form-label-group > input.form-control-lg:not(:placeholder-shown) ~ label, .form-label-group textarea.form-control-lg:not(:placeholder-shown) ~ label {
   top : -23px;
+}
+
+.form-label-group > input.form-control-sm:not(:-moz-placeholder-shown) ~ label, .form-label-group textarea.form-control-sm:not(:-moz-placeholder-shown) ~ label {
+  top : -18px;
+}
+
+.form-label-group > input.form-control-sm:not(:-ms-input-placeholder) ~ label, .form-label-group textarea.form-control-sm:not(:-ms-input-placeholder) ~ label {
+  top : -18px;
 }
 
 .form-label-group > input.form-control-sm:not(:placeholder-shown) ~ label, .form-label-group textarea.form-control-sm:not(:placeholder-shown) ~ label {
@@ -1205,6 +1255,12 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
   margin-right : 0;
 }
 
+@media (min-width: 576px) {
+  .header-navbar .navbar-container {
+    padding : 0.8rem 1.4rem;
+  }
+}
+
 .header-navbar .navbar-container .bookmark-wrapper .bookmark-input {
   z-index : 1;
 }
@@ -1226,7 +1282,7 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
 }
 
 .vertical-layout .header-navbar .navbar-container ul.navbar-nav li.dropdown .dropdown-menu {
-  top : 48px !important;
+  top : 41px !important;
 }
 
 .header-navbar .navbar-container ul.navbar-nav li.dropdown-language .dropdown-menu.dropdown-menu-right {
@@ -1468,6 +1524,10 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
   display : none;
 }
 
+.navbar-floating .navbar-container {
+  padding : 0.8rem 1rem;
+}
+
 .navbar-floating .header-navbar-shadow {
   display : block;
   background : -webkit-linear-gradient(top, rgba(248, 248, 248, 0.95) 44%, rgba(248, 248, 248, 0.46) 73%, rgba(255, 255, 255, 0));
@@ -1609,7 +1669,7 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
 
 @media (max-width: 575.98px) {
   .header-navbar.floating-nav {
-    width : calc( 100vw - (100vw - 100%) - calc(2rem + 0.4rem)) !important;
+    width : calc(    100vw - (100vw - 100%) - calc(2rem + 0.4rem)) !important;
     margin-right : 1rem;
     margin-left : 1.2rem;
   }
@@ -1673,7 +1733,8 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
 }
 
 .card .card-img {
-  object-fit : cover;
+  -o-object-fit : cover;
+     object-fit : cover;
 }
 
 .card .card-img-overlay {
@@ -2169,6 +2230,10 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
   color : #6E6B7B;
   margin-left : 0.6rem;
   background-size : 14px;
+}
+
+.breadcrumb .breadcrumb-item + .breadcrumb-item:before {
+  height : 20px;
 }
 
 /* Component Specific */
@@ -3256,9 +3321,11 @@ ul.list-inline.list-inline-pipe > li + li:before {
   max-width : 300px;
 }
 
-.modal-xl {
-  margin-right : 3%;
-  margin-left : 3%;
+@media (min-width: 1200px) {
+  .modal-xl {
+    margin-right : 3%;
+    margin-left : 3%;
+  }
 }
 
 .modal-slide-in, .modal-slide-in .modal {

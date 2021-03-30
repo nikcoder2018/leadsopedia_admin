@@ -19,6 +19,7 @@ class Customer extends Model
         'name', 'email', 'password',
     ];
 
+    protected $dates = ['subscription_starts','subscription_ends'];
     /**
      * The attributes that should be hidden for arrays.
      *

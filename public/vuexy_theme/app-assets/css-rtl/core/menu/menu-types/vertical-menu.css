@@ -25,8 +25,8 @@
 }
 
 .vertical-layout.vertical-menu-modern .main-menu .navigation > li > a svg, .vertical-layout.vertical-menu-modern .main-menu .navigation > li > a i {
-  height : 1.45rem;
-  width : 1.45rem;
+  height : 20px;
+  width : 20px;
   font-size : 1.45rem;
   margin-left : 1.1rem;
   -webkit-flex-shrink : 0;
@@ -50,8 +50,8 @@
 }
 
 .vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation > li > a > i:before, .vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation > li > a > svg:before {
-  height : 1.45rem;
-  width : 1.45rem;
+  height : 20px;
+  width : 20px;
   font-size : 1.45rem;
 }
 
@@ -332,8 +332,8 @@
   float : right;
   -webkit-transition : 200ms ease all;
           transition : 200ms ease all;
-  height : 1.45rem;
-  width : 1.45rem;
+  height : 20px;
+  width : 20px;
 }
 
 .vertical-overlay-menu .main-menu .navigation > li > a > svg:before, .vertical-overlay-menu .main-menu .navigation > li > a > i:before {

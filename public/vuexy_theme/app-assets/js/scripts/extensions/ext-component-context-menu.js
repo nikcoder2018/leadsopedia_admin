@@ -9,12 +9,16 @@
 
 'use strict';
 
+var isRtl = $('html').attr('data-textdirection') === 'rtl';
 // Basic Context Menu
 $.contextMenu({
   selector: '#basic-context-menu',
   callback: function (key, options) {
     var r = 'clicked ' + key;
-    window.console && toastr['success']('', r);
+    window.console &&
+      toastr['success']('', r, {
+        rtl: isRtl
+      });
   },
   items: {
     'Option 1': { name: 'Option 1' },
@@ -28,7 +32,10 @@ $.contextMenu({
   trigger: 'left',
   callback: function (key, options) {
     var r = 'clicked ' + key;
-    window.console && toastr['success']('', r);
+    window.console &&
+      toastr['success']('', r, {
+        rtl: isRtl
+      });
   },
   items: {
     'Option 1': { name: 'Option 1' },
@@ -43,7 +50,10 @@ $.contextMenu({
   autoHide: true,
   callback: function (key, options) {
     var r = 'clicked ' + key;
-    window.console && toastr['success']('', r);
+    window.console &&
+      toastr['success']('', r, {
+        rtl: isRtl
+      });
   },
   items: {
     'Option 1': { name: 'Option 1' },
@@ -56,7 +66,10 @@ $.contextMenu({
   selector: '#submenu-context-menu',
   callback: function (key, options) {
     var r = 'clicked ' + key;
-    window.console && toastr['success']('', r);
+    window.console &&
+      toastr['success']('', r, {
+        rtl: isRtl
+      });
   },
   items: {
     'Option 1': { name: 'Option 1' },

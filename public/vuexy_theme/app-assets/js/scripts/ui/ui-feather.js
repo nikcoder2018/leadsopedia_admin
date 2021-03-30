@@ -15,6 +15,8 @@ $(function () {
     searchInput = $('#icons-search'),
     iconsContainer = $('#icons-container');
 
+  var isRtl = $('html').attr('data-textdirection') === 'rtl';
+
   // Loop to render icons
   if (icons.length) {
     icons.map(function (icon) {
@@ -57,7 +59,8 @@ $(function () {
     tempInput.select();
     toastr['success'](tempInput.value.split("'")[1], 'Icon Name Copied! 📋', {
       closeButton: true,
-      tapToDismiss: false
+      tapToDismiss: false,
+      rtl: isRtl
     });
     document.execCommand('copy');
     document.body.removeChild(tempInput);

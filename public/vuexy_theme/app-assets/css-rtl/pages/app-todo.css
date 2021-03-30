@@ -93,7 +93,7 @@
 
 .todo-application .content-area-wrapper .content-right .todo-task-list-wrapper {
   position : relative;
-  height : calc(100% - 3.49rem);
+  height : calc(100% - 3.56rem);
   background-color : #FFFFFF;
   border-radius : 0;
 }
@@ -101,6 +101,7 @@
 .todo-application .content-area-wrapper .content-right .todo-task-list-wrapper .todo-task-list {
   padding : 0;
   margin : 0;
+  list-style : none;
 }
 
 .todo-application .content-area-wrapper .content-right .todo-task-list-wrapper .todo-task-list li {
@@ -340,4 +341,8 @@
   .todo-application .content-area-wrapper .sidebar .todo-sidebar {
     width : 230px;
   }
+}
+
+.horizontal-menu .todo-application .content-area-wrapper .content-right .todo-task-list-wrapper {
+  height : calc(100% - 3.6rem);
 }

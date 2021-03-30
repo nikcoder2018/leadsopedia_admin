@@ -233,6 +233,7 @@ return [
         'HubspotContact' => App\Helpers\HubspotContact::class,
         'Copper' => App\Helpers\Copper::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Download' => App\Helpers\Download::class,
     ],
 
 ];

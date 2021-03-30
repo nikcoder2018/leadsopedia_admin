@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Customer as ResourceCustomer;
 use App\Customer;
 use App\User;
+use App\Result;
+
 use Carbon\Carbon;
 
 use DataTables;
@@ -64,7 +66,12 @@ class CustomersController extends Controller
      */
     public function show($id)
     {
-        //
+        $customer = Customer::where('id',$id)->with('subscription')->first();
+        $searches = Result::select('type', 'count', 'created_at')->where('user_id', $customer->id)->orderBy('created_at', 'desc')->take(10)->get();
+        $data['customer'] = $customer;
+        $data['searches'] = $searches;
+
+        return view('contents.customers-view', $data);
     }
 
     /**

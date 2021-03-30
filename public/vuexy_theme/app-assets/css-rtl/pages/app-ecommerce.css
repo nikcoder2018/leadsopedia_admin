@@ -187,7 +187,6 @@
   height : 1.143rem;
   width : 1.143rem;
   font-size : 1.143rem;
-  cursor : pointer;
 }
 
 .ecommerce-application .ecommerce-card .item-name {
@@ -243,6 +242,14 @@
 .ecommerce-application .grid-view .ecommerce-card .item-img {
   padding-top : 0.5rem;
   min-height : 15.85rem;
+  display : -webkit-box;
+  display : -webkit-flex;
+  display : -ms-flexbox;
+  display :         flex;
+  -webkit-box-align : center;
+  -webkit-align-items : center;
+  -ms-flex-align : center;
+          align-items : center;
 }
 
 .ecommerce-application .grid-view .ecommerce-card .item-wrapper {

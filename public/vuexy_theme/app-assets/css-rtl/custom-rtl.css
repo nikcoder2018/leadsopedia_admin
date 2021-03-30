@@ -33,7 +33,7 @@ li.has-sub.open:not(.menu-item-closing) > a:after {
 }
 
 .header-navbar .navbar-container ul.nav li.dropdown .dropdown-menu {
-  top : 48px !important;
+  top : 41px !important;
 }
 
 .header-navbar .navbar-container ul.nav li.dropdown .dropdown-menu::before {

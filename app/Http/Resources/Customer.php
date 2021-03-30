@@ -15,9 +15,11 @@ class Customer extends JsonResource
     public function toArray($request)
     {
         return [
+            'responsive_id' => '',
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'avatar' => $this->avatar,
             'email_status' => $this->email_verified_at != null ? 'verified' : 'not_verified',
             'company' => $this->company,
             'referrals' => $this->countReferrals,

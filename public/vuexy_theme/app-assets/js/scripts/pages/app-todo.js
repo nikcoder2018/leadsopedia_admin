@@ -35,7 +35,8 @@ $(function () {
     todoTaskListWrapper = $('.todo-task-list-wrapper'),
     listItemFilter = $('.list-group-filters'),
     noResults = $('.no-results'),
-    checkboxId = 100;
+    checkboxId = 100,
+    isRtl = $('html').attr('data-textdirection') === 'rtl';
 
   var assetPath = '../../../app-assets/';
   if ($('body').attr('data-framework') === 'laravel') {
@@ -293,7 +294,8 @@ $(function () {
         }
         toastr['success']('Data Saved', '💾 Task Action!', {
           closeButton: true,
-          tapToDismiss: false
+          tapToDismiss: false,
+          rtl: isRtl
         });
         $(newTaskModal).modal('hide');
         overlay.removeClass('show');
@@ -308,7 +310,8 @@ $(function () {
       $this.closest('.todo-item').addClass('completed');
       toastr['success']('Task Completed', 'Congratulations!! 🎉', {
         closeButton: true,
-        tapToDismiss: false
+        tapToDismiss: false,
+        rtl: isRtl
       });
     } else {
       $this.closest('.todo-item').removeClass('completed');
@@ -354,7 +357,8 @@ $(function () {
 
         toastr['success']('Data Saved', '💾 Task Action!', {
           closeButton: true,
-          tapToDismiss: false
+          tapToDismiss: false,
+          rtl: isRtl
         });
         $(newTaskModal).modal('hide');
       }

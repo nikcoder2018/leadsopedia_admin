@@ -40,7 +40,7 @@ $(window).on('load', function () {
     grid_line_color = 'rgba(200, 200, 200, 0.2)'; // RGBA color helps in dark layout
 
   // Detect Dark Layout
-  if ($('body').hasClass('dark-layout')) {
+  if ($('html').hasClass('dark-layout')) {
     labelColor = '#b4b7bd';
   }
 
@@ -285,6 +285,12 @@ $(window).on('load', function () {
         legend: {
           display: false
         },
+        layout: {
+          padding: {
+            bottom: -30,
+            left: -25
+          }
+        },
         scales: {
           xAxes: [
             {
@@ -338,6 +344,16 @@ $(window).on('load', function () {
   if (lineChartEx.length) {
     var lineExample = new Chart(lineChartEx, {
       type: 'line',
+      plugins: [
+        // to add spacing between legends and chart
+        {
+          beforeInit: function (chart) {
+            chart.legend.afterFit = function () {
+              this.height += 20;
+            };
+          }
+        }
+      ],
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -354,6 +370,13 @@ $(window).on('load', function () {
           backgroundColor: window.colors.solid.white,
           titleFontColor: window.colors.solid.black,
           bodyFontColor: window.colors.solid.black
+        },
+        layout: {
+          padding: {
+            top: -15,
+            bottom: -25,
+            left: -15
+          }
         },
         scales: {
           xAxes: [
@@ -393,7 +416,13 @@ $(window).on('load', function () {
           ]
         },
         legend: {
-          display: false
+          position: 'top',
+          align: 'start',
+          labels: {
+            usePointStyle: true,
+            padding: 25,
+            boxWidth: 9
+          }
         }
       },
       data: {
@@ -477,6 +506,16 @@ $(window).on('load', function () {
 
     var radarExample = new Chart(radarChartEx, {
       type: 'radar',
+      plugins: [
+        // to add spacing between legends and chart
+        {
+          beforeInit: function (chart) {
+            chart.legend.afterFit = function () {
+              this.height += 20;
+            };
+          }
+        }
+      ],
       data: {
         labels: ['STA', 'STR', 'AGI', 'VIT', 'CHA', 'INT'],
         datasets: [
@@ -509,6 +548,11 @@ $(window).on('load', function () {
           labels: {
             padding: 25,
             fontColor: labelColor
+          }
+        },
+        layout: {
+          padding: {
+            top: -20
           }
         },
         tooltips: {
@@ -559,8 +603,14 @@ $(window).on('load', function () {
           labels: {
             usePointStyle: true,
             padding: 25,
-            boxWidth: 10,
+            boxWidth: 9,
             fontColor: labelColor
+          }
+        },
+        layout: {
+          padding: {
+            top: -5,
+            bottom: -45
           }
         },
         tooltips: {
@@ -1009,6 +1059,16 @@ $(window).on('load', function () {
   if (scatterChartEx.length) {
     var scatterExample = new Chart(scatterChartEx, {
       type: 'scatter',
+      plugins: [
+        // to add spacing between legends and chart
+        {
+          beforeInit: function (chart) {
+            chart.legend.afterFit = function () {
+              this.height += 20;
+            };
+          }
+        }
+      ],
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -1059,14 +1119,17 @@ $(window).on('load', function () {
         },
         legend: {
           position: 'top',
+          align: 'start',
           labels: {
             usePointStyle: true,
             padding: 25,
-            boxWidth: 7
+            boxWidth: 9
           }
         },
-        legend: {
-          display: false
+        layout: {
+          padding: {
+            top: -20
+          }
         }
       },
       data: {
@@ -1289,12 +1352,34 @@ $(window).on('load', function () {
   if (lineAreaChartEx.length) {
     new Chart(lineAreaChartEx, {
       type: 'line',
+      plugins: [
+        // to add spacing between legends and chart
+        {
+          beforeInit: function (chart) {
+            chart.legend.afterFit = function () {
+              this.height += 20;
+            };
+          }
+        }
+      ],
       options: {
         responsive: true,
         maintainAspectRatio: false,
         legend: {
           position: 'top',
-          display: false
+          align: 'start',
+          labels: {
+            usePointStyle: true,
+            padding: 25,
+            boxWidth: 9
+          }
+        },
+        layout: {
+          padding: {
+            top: -20,
+            bottom: -20,
+            left: -20
+          }
         },
         tooltips: {
           // Updated default tooltip UI

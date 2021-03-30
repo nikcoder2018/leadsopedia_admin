@@ -13,7 +13,8 @@ $(function () {
     productOption = $('.product-color-options li'),
     btnCart = $('.btn-cart'),
     wishlist = $('.btn-wishlist'),
-    checkout = 'app-ecommerce-checkout.html';
+    checkout = 'app-ecommerce-checkout.html',
+    isRtl = $('html').attr('data-textdirection') === 'rtl';
 
   if ($('body').attr('data-framework') === 'laravel') {
     var url = $('body').attr('data-asset-path');
@@ -61,7 +62,8 @@ $(function () {
         $this.attr('href', checkout);
         toastr['success']('', 'Added Item In Your Cart 🛒', {
           closeButton: true,
-          tapToDismiss: false
+          tapToDismiss: false,
+          rtl: isRtl
         });
       }
     });
@@ -75,7 +77,8 @@ $(function () {
       if ($this.find('svg').hasClass('text-danger')) {
         toastr['success']('', 'Added to wishlist ❤️', {
           closeButton: true,
-          tapToDismiss: false
+          tapToDismiss: false,
+          rtl: isRtl
         });
       }
     });

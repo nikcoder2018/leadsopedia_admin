@@ -71,6 +71,7 @@ $(function () {
       chart: {
         height: 400,
         type: 'area',
+        parentHeightOffset: 0,
         toolbar: {
           show: false
         }
@@ -84,7 +85,8 @@ $(function () {
       },
       legend: {
         show: true,
-        position: 'top'
+        position: 'top',
+        horizontalAlign: 'start'
       },
       grid: {
         xaxis: {
@@ -150,6 +152,7 @@ $(function () {
         height: 400,
         type: 'bar',
         stacked: true,
+        parentHeightOffset: 0,
         toolbar: {
           show: false
         }
@@ -173,7 +176,9 @@ $(function () {
         enabled: false
       },
       legend: {
-        show: false
+        show: true,
+        position: 'top',
+        horizontalAlign: 'start'
       },
       colors: [chartColors.column.series1, chartColors.column.series2],
       stroke: {
@@ -223,6 +228,7 @@ $(function () {
           enabled: true,
           type: 'xy'
         },
+        parentHeightOffset: 0,
         toolbar: {
           show: false
         }
@@ -235,7 +241,9 @@ $(function () {
         }
       },
       legend: {
-        show: false
+        show: true,
+        position: 'top',
+        horizontalAlign: 'start'
       },
       colors: [window.colors.solid.warning, window.colors.solid.primary, window.colors.solid.success],
       series: [
@@ -318,6 +326,7 @@ $(function () {
         zoom: {
           enabled: false
         },
+        parentHeightOffset: 0,
         toolbar: {
           show: false
         }
@@ -345,6 +354,9 @@ $(function () {
           lines: {
             show: true
           }
+        },
+        padding: {
+          top: -20
         }
       },
       tooltip: {
@@ -393,6 +405,7 @@ $(function () {
       chart: {
         height: 400,
         type: 'bar',
+        parentHeightOffset: 0,
         toolbar: {
           show: false
         }
@@ -409,6 +422,10 @@ $(function () {
           lines: {
             show: false
           }
+        },
+        padding: {
+          top: -15,
+          bottom: -10
         }
       },
       colors: window.colors.solid.info,
@@ -439,6 +456,7 @@ $(function () {
       chart: {
         height: 400,
         type: 'candlestick',
+        parentHeightOffset: 0,
         toolbar: {
           show: false
         }
@@ -519,6 +537,9 @@ $(function () {
           lines: {
             show: true
           }
+        },
+        padding: {
+          top: -23
         }
       },
       plotOptions: {
@@ -545,6 +566,7 @@ $(function () {
       chart: {
         height: 350,
         type: 'heatmap',
+        parentHeightOffset: 0,
         toolbar: {
           show: false
         }
@@ -599,7 +621,13 @@ $(function () {
         enabled: false
       },
       legend: {
-        show: true
+        show: true,
+        position: 'bottom'
+      },
+      grid: {
+        padding: {
+          top: -25
+        }
       },
       series: [
         {
@@ -707,6 +735,16 @@ $(function () {
           }
         }
       },
+      grid: {
+        padding: {
+          top: -35,
+          bottom: -30
+        }
+      },
+      legend: {
+        show: true,
+        position: 'bottom'
+      },
       stroke: {
         lineCap: 'round'
       },
@@ -728,6 +766,7 @@ $(function () {
         toolbar: {
           show: false
         },
+        parentHeightOffset: 0,
         dropShadow: {
           enabled: false,
           blur: 8,
@@ -737,7 +776,8 @@ $(function () {
         }
       },
       legend: {
-        show: false
+        show: true,
+        position: 'bottom'
       },
       yaxis: {
         show: false
@@ -767,7 +807,11 @@ $(function () {
         size: 0
       },
       grid: {
-        show: false
+        show: false,
+        padding: {
+          top: -20,
+          bottom: -20
+        }
       }
     };
   if (typeof radarChartEl !== undefined && radarChartEl !== null) {
@@ -784,7 +828,8 @@ $(function () {
         type: 'donut'
       },
       legend: {
-        show: false
+        show: true,
+        position: 'bottom'
       },
       labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
       series: [85, 16, 50, 50],
@@ -834,9 +879,6 @@ $(function () {
           options: {
             chart: {
               height: 380
-            },
-            legend: {
-              position: 'bottom'
             }
           }
         },
@@ -863,17 +905,6 @@ $(function () {
                   }
                 }
               }
-            },
-            legend: {
-              show: false
-            }
-          }
-        },
-        {
-          breakpoint: 420,
-          options: {
-            legend: {
-              show: false
             }
           }
         }

@@ -113,6 +113,10 @@
   stroke : #7367F0 !important;
 }
 
+.ql-active .ql-fill {
+  fill : #7367F0 !important;
+}
+
 .ql-fill {
   fill : #5E5873 !important;
 }
@@ -152,6 +156,14 @@
 
 .dark-layout .quill-toolbar .ql-picker-options .ql-active, .dark-layout .quill-toolbar .ql-picker-label .ql-active, .dark-layout .ql-toolbar .ql-picker-options .ql-active, .dark-layout .ql-toolbar .ql-picker-label .ql-active {
   color : #7367F0 !important;
+}
+
+.dark-layout .ql-active .ql-stroke {
+  stroke : #7367F0 !important;
+}
+
+.dark-layout .ql-active .ql-fill {
+  fill : #7367F0 !important;
 }
 
 .dark-layout .ql-bubble .ql-toolbar {

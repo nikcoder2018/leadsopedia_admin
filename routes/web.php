@@ -114,6 +114,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('categories/{id}/delete', 'CategoriesController@destroy')->name('categories.delete');
     Route::post('categories/destroy-many', 'CategoriesController@destroyMany')->name('categories.destroy-many');
 
+    Route::get('datarequests', 'SampleDataRequestsController@index')->name('datarequests.index');
+    Route::get('datarequests/{id}/details', 'SampleDataRequestsController@details')->name('datarequests.details');
+    Route::get('datarequests/{id}/process', 'SampleDataRequestsController@process')->name('datarequests.process');
+    Route::post('datarequests/generate', 'SampleDataRequestsController@generate')->name('datarequests.generate');
+    Route::post('datarequests/send', 'SampleDataRequestsController@send')->name('datarequests.send');
+    Route::get('datarequests/{id}/delete-sample', 'SampleDataRequestsController@deleteSample')->name('datarequests.delete-sample');
+    Route::get('datarequests/{id}/preview', 'SampleDataRequestsController@preview')->name('datarequests.preview');
+    Route::get('datarequests/{id}/preview-data', 'SampleDataRequestsController@previewData')->name('datarequests.preview-data');
+    Route::get('datarequests/filters/{filter}', 'SampleDataRequestsController@filters');
 
     Route::resource('subscriptions', 'SubscriptionsController', ['except' => ['update', 'destroy']]);
     Route::post('subscriptions/update', 'SubscriptionsController@update')->name('subscriptions.update');
@@ -151,6 +160,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('seo-pages/update', 'SEOPagesController@update')->name('seo-pages.update');
     Route::get('seo-pages/{id}/delete', 'SEOPagesController@destroy')->name('seo-pages.delete');
 
+    
     Route::get('reports/sales/new', 'ReportsController@salesnew')->name('reports.sales.new');
     Route::get('reports/sales/renew', 'ReportsController@salesrenew')->name('reports.sales.renew');
 

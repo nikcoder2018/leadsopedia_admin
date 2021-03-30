@@ -116,7 +116,7 @@ window.colors = {
     $('a[data-action="reload"]').on('click', function () {
       var block_ele = $(this).closest('.card');
       var reloadActionOverlay;
-      if ($body.hasClass('dark-layout')) {
+      if ($html.hasClass('dark-layout')) {
         var reloadActionOverlay = '#10163a';
       } else {
         var reloadActionOverlay = '#fff';
@@ -797,6 +797,7 @@ window.colors = {
       }
       if (bookmarkInput.hasClass('show')) {
         bookmarkInput.removeClass('show');
+        appContent.removeClass('show-overlay');
       }
     }
   });
@@ -911,7 +912,7 @@ window.colors = {
       var scroll = $(window).scrollTop();
 
       if (scroll > 65) {
-        $('.horizontal-menu:not(.dark-layout) .header-navbar.navbar-fixed').css({
+        $('html:not(.dark-layout) .horizontal-menu .header-navbar.navbar-fixed').css({
           background: '#fff',
           'box-shadow': '0 4px 20px 0 rgba(0,0,0,.05)'
         });
@@ -919,19 +920,19 @@ window.colors = {
           background: '#161d31',
           'box-shadow': '0 4px 20px 0 rgba(0,0,0,.05)'
         });
-        $('.horizontal-menu:not(.dark-layout) .horizontal-menu-wrapper.header-navbar').css('background', '#fff');
-        $('.horizontal-menu.dark-layout .horizontal-menu-wrapper.header-navbar').css('background', '#161d31');
+        $('html:not(.dark-layout) .horizontal-menu .horizontal-menu-wrapper.header-navbar').css('background', '#fff');
+        $('.dark-layout .horizontal-menu .horizontal-menu-wrapper.header-navbar').css('background', '#161d31');
       } else {
-        $('.horizontal-menu:not(.dark-layout) .header-navbar.navbar-fixed').css({
+        $('html:not(.dark-layout) .horizontal-menu .header-navbar.navbar-fixed').css({
           background: '#f8f8f8',
           'box-shadow': 'none'
         });
-        $('.horizontal-menu.dark-layout .header-navbar.navbar-fixed').css({
+        $('.dark-layout .horizontal-menu .header-navbar.navbar-fixed').css({
           background: '#161d31',
           'box-shadow': 'none'
         });
-        $('.horizontal-menu:not(.dark-layout) .horizontal-menu-wrapper.header-navbar').css('background', '#fff');
-        $('.horizontal-menu.dark-layout .horizontal-menu-wrapper.header-navbar').css('background', '#161d31');
+        $('html:not(.dark-layout) .horizontal-menu .horizontal-menu-wrapper.header-navbar').css('background', '#fff');
+        $('.dark-layout .horizontal-menu .horizontal-menu-wrapper.header-navbar').css('background', '#161d31');
       }
     }
   });
@@ -943,50 +944,96 @@ window.colors = {
 
   function getCurrentLayout() {
     var currentLayout = '';
-    if ($body.hasClass('dark-layout')) {
+    if ($html.hasClass('dark-layout')) {
       currentLayout = 'dark-layout';
-    } else if ($body.hasClass('bordered-layout')) {
+    } else if ($html.hasClass('bordered-layout')) {
       currentLayout = 'bordered-layout';
+    } else if ($html.hasClass('semi-dark-layout')) {
+      currentLayout = 'semi-dark-layout';
     } else {
-      currentLayout = '';
+      currentLayout = 'light-layout';
     }
     return currentLayout;
   }
 
+  // Get the data layout, for blank set to light layout
+  var dataLayout = $html.attr('data-layout') ? $html.attr('data-layout') : 'light-layout';
+
   // Navbar Dark / Light Layout Toggle Switch
   $('.nav-link-style').on('click', function () {
-    var $this = $(this),
-      currentLayout = getCurrentLayout(),
-      mainMenu = $('.main-menu'),
-      navbar = $('.header-navbar'),
+    var currentLayout = getCurrentLayout(),
       switchToLayout = '',
-      prevLayout = $this.attr('data-prev-layout');
+      prevLayout = localStorage.getItem(dataLayout + '-prev-skin', currentLayout);
 
-    if (currentLayout === '' || currentLayout === 'bordered-layout') {
+    // If currentLayout is not dark layout
+    if (currentLayout !== 'dark-layout') {
+      // Switch to dark
       switchToLayout = 'dark-layout';
-      $this.attr('data-prev-layout', currentLayout);
     } else {
-      switchToLayout = prevLayout;
+      // Switch to light
+      switchToLayout = prevLayout ? prevLayout : 'light-layout';
     }
-    $body.removeClass('dark-layout bordered-layout');
-    if (switchToLayout === 'dark-layout') {
-      $body.addClass('dark-layout');
-      mainMenu.removeClass('menu-light').addClass('menu-dark');
-      navbar.removeClass('navbar-light').addClass('navbar-dark');
-      $this.find('.ficon').replaceWith(feather.icons['sun'].toSvg({ class: 'ficon' }));
-    } else {
-      $body.addClass(prevLayout);
-      mainMenu.removeClass('menu-dark').addClass('menu-light');
-      navbar.removeClass('navbar-dark').addClass('navbar-light');
-      $this.find('.ficon').replaceWith(feather.icons['moon'].toSvg({ class: 'ficon' }));
-    }
+    // Set Previous skin in local db
+    localStorage.setItem(dataLayout + '-prev-skin', currentLayout);
+    // Set Current skin in local db
+    localStorage.setItem(dataLayout + '-current-skin', switchToLayout);
 
+    // Call set layout
+    setLayout(switchToLayout);
+
+    // ToDo: Customizer fix
     $('.horizontal-menu .header-navbar.navbar-fixed').css({
       background: 'inherit',
       'box-shadow': 'inherit'
     });
     $('.horizontal-menu .horizontal-menu-wrapper.header-navbar').css('background', 'inherit');
   });
+
+  // Get current local storage layout
+  var currentLocalStorageLayout = localStorage.getItem(dataLayout + '-current-skin');
+
+  // Set layout on screen load
+  //? Comment it if you don't want to sync layout with local db
+  // setLayout(currentLocalStorageLayout);
+
+  function setLayout(currentLocalStorageLayout) {
+    var navLinkStyle = $('.nav-link-style'),
+      currentLayout = getCurrentLayout(),
+      mainMenu = $('.main-menu'),
+      navbar = $('.header-navbar'),
+      // Witch to local storage layout if we have else current layout
+      switchToLayout = currentLocalStorageLayout ? currentLocalStorageLayout : currentLayout;
+
+    $html.removeClass('semi-dark-layout dark-layout bordered-layout');
+
+    if (switchToLayout === 'dark-layout') {
+      $html.addClass('dark-layout');
+      mainMenu.removeClass('menu-light').addClass('menu-dark');
+      navbar.removeClass('navbar-light').addClass('navbar-dark');
+      navLinkStyle.find('.ficon').replaceWith(feather.icons['sun'].toSvg({ class: 'ficon' }));
+    } else if (switchToLayout === 'bordered-layout') {
+      $html.addClass('bordered-layout');
+      mainMenu.removeClass('menu-dark').addClass('menu-light');
+      navbar.removeClass('navbar-dark').addClass('navbar-light');
+      navLinkStyle.find('.ficon').replaceWith(feather.icons['moon'].toSvg({ class: 'ficon' }));
+    } else if (switchToLayout === 'semi-dark-layout') {
+      $html.addClass('semi-dark-layout');
+      mainMenu.removeClass('menu-dark').addClass('menu-light');
+      navbar.removeClass('navbar-dark').addClass('navbar-light');
+      navLinkStyle.find('.ficon').replaceWith(feather.icons['moon'].toSvg({ class: 'ficon' }));
+    } else {
+      $html.addClass('light-layout');
+      mainMenu.removeClass('menu-dark').addClass('menu-light');
+      navbar.removeClass('navbar-dark').addClass('navbar-light');
+      navLinkStyle.find('.ficon').replaceWith(feather.icons['moon'].toSvg({ class: 'ficon' }));
+    }
+    // Set radio in customizer if we have
+    if ($('input:radio[data-layout=' + switchToLayout + ']').length > 0) {
+      setTimeout(function () {
+        $('input:radio[data-layout=' + switchToLayout + ']').prop('checked', true);
+      });
+    }
+  }
 })(window, document, jQuery);
 
 // To use feather svg icons with different sizes
