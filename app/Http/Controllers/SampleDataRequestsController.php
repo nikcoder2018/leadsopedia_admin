@@ -227,7 +227,7 @@ class SampleDataRequestsController extends Controller
     public function send(Request $request){
         $rd = RequestData::find($request->request_id);
         $rds = RequestDataSample::find($request->sample_id);
-        $leads = Lead::whereIn('_id',json_decode($rds->data))->get();
+        $leads = Lead::whereIn('_id',json_decode($rds->data))->project(['_id' => 0])->get();
         $header = ['name','title','company','email','phone','industry','website','street','city','state','region','country', 'linkedin','facebook','messenger','instagram','twitter','google_search','google_map'];
         $filename = 'Leadsopedia Sample Data '.date('d-m-Y').'.csv';
         $download = new Download($filename, $header, $leads);
