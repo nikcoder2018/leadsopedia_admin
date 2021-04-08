@@ -32,9 +32,9 @@
                             <div class="logo-wrapper mb-2">
                                 <img src="{{asset(env('APP_THEME').'/images/logo-new-full.svg')}}" width="300">
                             </div>
-                            <p class="card-text mb-25">{{App\Setting::GetValue('invoice_address1')}}</p>
-                            <p class="card-text mb-25">{{App\Setting::GetValue('invoice_address2')}}</p>
-                            <p class="card-text mb-0">{{App\Setting::GetValue('invoice_contact')}}</p>
+                            <p class="card-text mb-25">Suite 9, 2 Bicycle Mews, London</p>
+                            <p class="card-text mb-25">SW4 6FE, United Kingdom</p>
+                            <p class="card-text mb-0">+44 20 7097 8642</p>
                         </div>
                         <div class="mt-md-0 mt-2">
                             <h4 class="invoice-title">
