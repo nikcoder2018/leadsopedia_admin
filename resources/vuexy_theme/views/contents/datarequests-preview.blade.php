@@ -27,10 +27,10 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Email</th>
                         <th>Title</th>
                         <th>Company</th>
                         <th>Industry</th>
-                        <th>Email</th>
                         <th>Phone</th>
                         <th>Website</th>
                         <th>Street</th>
@@ -79,9 +79,9 @@
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'email' },
-                { data: 'industry' },
-                { data: 'company' },
                 { data: 'title' },
+                { data: 'company' },
+                { data: 'industry' },
                 { data: 'phone' },
                 { data: 'website' },
                 { data: 'street' },
