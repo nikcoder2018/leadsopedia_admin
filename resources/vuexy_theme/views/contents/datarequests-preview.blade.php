@@ -26,6 +26,7 @@
             <table class="datarequestpreview-list-table list-table table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Title</th>
@@ -87,6 +88,7 @@
                 { data: 'street' },
                 { data: 'city' },
                 { data: 'state' },
+                { data: 'region' },
                 { data: 'country' },
             ],
             columnDefs: [{
