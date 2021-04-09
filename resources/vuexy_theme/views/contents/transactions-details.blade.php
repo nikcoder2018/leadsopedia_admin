@@ -32,6 +32,7 @@
                             <div class="logo-wrapper mb-2">
                                 <img src="{{asset(env('APP_THEME').'/images/logo-new-full.svg')}}" width="300">
                             </div>
+                            <p class="card-text mb-25">Company #13145058</p>
                             <p class="card-text mb-25">Suite 9, 2 Bicycle Mews, London</p>
                             <p class="card-text mb-25">SW4 6FE, United Kingdom</p>
                             <p class="card-text mb-0">+44 20 7097 8642</p>
