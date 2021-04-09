@@ -2,16 +2,35 @@
 
 @section('vendors_css')
 <link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/vendors/css/forms/select/select2.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/vendors/css/editors/quill/katex.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/vendors/css/editors/quill/monokai-sublime.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/vendors/css/editors/quill/quill.snow.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/vendors/css/extensions/toastr.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/vendors/css/forms/select/select2.min.css')}}">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inconsolata&amp;family=Roboto+Slab&amp;family=Slabo+27px&amp;family=Sofia&amp;family=Ubuntu+Mono&amp;display=swap">
+
 @endsection
 @section('external_css')
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/css/plugins/forms/form-quill-editor.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/css/plugins/extensions/ext-component-toastr.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset(env('APP_THEME','default').'/app-assets/css/pages/app-email.css')}}">
 @endsection
 
+@section('stylesheets')
+<style>
+    #message-editor{
+        height: 300px;
+    }
+</style>
+@endsection
 @section('header')
 <div class="content-header-left col-md-9 col-12 mb-2">
     @include('partials.breadcrumbs', ['title' => $title])
 </div>
 @endsection
 
+@section('content_class') email-application @endsection
 @section('content')
 <section class="process-request">
     <div class="row">
@@ -147,11 +166,6 @@
             @endif
         </div>
     </div>
-</section> 
-@endsection
-
-@section('modals')
-<div class="vertical-modal-ex">
     <div class="modal fade" id="send-sample-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -161,27 +175,36 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('datarequests.send')}}" id="form-send" method="POST">
+                <form action="{{route('datarequests.send')}}" class="compose-form" id="form-send" method="POST">
                     @csrf
                     <input type="hidden" name="request_id">
                     <input type="hidden" name="sample_id">
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="email">Email</label>
-                                            <input type="email" class="form-control" name="email" id="email" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="message">Message</label>
-                                            <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="compose-mail-form-field select2-primary">
+                            <label for="email-to" class="form-label">To: </label>
+                            <div class="flex-grow-1">
+                                <input type="email" class="form-control" name="email" id="email" disabled>
+                            </div>
+                        </div>
+                        <div id="message-editor" class="mb-2">
+                            <input type="hidden" name="message">
+                            <div class="editor" data-placeholder="Type message..."></div>
+                            <div class="compose-editor-toolbar">
+                                <span class="ql-formats mr-0">
+                                    <select class="ql-font">
+                                        <option selected>Sailec Light</option>
+                                        <option value="sofia">Sofia Pro</option>
+                                        <option value="slabo">Slabo 27px</option>
+                                        <option value="roboto">Roboto Slab</option>
+                                        <option value="inconsolata">Inconsolata</option>
+                                        <option value="ubuntu">Ubuntu Mono</option>
+                                    </select>
+                                </span>
+                                <span class="ql-formats mr-0">
+                                    <button class="ql-bold"></button>
+                                    <button class="ql-italic"></button>
+                                    <button class="ql-underline"></button>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -192,15 +215,23 @@
             </div>
         </div>
     </div>
-</div>           
+</section> 
 @endsection
 
+
+@section('vendor_js')
+<script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/editors/quill/katex.min.js')}}"></script>
+<script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/editors/quill/highlight.min.js')}}"></script>
+<script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/editors/quill/quill.min.js')}}"></script>
+<script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
+@endsection
 @section('external_js')
 <script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/extensions/moment.min.js')}}"></script>
 <script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
 @endsection
 
 @section('scripts')
+<script src="{{asset(env('APP_THEME','default').'/app-assets/js/scripts/pages/app-email.js')}}"></script>
 <script>
     $(function(){
         'use strict';
@@ -281,6 +312,8 @@
         });
         formSend.on('submit', function(e){
             e.preventDefault();
+            var quill_editor = $('.compose-form .ql-editor');
+            formSend.find('input[name=message]').val(quill_editor[0].innerHTML);
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',

@@ -119,6 +119,7 @@
     </script>
     <script src="{{ asset(env('APP_THEME', 'default') . '/app-assets/vendors/js/extensions/polyfill.min.js') }}">
     </script>
+    @yield('vendor_js')
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
