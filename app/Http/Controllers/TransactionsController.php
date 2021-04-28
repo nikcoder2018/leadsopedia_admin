@@ -95,8 +95,7 @@ class TransactionsController extends Controller
     }
 
     public function download($id){
-        $transaction = Transaction::find($id);
-        $user = User::find($transaction->user_id);
+        $transaction = Transaction::with(['customer','subscription', 'method'])->where(['id' => $id])->first();
         $items = array();
         if($transaction->subscription_id == ''){
             $items = array(
@@ -108,7 +107,7 @@ class TransactionsController extends Controller
         }else{
             $subs = Subscription::find($transaction->subscription_id);
             $items = array(
-                'name' => $subs->title,
+                'name' => @$subs->title,
                 'period' => '',
                 'vat' => 0,
                 'price' => $transaction->amount
@@ -120,14 +119,22 @@ class TransactionsController extends Controller
             'order_number' => $transaction->invoice_number,
             'billing_date' => Carbon::parse($transaction->paid_at)->format('d M Y'),
             'to' => array(
-                'name' => $user['name'],
-                'email' => $user['email']
+                'name' => $transaction->customer->name,
+                'email' => $transaction->customer->email,
+                'address' => $transaction->customer->address,
+                'website' => $transaction->customer->website,
+                'company' => $transaction->customer->company,
             ),
             'items' => $items,
+            'status' => $transaction->status,
+            'method' => $transaction->method->name,
             'total' => $transaction->amount
         );
 
+        //return $data;
         $pdf = PDF::loadView('pdf.receipt', $data);
+
+        //return view('pdf.receipt', $data);
         return $pdf->download('Receipt#'.$transaction->invoice_number.'.pdf');
     }
 }

@@ -14,11 +14,19 @@ class Subscription extends JsonResource
      */
     public function toArray($request)
     {
+        $duration = '';
+
+        if(!$this->is_trial){
+            $duration = $this->months > 1 ? $this->months.' Months' : $this->months.' Month';
+        }else{
+            $duration = $this->days > 1 ? $this->days.' Days' : $this->days.' Day';
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'duration' => $this->months > 1 ? $this->months.' Months' : $this->months.' Month',
+            'duration' => $duration,
             'price' => Setting::GetValue('currency_symbol').$this->price,
             'price_annual' => $this->price_annual != null ? Setting::GetValue('currency_symbol').$this->price_annual : ''
         ];

@@ -55,19 +55,35 @@ class SubscriptionsController extends Controller
     {
         abort_unless(Gate::any(['full_access','subsplan_create']), 404);
 
-        $newsubplan = Plan::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'months' => $request->months,
-            'price' => $request->price,
-            'price_annual' => $request->price_annual,
-            'search_limits' => $request->search_limits,
-            'search_leads_limits' => $request->search_leads_limits,
-            'credits' => $request->credits,
-            'css_class' => $request->css_class,
-            'css_btn_class' => $request->css_btn_class
-        ]);
-
+        if($request->has('is_trial')){
+            $newsubplan = Plan::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'months' => 0,
+                'days' => $request->days,
+                'price' => 0,
+                'price_annual' => 0,
+                'search_limits' => $request->search_limits,
+                'search_leads_limits' => $request->search_leads_limits,
+                'credits' => $request->credits,
+                'css_class' => $request->css_class,
+                'css_btn_class' => $request->css_btn_class,
+                'is_trial' => '1'
+            ]);
+        }else{
+            $newsubplan = Plan::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'months' => $request->months,
+                'price' => $request->price ,
+                'price_annual' => $request->price_annual,
+                'search_limits' => $request->search_limits,
+                'search_leads_limits' => $request->search_leads_limits,
+                'credits' => $request->credits,
+                'css_class' => $request->css_class,
+                'css_btn_class' => $request->css_btn_class
+            ]);
+        }
         
         if($request->get('attributes')){
             foreach($request->get('attributes') as $priviledge){
@@ -117,19 +133,35 @@ class SubscriptionsController extends Controller
     public function update(UpdateRequest $request)
     {
         abort_unless(Gate::any(['full_access','subsplan_edit']), 404);
-
         $subscription = Plan::find($request->id);
-        $subscription->title = $request->title;
-        $subscription->description = $request->description;
-        $subscription->months = $request->months;
-        $subscription->price = $request->price;
-        $subscription->price_annual = $request->price_annual;
-        $subscription->search_limits = $request->search_limits;
-        $subscription->search_leads_limits = $request->search_leads_limits;
-        $subscription->credits = $request->credits;
-        $subscription->css_class = $request->css_class;
-        $subscription->css_btn_class = $request->css_btn_class;
+        if($request->has('is_trial')){
+            $subscription->title = $request->title;
+            $subscription->description = $request->description;
+            $subscription->months = 0;
+            $subscription->days = $request->days;
+            $subscription->price = 0;
+            $subscription->price_annual = 0;
+            $subscription->search_limits = $request->search_limits;
+            $subscription->search_leads_limits = $request->search_leads_limits;
+            $subscription->credits = $request->credits;
+            $subscription->css_class = $request->css_class;
+            $subscription->css_btn_class = $request->css_btn_class;
+            $subscription->is_trial = '1';
+        }else{
+            $subscription->title = $request->title;
+            $subscription->description = $request->description;
+            $subscription->months = $request->months;
+            $subscription->price = $request->price;
+            $subscription->price_annual = $request->price_annual;
+            $subscription->search_limits = $request->search_limits;
+            $subscription->search_leads_limits = $request->search_leads_limits;
+            $subscription->credits = $request->credits;
+            $subscription->css_class = $request->css_class;
+            $subscription->css_btn_class = $request->css_btn_class;
+            $subscription->is_trial = '0';
+        }
         $subscription->save();
+        
 
         Priviledge::where('subplan_id', $subscription->id)->delete();
         

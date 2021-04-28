@@ -60,8 +60,20 @@
                     </div>
                     <div class="form-group row">
                         <div class="col">
+                            <div class="custom-control custom-switch custom-control-inline">
+                                <input type="checkbox" name="is_trial" class="custom-control-input" id="isTrialSwitch">
+                                <label class="custom-control-label" for="isTrialSwitch">Free Trial</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col months">
                             <label for="months">Months <sup>*</sup></label>
                             <input type="number" class="form-control" name="months" placeholder="Subscription Duration">
+                        </div>
+                        <div class="col days d-none">
+                            <label for="days">Days <sup>*</sup></label>
+                            <input type="number" class="form-control" name="days" placeholder="Trial Days Duration">
                         </div>
                         <div class="col">
                             <label for="price">Price <sup>*</sup></label>
@@ -163,8 +175,20 @@
                     </div>
                     <div class="form-group row">
                         <div class="col">
+                            <div class="custom-control custom-switch custom-control-inline">
+                                <input type="checkbox" name="is_trial" class="custom-control-input" id="isTrialSwitch2">
+                                <label class="custom-control-label" for="isTrialSwitch2">Free Trial</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col months">
                             <label for="months">Months <sup>*</sup></label>
                             <input type="number" class="form-control" name="months" placeholder="Subscription Duration">
+                        </div>
+                        <div class="col days d-none">
+                            <label for="days">Days <sup>*</sup></label>
+                            <input type="number" class="form-control" name="days" placeholder="Trial Days Duration">
                         </div>
                         <div class="col">
                             <label for="price">Price <sup>*</sup></label>

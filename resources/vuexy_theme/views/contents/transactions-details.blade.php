@@ -155,7 +155,7 @@
         <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
             <div class="card">
                 <div class="card-body">
-                    <a href="{{route('transactions.download', $transaction->id)}}" class="btn btn-outline-primary btn-block btn-download-invoice mb-75" id="download-invoice"><i data-feather='download'></i> Download</a>
+                    <a href="{{route('transactions.download', $transaction->id)}}" target="_blank" class="btn btn-outline-primary btn-block btn-download-invoice mb-75" id="download-invoice"><i data-feather='download'></i> Download</a>
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
 <script src="{{asset(env('APP_THEME','default').'/app-assets/vendors/js/printThis/printThis.js')}}"></script>
 <script src="{{asset(env('APP_THEME','default').'/app-assets/js/scripts/pages/app-transactions.js')}}"></script>
-<script>
+{{-- <script>
     var btnDownloadInvoice = $('#download-invoice'),
         btnPrintInvoice = $('#print-invoice');
 
@@ -214,5 +214,5 @@
         });
         doc.save('sample-file.pdf');
     });
-</script>
+</script> --}}
 @endsection

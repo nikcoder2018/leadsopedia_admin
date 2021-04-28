@@ -172,6 +172,24 @@ $(async function() {
         });
     });
 
+    $(new_subsplan_modal).on('change', '#isTrialSwitch', function() {
+        if ($(this).is(':checked')) {
+            $(new_subsplan_modal).find('input[name=price]').prop('disabled', true);
+            $(new_subsplan_modal).find('input[name=price_annual]').prop('disabled', true);
+            $(new_subsplan_modal).find('input[name=price]').attr('placeholder', 'Free');
+            $(new_subsplan_modal).find('input[name=price_annual]').attr('placeholder', 'Free');
+
+            $(new_subsplan_modal).find('.months').addClass('d-none');
+            $(new_subsplan_modal).find('.days').removeClass('d-none');
+        } else {
+            $(new_subsplan_modal).find('input[name=price]').prop('disabled', false);
+            $(new_subsplan_modal).find('input[name=price_annual]').prop('disabled', false);
+            $(new_subsplan_modal).find('input[name=price]').attr('placeholder', 'Amount');
+            $(new_subsplan_modal).find('input[name=price_annual]').attr('placeholder', 'Amount');
+            $(new_subsplan_modal).find('.days').addClass('d-none');
+            $(new_subsplan_modal).find('.months').removeClass('d-none');
+        }
+    });
     dtSubsPlanTable.on('click', '.btn-edit', async function() {
         let id = $(this).data().id;
         let form = $(edit_subsplan_modal).find('form');
@@ -182,15 +200,32 @@ $(async function() {
         form.find('input[name=id]').val(subscription.id);
         form.find('input[name=title]').val(subscription.title);
         form.find('textarea[name=description]').val(subscription.description);
-        form.find('input[name=months]').val(subscription.months);
-        form.find('input[name=price]').val(subscription.price);
-        form.find('input[name=price_annual]').val(subscription.price_annual);
         form.find('input[name=search_limits]').val(subscription.search_limits);
         form.find('input[name=search_leads_limits]').val(subscription.search_leads_limits);
         form.find('input[name=credits]').val(subscription.credits);
         form.find('input[name=css_class]').val(subscription.css_class);
         form.find('input[name=css_btn_class]').val(subscription.css_btn_class);
 
+        if (subscription.is_trial == 1) {
+            form.find('#isTrialSwitch2').prop('checked', true);
+            form.find('input[name=days]').val(subscription.days);
+            form.find('input[name=price]').prop('disabled', true);
+            form.find('input[name=price_annual]').prop('disabled', true);
+            form.find('input[name=price]').attr('placeholder', 'Free');
+            form.find('input[name=price_annual]').attr('placeholder', 'Free');
+
+            form.find('.months').addClass('d-none');
+            form.find('.days').removeClass('d-none');
+        } else {
+            form.find('#isTrialSwitch2').prop('checked', false);
+            form.find('input[name=months]').val(subscription.months);
+            form.find('input[name=price]').prop('disabled', false);
+            form.find('input[name=price_annual]').prop('disabled', false);
+            form.find('input[name=price]').val(subscription.price);
+            form.find('input[name=price_annual]').val(subscription.price_annual);
+            form.find('.days').addClass('d-none');
+            form.find('.months').removeClass('d-none');
+        }
 
         let attributes = form.find('[data-repeater-list="attributes"]');
         attributes.empty();
@@ -240,7 +275,24 @@ $(async function() {
             }
         });
     });
+    $(edit_subsplan_modal).on('change', '#isTrialSwitch2', function() {
+        if ($(this).is(':checked')) {
+            $(edit_subsplan_modal).find('input[name=price]').prop('disabled', true);
+            $(edit_subsplan_modal).find('input[name=price_annual]').prop('disabled', true);
+            $(edit_subsplan_modal).find('input[name=price]').attr('placeholder', 'Free');
+            $(edit_subsplan_modal).find('input[name=price_annual]').attr('placeholder', 'Free');
 
+            $(edit_subsplan_modal).find('.months').addClass('d-none');
+            $(edit_subsplan_modal).find('.days').removeClass('d-none');
+        } else {
+            $(edit_subsplan_modal).find('input[name=price]').prop('disabled', false);
+            $(edit_subsplan_modal).find('input[name=price_annual]').prop('disabled', false);
+            $(edit_subsplan_modal).find('input[name=price]').attr('placeholder', 'Amount');
+            $(edit_subsplan_modal).find('input[name=price_annual]').attr('placeholder', 'Amount');
+            $(edit_subsplan_modal).find('.days').addClass('d-none');
+            $(edit_subsplan_modal).find('.months').removeClass('d-none');
+        }
+    });
 
     $(dtSubsPlanTable).on('click', '.btn-delete', function() {
         let id = $(this).data('id');

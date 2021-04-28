@@ -26,8 +26,6 @@ class SubscriptionStoreRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'description' => 'required',
-            'months' => 'required',
-            'price' => 'required',
             'search_limits' => 'required',
             'search_leads_limits' => 'required',
             'credits' => 'required'
