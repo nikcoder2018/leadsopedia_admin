@@ -168,6 +168,15 @@ $(async function() {
                     });
                     dtSubsPlan.ajax.reload();
                 }
+            },
+            error: function(xhr, status, error) {
+                $.each(xhr.responseJSON.errors, function(i, v) {
+                    toastr['error'](v[0], 'Error!', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl
+                    });
+                });
             }
         });
     });
@@ -272,6 +281,15 @@ $(async function() {
                     });
                     dtSubsPlanTable.ajax.reload();
                 }
+            },
+            error: function(xhr, status, error) {
+                $.each(xhr.responseJSON.errors, function(i, v) {
+                    toastr['error'](v[0], 'Error!', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl
+                    });
+                });
             }
         });
     });

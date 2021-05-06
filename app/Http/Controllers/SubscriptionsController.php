@@ -60,7 +60,7 @@ class SubscriptionsController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'months' => 0,
-                'days' => $request->days,
+                'days' => $request->days ? $request->days : 0,
                 'price' => 0,
                 'price_annual' => 0,
                 'search_limits' => $request->search_limits,
@@ -74,7 +74,7 @@ class SubscriptionsController extends Controller
             $newsubplan = Plan::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'months' => $request->months,
+                'months' => $request->months ? $request->months : 0,
                 'price' => $request->price ,
                 'price_annual' => $request->price_annual,
                 'search_limits' => $request->search_limits,
@@ -138,7 +138,7 @@ class SubscriptionsController extends Controller
             $subscription->title = $request->title;
             $subscription->description = $request->description;
             $subscription->months = 0;
-            $subscription->days = $request->days;
+            $subscription->days = $request->days ? $request->days : 0;
             $subscription->price = 0;
             $subscription->price_annual = 0;
             $subscription->search_limits = $request->search_limits;
@@ -150,7 +150,7 @@ class SubscriptionsController extends Controller
         }else{
             $subscription->title = $request->title;
             $subscription->description = $request->description;
-            $subscription->months = $request->months;
+            $subscription->months = $request->months ? $request->months : 0;
             $subscription->price = $request->price;
             $subscription->price_annual = $request->price_annual;
             $subscription->search_limits = $request->search_limits;
