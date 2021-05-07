@@ -170,7 +170,7 @@
                         <input type="text" class="form-control" name="title" placeholder="Title">
                     </div>
                     <div class="form-group">
-                        <label for="description">Description <sup>*</sup></label>
+                        <label for="description">Description</label>
                         <textarea name="description" cols="30" rows="6" class="form-control"></textarea>
                     </div>
                     <div class="form-group row">
@@ -285,7 +285,7 @@
                     <input type="text" class="form-control" name="title" placeholder="Title">
                 </div>
                 <div class="form-group">
-                    <label for="description">Description <sup>*</sup></label>
+                    <label for="description">Description</label>
                     <textarea name="description" cols="30" rows="6" class="form-control"></textarea>
                 </div>
                 <div class="form-group row">
