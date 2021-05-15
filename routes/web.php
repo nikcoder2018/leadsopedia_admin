@@ -124,6 +124,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('datarequests/{id}/preview-data', 'SampleDataRequestsController@previewData')->name('datarequests.preview-data');
     Route::get('datarequests/filters/{filter}', 'SampleDataRequestsController@filters');
 
+    Route::resource('enterpriserequests', 'EnterpriseRequestsController', ['except' => ['update', 'destroy']]);
+    Route::resource('emailsubscribers', 'EmailSubscribersController', ['except' => ['update', 'destroy']]);
+
     Route::resource('subscriptions', 'SubscriptionsController', ['except' => ['update', 'destroy']]);
     Route::post('subscriptions/update', 'SubscriptionsController@update')->name('subscriptions.update');
     Route::get('subscriptions/{id}/delete', 'SubscriptionsController@destroy')->name('subscriptions.delete');

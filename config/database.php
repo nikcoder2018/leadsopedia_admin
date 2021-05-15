@@ -93,11 +93,14 @@ return [
         
         'mongodb' => [
             'driver' => 'mongodb',
-            'dsn' => 'mongodb+srv://leadsopedia_admin:sRtp3TtMrXEg@cluster0.qh12e.mongodb.net/leadsopedia_db?retryWrites=true&w=majority',
-            'database' => 'leadsopedia_db',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', 27017),
+            'database' => env('DB_DATABASE', 'leadsopedia_db'),
+            'username' => env('DB_USERNAME', 'admin'),
+            'password' => env('DB_PASSWORD', 'admin'),
             'options' => [
-                'database' =>  'admin' // sets the authentication database required by mongo 3
-            ]
+                'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'), // required with Mongo 3+
+            ],
         ],
     ],
 

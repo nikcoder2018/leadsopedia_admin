@@ -301,7 +301,7 @@ $(async function() {
                         $(node).removeClass('btn-secondary');
                     },
                     action: function(e, dt, button, config) {
-                        $(new_customer_modal).modal('show');
+                        location.href = '/customers/create';
                     }
                 }
             ],

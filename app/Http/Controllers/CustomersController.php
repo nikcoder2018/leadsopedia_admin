@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\StoreUser as StoreUserRequest;
+use App\Http\Requests\UpdateUser as UpdateUserRequest;
 
 use App\Http\Resources\Customer as ResourceCustomer;
 use App\Customer;
 use App\User;
 use App\Result;
-
+use App\Subscription;
 use Carbon\Carbon;
 
 use DataTables;
@@ -44,7 +47,9 @@ class CustomersController extends Controller
      */
     public function create()
     {
-        //
+        $data['title'] = 'Create Customer Account';
+        $data['subscription_plans'] = Subscription::all();
+        return view('contents.customers-create', $data);
     }
 
     /**
@@ -53,9 +58,46 @@ class CustomersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $customer = Customer::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'company' => $request->company,
+            'name' => $request->name,
+            'birthday' => $request->birthday,
+            'mobile' => $request->mobile,
+            'gender' => $request->gender, 
+            'address' => $request->address,
+            'social_twitter' => $request->social_twitter,
+            'social_facebook' => $request->social_facebook,
+            'social_instagram' => $request->social_instagram,
+            'social_google' => $request->social_google,
+            'social_linkedin' => $request->social_linkedin,
+            'social_qoura' => $request->social_qoura
+        ]);
+
+        if($request->subscription_id == '-1'){
+            $customer->subscription_id = $request->subscription_id;
+            $customer->subscription_starts = Carbon::now()->toDateString();
+            $customer->subscription_ends = Carbon::parse($request->date_ends)->toDateString();
+            $customer->search_limits = $request->search_limits;
+            $customer->search_leads_limits = $request->search_leads_limits;
+            $customer->credits = $request->credits;
+            $customer->save();
+        }else{
+            $subscription = Subscription::find($subscription_id);
+            $customer->subscription_id = $subscription->subscription_id;
+            $customer->subscription_starts = Carbon::now()->toDateString();
+            $customer->subscription_ends = Carbon::parse($subscription->months)->toDateString();
+            $customer->search_limits = $subscription->search_limits;
+            $customer->search_leads_limits = $subscription->search_leads_limits;
+            $customer->credits = $subscription->credits;
+            $customer->save();
+        }
+        
+        if($customer)
+            return response()->json(['success' => true, 'msg' => 'Customer Account Created.']);
     }
 
     /**
@@ -66,10 +108,20 @@ class CustomersController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::where('id',$id)->with('subscription')->first();
-        $searches = Result::select('type', 'count', 'created_at')->where('user_id', $customer->id)->orderBy('created_at', 'desc')->take(10)->get();
+        $customer = Customer::where('id',$id)->with('subscription')->first()->toArray();
+        //$searches = Result::select('type', 'count', 'created_at')->where('user_id', $customer->id)->orderBy('created_at', 'desc')->take(10)->get();
+
+        if($customer['subscription'] == null && $customer['subscription_id'] == -1){
+            $subscription = new Subscription;
+            $subscription->id = -1;
+            $subscription->title = 'Enterprise Plan';
+            $customer['subscription'] = $subscription;
+        }
+        
         $data['customer'] = $customer;
-        $data['searches'] = $searches;
+        //$data['searches'] = $searches;
+        
+        //eturn $data;
 
         return view('contents.customers-view', $data);
     }
@@ -92,7 +144,7 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         //
     }
