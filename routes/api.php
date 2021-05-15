@@ -41,6 +41,8 @@ Route::group(['middleware' => ['check.admin.api_token', 'gate.admin.api_token', 
     Route::get('customers/all', 'CustomersController@all')->name('api.customers.lists');
     Route::get('subscriptions/all', 'SubscriptionsController@all')->name('api.subscriptions.lists');
     Route::get('datarequests/all', 'SampleDataRequestsController@all')->name('api.datarequests.lists');
+    Route::get('enterpriserequests/all', 'EnterpriseRequestsController@all')->name('api.enterpriserequests.lists');
+    Route::get('emailsubscribers/all', 'EmailSubscribersController@all')->name('api.emailsubscribers.lists');
     Route::get('transactions/all', 'TransactionsController@getAllTransactions')->name('api.transactions.lists');
     Route::get('transactions/archivelist', 'TransactionsController@getAllTransactionsArchive')->name('api.transactions.archivelist');
     Route::get('countries', 'APIController@countries')->name('api.countries');

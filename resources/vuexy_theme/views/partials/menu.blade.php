@@ -60,6 +60,19 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ Request::segment(1) === 'enterpriserequests' ? 'active' : null }}">
+                <a class="d-flex align-items-center" href="{{route('enterpriserequests.index')}}">
+                    <i data-feather="box"></i>
+                    <span class="menu-title text-truncate">Enterprise Requests</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ Request::segment(1) === 'emailsubscribers' ? 'active' : null }}">
+                <a class="d-flex align-items-center" href="{{route('emailsubscribers.index')}}">
+                    <i data-feather="box"></i>
+                    <span class="menu-title text-truncate">Email Subscribers</span>
+                </a>
+            </li>
             <li class="nav-item"><a class="d-flex align-items-center" href="#">
                 <i data-feather='database'></i><span class="menu-title text-truncate">Data Leads</span></a>
                 <ul class="menu-content">
