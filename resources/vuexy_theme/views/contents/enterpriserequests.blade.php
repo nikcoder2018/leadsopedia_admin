@@ -29,6 +29,7 @@
                         <th></th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Contact</th>
                         <th>Company</th>
                         <th>Date</th>
                     </tr>

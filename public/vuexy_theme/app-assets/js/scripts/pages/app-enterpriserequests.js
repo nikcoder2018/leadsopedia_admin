@@ -28,6 +28,7 @@ $(async function() {
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'email' },
+                { data: 'contact' },
                 { data: 'company' },
                 { data: 'date' }
             ],

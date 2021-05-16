@@ -18,6 +18,7 @@ class EnterpriseRequest extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'contact' => $this->contact,
             'company' => $this->company,
             'date' => $this->created_at->format('M d, Y H:i A')
         ];
