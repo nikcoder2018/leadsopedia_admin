@@ -117,11 +117,17 @@ class CustomersController extends Controller
             $subscription->title = 'Enterprise Plan';
             $customer['subscription'] = $subscription;
         }
+
+        if($customer['subscription'] == null){
+            $subscription = new Subscription;
+            $subscription->title = 'No Subscription Plan';
+            $customer['subscription'] = $subscription;
+        }
         
         $data['customer'] = $customer;
         //$data['searches'] = $searches;
         
-        //eturn $data;
+        //return $data;
 
         return view('contents.customers-view', $data);
     }
