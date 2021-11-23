@@ -69,7 +69,7 @@ class SettingsController extends Controller
                 if($name == 'currency'){
                     $currency = Currency::where('abbreviation', $value)->first();
                     $setting = Setting::where('name','currency_symbol')->first();
-                    $setting->value = $currency->symbol;
+                    $setting->value = html_entity_decode($currency->symbol);
                     $setting->save();
                 }
             }
